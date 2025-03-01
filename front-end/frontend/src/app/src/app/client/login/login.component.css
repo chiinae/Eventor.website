@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
+
+body {
+    font-family: 'Lora'serif;
+    background-color: #FAF4E0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Container chính */
+    .login-container {
+    background-color: #FAF4E0;
+    font-family: 'Lora', sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    text-align: center;
+  }  
+  
+  /* Logo */
+  .logo {
+    width: 80px;
+    margin-bottom: 20px;
+  }
+  
+  /* Nút chuyển đổi đăng nhập / đăng ký */
+  .toggle-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .toggle-buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: #e0ad48;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .toggle-buttons .active {
+    background: white;
+    color: black;
+    border: 2px solid #e0ad48;
+  }
+  
+  /* Form đăng nhập */
+  .login-form {
+    text-align: left;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Mật khẩu có icon ẩn/hiện */
+  .password-input {
+    position: relative;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  /* Quên mật khẩu */
+  .forgot-password {
+    text-align: right;
+    margin-bottom: 15px;
+  }
+  
+  .forgot-password a {
+    color: #8a6f45;
+  }
+  
+  /* Nút đăng nhập */
+  .btn-login {
+    width: 100%;
+    background: #8a6f45;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  /* Đăng nhập bằng mạng xã hội */
+  .social-login {
+    margin-top: 20px;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .social-btn {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+  }
+  
+  /* Đăng ký */
+  .register-text {
+    margin-top: 15px;
+  }
+  
+  .register-text a {
+    color: #8a6f45;
+    font-weight: bold;
+  }
+
+  button, input{
+    border-radius: 10px; /* Bo tròn */
+    padding: 10px;
+  }

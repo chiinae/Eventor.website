@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký Eventor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <img src="/images/logo-main.png" alt="Logo" class="logo">
+        <div class="toggle-buttons">
+            <button class="btn active">Đăng nhập</button>
+            <button class="btn">Đăng ký</button>
+        </div>
+
+        <form class="register-form">
+            <div class="form-group">
+                <label for="phone">Số điện thoại</label>
+                <input type="text" id="phone" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <div class="password-input">
+                    <input type="password" id="password" class="form-control">
+                    <span class="toggle-password">👁</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Nhập lại mật khẩu</label>
+                <div class="password-input">
+                    <input type="password" id="confirm-password" class="form-control">
+                    <span class="toggle-password">👁</span>
+                </div>
+            </div>
+            <button type="submit" class="btn-submit">Đăng ký</button>
+        </form>
+
+        <div class="social-login">
+            <p>Đăng ký với</p>
+            <div class="social-icons">
+                <button class="social-btn">F</button>
+                <button class="social-btn">G</button>
+                <button class="social-btn"></button>
+            </div>
+        </div>
+        <p class="login-text">Đã có tài khoản? <a href="#">Đăng nhập</a></p>
+    </div>
+</body>
+</html>
+

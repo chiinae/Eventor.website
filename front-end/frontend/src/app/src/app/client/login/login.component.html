@@ -1,51 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập Eventor</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="login-container">
-        <img src="/images/logo-main.png" alt="Logo" class="logo">
-        <div class="toggle-buttons">
-            <button class="active">Đăng nhập</button>
-            <button>Đăng ký</button>
-        </div>
 
-        <form class="login-form">
-            <div class="form-group">
-                <label for="phone_number">Số điện thoại</label>
-                <input type="text" id="phone_number" class="form-control">
+    <div class="container vh-100 d-flex align-items-center">
+        <div class="p-4">
+            <div class="text-center">
+                <img src="/images/logo-main.png" alt="Logo" class="img-fluid">
             </div>
 
-            <div class="form-group">
-                <label for="password">Mật khẩu</label>
-                <div class="password-input">
-                    <input type="password" id="password" class="form-control">
-                    <span class="toggle-password">👁</span>
+            <div class="toggle-buttons d-flex justify-content-between">
+                <button class="btn btn-outline-primary active">Đăng nhập</button>
+                <button class="btn btn-outline-secondary">Đăng ký</button>
+            </div>
+
+            <form>
+                <div class="mb-3">
+                    <label for="phone_number">Số điện thoại</label>
+                    <input type="text" id="phone_number" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password">Mật khẩu</label>
+                    <div class="input-group">
+                        <input type="password" id="password" class="form-control">
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <a href="#">Quên mật khẩu?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mt-3">Đăng nhập</button>
+            </form>
+
+            <div class="social-login text-center">
+                <p>Đăng nhập bằng:</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <button class="btn btn-outline-primary"><i class="fab fa-facebook-f"></i></button>
+                    <button class="btn btn-outline-danger"><i class="fab fa-google"></i></button>
+                    <button class="btn btn-outline-dark"><i class="fab fa-apple"></i></button>
                 </div>
             </div>
 
-            <div class="forgot-password">
-                <a href="#">Quên mật khẩu?</a>
-            </div>
-
-            <button type="submit" class="btn-login">Đăng nhập</button>
-        </form>
-
-        <div class="social-login">
-            <p>Đăng nhập bằng:</p>
-            <div class="social-icons">
-                <button class="social-btn facebook"><i class="fab fa-facebook-f"></i></button>
-                <button class="social-btn google"><i class="fab fa-google"></i></button>
-                <button class="social-btn apple"><i class="fab fa-apple"></i></button>
-            </div>
+            <p class="text-center">Bạn chưa có tài khoản? <a href="#">Đăng ký</a></p>
         </div>
+    </div>
 
-        <p class="register-text">Bạn chưa có tài khoản? <a href="#">Đăng ký</a></p>
-    </div>    
 </body>
 </html>

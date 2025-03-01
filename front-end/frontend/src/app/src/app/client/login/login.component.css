@@ -1,133 +1,171 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
+/* Cấu hình font và màu nền */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400&display=swap');
 
 body {
-    font-family: 'Lora'serif;
-    background-color: #FAF4E0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  /* Container chính */
-    .login-container {
-    background-color: #FAF4E0;
-    font-family: 'Lora', sans-serif;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 350px;
-    text-align: center;
-  }  
-  
-  /* Logo */
-  .logo {
-    width: 80px;
-    margin-bottom: 20px;
-  }
-  
-  /* Nút chuyển đổi đăng nhập / đăng ký */
-  .toggle-buttons {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .toggle-buttons button {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    background: #e0ad48;
-    color: white;
-    font-weight: bold;
-  }
-  
-  .toggle-buttons .active {
-    background: white;
-    color: black;
-    border: 2px solid #e0ad48;
-  }
-  
-  /* Form đăng nhập */
-  .login-form {
-    text-align: left;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  /* Mật khẩu có icon ẩn/hiện */
-  .password-input {
-    position: relative;
-  }
-  
-  .toggle-password {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-  }
-  
-  /* Quên mật khẩu */
-  .forgot-password {
-    text-align: right;
-    margin-bottom: 15px;
-  }
-  
-  .forgot-password a {
-    color: #8a6f45;
-  }
-  
-  /* Nút đăng nhập */
-  .btn-login {
-    width: 100%;
-    background: #8a6f45;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  /* Đăng nhập bằng mạng xã hội */
-  .social-login {
-    margin-top: 20px;
-  }
-  
-  .social-icons {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .social-btn {
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin: 5px;
-  }
-  
-  /* Đăng ký */
-  .register-text {
-    margin-top: 15px;
-  }
-  
-  .register-text a {
-    color: #8a6f45;
-    font-weight: bold;
-  }
+  background-color: #faf4e0;
+  font-family: 'Lora', serif;
+}
 
-  button, input{
-    border-radius: 10px; /* Bo tròn */
-    padding: 10px;
-  }
+/* Bố cục tổng thể */
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding-top: 50px;
+}
+
+/* Thẻ card đăng nhập */
+.card {
+  background: white;
+  border-radius: 12px;
+  border: none;
+}
+
+/* Logo */
+.img-fluid {
+  display: block;
+  margin: auto;
+  max-width: 120px;
+}
+
+/* Toggle Buttons */
+.toggle-buttons {
+  background-color: #E6D5B8;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.toggle-buttons button {
+  border: none;
+  padding: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s;
+  background-color: transparent;
+  color: #6B3E1E;
+}
+
+.toggle-buttons .active {
+  background-color: #C69C3F;
+  color: white;
+}
+
+/* Ô nhập liệu */
+.input-group {
+  position: relative;
+}
+
+.form-control {
+  background: white;
+  border: 1px solid #D5C5B2;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.form-control:focus {
+  border-color: #C69C3F;
+  box-shadow: 0 0 5px rgba(198, 156, 63, 0.5);
+}
+
+/* Nút hiển thị mật khẩu */
+.input-group-text {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* Nút đăng nhập */
+.btn-primary {
+  background-color: #6B3E1E !important;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: white;
+  width: 100%;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #5A3118 !important;
+}
+
+/* Liên kết quên mật khẩu */
+.text-end a {
+  text-decoration: none;
+  color: #6B3E1E;
+  font-size: 14px;
+}
+
+.text-end a:hover {
+  text-decoration: underline;
+}
+
+/* Đăng nhập bằng mạng xã hội */
+.social-login {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.social-login p {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.social-login button {
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: 0.3s;
+  margin: 0 5px;
+  width: 45px;
+  height: 45px;
+}
+
+.social-login .btn-outline-primary {
+  border-color: #1877F2;
+  color: #1877F2;
+}
+
+.social-login .btn-outline-primary:hover {
+  background-color: #1877F2;
+  color: white;
+}
+
+.social-login .btn-outline-danger {
+  border-color: #DB4437;
+  color: #DB4437;
+}
+
+.social-login .btn-outline-danger:hover {
+  background-color: #DB4437;
+  color: white;
+}
+
+.social-login .btn-outline-dark {
+  border-color: #333;
+  color: #333;
+}
+
+.social-login .btn-outline-dark:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* Đăng ký tài khoản */
+p.text-center a {
+  color: #6B3E1E;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+p.text-center a:hover {
+  text-decoration: underline;
+}

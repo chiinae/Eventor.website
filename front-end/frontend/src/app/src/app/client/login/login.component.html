@@ -1,45 +1,35 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập Eventor</title>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
 <body>
-
     <div class="container vh-100 d-flex align-items-center">
         <div class="p-4">
             <div class="text-center">
                 <img src="/images/logo-main.png" alt="Logo" class="img-fluid">
             </div>
-
+    
             <div class="toggle-buttons d-flex justify-content-between">
                 <button class="btn btn-outline-primary active">Đăng nhập</button>
-                <button class="btn btn-outline-secondary">Đăng ký</button>
+                <button class="btn btn-outline-secondary" (click)="navigateToSignup()">Đăng ký</button>
             </div>
-
+    
             <form>
                 <div class="mb-3">
                     <label for="phone_number">Số điện thoại</label>
                     <input type="text" id="phone_number" class="form-control">
                 </div>
-
+    
                 <div class="mb-3">
                     <label for="password">Mật khẩu</label>
                     <div class="input-group">
                         <input type="password" id="password" class="form-control">
                     </div>
                 </div>
-
+    
                 <div class="text-end">
                     <a href="#">Quên mật khẩu?</a>
                 </div>
-
+    
                 <button type="submit" class="btn btn-primary w-100 mt-3">Đăng nhập</button>
             </form>
-
+    
             <div class="social-login text-center">
                 <p>Đăng nhập bằng:</p>
                 <div class="d-flex justify-content-center gap-2">
@@ -48,10 +38,11 @@
                     <button class="btn btn-outline-dark"><i class="fab fa-apple"></i></button>
                 </div>
             </div>
-
-            <p class="text-center">Bạn chưa có tài khoản? <a href="#">Đăng ký</a></p>
+    
+            <p class="text-center">
+                Bạn chưa có tài khoản? 
+                <a href="javascript:void(0)" (click)="navigateToSignup()">Đăng ký</a>
+            </p>
         </div>
     </div>
-
 </body>
-</html>

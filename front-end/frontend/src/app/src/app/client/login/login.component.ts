@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,5 +16,11 @@ export class LoginComponent {
     if (passwordInput) {
       passwordInput.type = this.showPassword ? 'text' : 'password';
     }
+  }
+
+  constructor(private router: Router) {}
+
+  navigateToSignup() {
+    this.router.navigate(['/signup']);
   }
 }

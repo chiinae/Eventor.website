@@ -1,51 +1,51 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng ký Eventor</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
 <body>
-    <div class="container">
-        <img src="/images/logo-main.png" alt="Logo" class="logo">
-        <div class="toggle-buttons">
-            <button class="btn active">Đăng nhập</button>
-            <button class="btn">Đăng ký</button>
-        </div>
-
-        <form class="register-form">
-            <div class="form-group">
-                <label for="phone">Số điện thoại</label>
-                <input type="text" id="phone" class="form-control">
+    <div class="container vh-100 d-flex align-items-center">
+        <div class="p-4">
+            <div class="text-center">
+                <img src="/images/logo-main.png" alt="Logo" class="img-fluid">
             </div>
-            <div class="form-group">
-                <label for="password">Mật khẩu</label>
-                <div class="password-input">
-                    <input type="password" id="password" class="form-control">
-                    <span class="toggle-password">👁</span>
+    
+            <div class="toggle-buttons d-flex justify-content-between">
+                <button class="btn btn-outline-secondary" (click)="navigateToLogin()">Đăng nhập</button>
+                <button class="btn btn-outline-primary active">Đăng ký</button>
+            </div>
+    
+            <form (submit)="onRegister()">
+                <div class="mb-3">
+                    <label for="phone_number">Số điện thoại</label>
+                    <input type="text" id="phone_number" class="form-control" [(ngModel)]="phoneNumber" name="phoneNumber" required>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="password">Mật khẩu</label>
+                    <div class="input-group">
+                        <input type="password" id="password" class="form-control" [(ngModel)]="password" name="password" required>
+                    </div>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="confirm_password">Nhập lại mật khẩu</label>
+                    <div class="input-group">
+                        <input type="password" id="confirm_password" class="form-control" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+                    </div>
+                </div>
+    
+                <button type="submit" class="btn btn-primary w-100 mt-3">Đăng ký</button>
+            </form>
+    
+            <div class="social-login text-center">
+                <p>Đăng ký bằng:</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <button class="btn btn-outline-primary"><i class="fab fa-facebook-f"></i></button>
+                    <button class="btn btn-outline-danger"><i class="fab fa-google"></i></button>
+                    <button class="btn btn-outline-dark"><i class="fab fa-apple"></i></button>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="confirm-password">Nhập lại mật khẩu</label>
-                <div class="password-input">
-                    <input type="password" id="confirm-password" class="form-control">
-                    <span class="toggle-password">👁</span>
-                </div>
-            </div>
-            <button type="submit" class="btn-submit">Đăng ký</button>
-        </form>
-
-        <div class="social-login">
-            <p>Đăng ký với</p>
-            <div class="social-icons">
-                <button class="social-btn">F</button>
-                <button class="social-btn">G</button>
-                <button class="social-btn"></button>
-            </div>
+    
+            <p class="text-center">
+                Bạn đã có tài khoản? 
+                <a href="javascript:void(0)" (click)="navigateToLogin()">Đăng nhập</a>
+            </p>
         </div>
-        <p class="login-text">Đã có tài khoản? <a href="#">Đăng nhập</a></p>
     </div>
 </body>
-</html>
-

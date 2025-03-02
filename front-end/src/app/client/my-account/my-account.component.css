@@ -64,6 +64,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start; 
+    list-style: none;
 }
 
 .nav-section button {
@@ -140,6 +141,12 @@
 
 .active-section p {
     margin: 30px;
+}
+
+.nav-section button.active {
+    background-color: #d4a373; /* Màu nền khi active */
+    color: white; /* Màu chữ khi active */
+    font-weight: bold;
 }
 
 /* Responsive Design */

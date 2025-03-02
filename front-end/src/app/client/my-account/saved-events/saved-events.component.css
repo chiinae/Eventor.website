@@ -1,0 +1,28 @@
+.search-filter-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1000px; 
+    margin-bottom: 15px;
+}
+
+.search-bar {
+    border: 1px solid #c9a982;
+    border-radius: 20px;
+    padding: 8px 15px;
+    width: 60%;
+    font-size: 14px;
+    background-color: #fdf7ee;
+    color: #8b6f47;
+}
+
+.filter {
+    border: 1px solid #c9a982;
+    border-radius: 20px;
+    padding: 8px;
+    font-size: 14px;
+    background-color: #fdf7ee;
+    color: #8b6f47;
+    width: 35%; 
+}

@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+
+.container-account {
+    display: flex;
+    flex-wrap: wrap; /* Cho phép xuống dòng khi không đủ không gian */
+    width: 100%;
+    padding: 20px;
+}
+
+/* Icon navigation */
+.icon {
+    background-size: cover;
+    background-position: center;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+}
+
+.notification-icon { background-image: url('../../../assets/icons/notification.png'); }
+.my-events-icon { background-image: url('../../../assets/icons/my-events.png'); }
+.logout-icon { background-image: url('../../../assets/icons/logout.png'); }
+.created-events-icon { background-image: url('../../../assets/icons/created-events.png'); }
+.general-info-icon { background-image: url('../../../assets/icons/general-info.png'); }
+.my-invoices-icon { background-image: url('../../../assets/icons/my-invoices.png'); }
+
+/* Sidebar */
+.sidebar {
+    width: 25%;
+    padding: 20px;
+    border-radius: 8px;
+    display: block;
+    min-width: 250px; /* Đảm bảo sidebar không bị quá nhỏ */
+    background: #f5f5f5;
+}
+
+.user-section {
+    background-color: #f5f5f5; 
+    text-align: center;
+    width: 100%;
+    padding: 30px;
+    border-radius: 8px 8px 0 0; 
+    border-bottom: 20px solid #faf4e0; 
+}
+
+.user-section .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e0d5b8;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Navigation Section */
+.nav-section {
+    text-align: left;
+    border-radius: 8px 8px 0 0;
+}
+
+.nav-section ul {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+}
+
+.nav-section button {
+    border: none;
+    background-color: #f5f5f5;
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #6f6f6f;
+    text-align: left;
+    padding-left: 15px;
+    font-size: 16px;
+}
+
+.nav-section button:hover {
+    background: #5a3220;
+    transform: scale(0.95);
+    color: white;
+}
+
+/* Content chính */
+.content {
+    flex-grow: 1;
+    padding: 30px;
+    width: 70%;
+    min-width: 300px; /* Đảm bảo nội dung không bị quá nhỏ */
+}
+
+.title-account {
+    font-family: 'Oswald', sans-serif !important;
+    font-weight: 700;
+    font-size: 50px;
+}
+
+.info-section {
+    margin: 35px;
+}
+
+.info-section h3 {
+    font-weight: bold;
+}
+
+.input-group {
+    margin: 30px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.input-group input {
+    width: 60%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f3f3f3;
+}
+
+.btn-back {
+    background: #7a4b2e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-account {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.active-section p {
+    margin: 30px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .container-account {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .content {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .nav-section ul {
+        display: block;
+    }
+
+    .nav-section button {
+        text-align: left;
+    }
+
+    .input-group input {
+        width: 100%; /* Input chiếm full width trên mobile */
+    }
+
+    .title-account {
+        font-size: 36px; /* Giảm kích thước tiêu đề trên mobile */
+    }
+}

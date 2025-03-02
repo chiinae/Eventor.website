@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LoginComponent } from './src/app/client/login/login.component';
-import { SignupComponent } from './src/app/client/signup/signup.component';
+import { LoginComponent } from './client/login/login.component';
+import { SignupComponent } from './client/signup/signup.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,5 +12,5 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   title = 'frontend';
-
+  
 }

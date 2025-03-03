@@ -9,6 +9,7 @@ import { GeneralInfoComponent } from './client/my-account/general-info/general-i
 import { SavedEventsComponent } from './client/my-account/saved-events/saved-events.component';
 import { HomepageComponent } from './client/homepage/homepage.component';
 import { BrandStoryComponent } from './client/homepage/brand-story/brand-story.component';
+import { BlogComponent } from './client/homepage/blog/blog.component';
 
 
 export const routes: Routes = [
@@ -31,6 +32,7 @@ export const routes: Routes = [
     component: HomepageComponent, // Homepage chứa Header & Footer
     children: [
       { path: 'brand-story', component: BrandStoryComponent },
+      { path: 'blog', component: BlogComponent },
       { path: '', redirectTo: 'brand-story', pathMatch: 'full' } // Mặc định vào Brand Story
     ]
   },

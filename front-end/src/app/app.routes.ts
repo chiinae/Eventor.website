@@ -10,6 +10,7 @@ import { SavedEventsComponent } from './client/my-account/saved-events/saved-eve
 import { HomepageComponent } from './client/homepage/homepage.component';
 import { BrandStoryComponent } from './client/homepage/brand-story/brand-story.component';
 import { BlogComponent } from './client/homepage/blog/blog.component';
+import { HiringComponent } from './client/homepage/hiring/hiring.component';
 
 
 export const routes: Routes = [
@@ -33,6 +34,7 @@ export const routes: Routes = [
     children: [
       { path: 'brand-story', component: BrandStoryComponent },
       { path: 'blog', component: BlogComponent },
+      { path: 'hiring', component: HiringComponent },
       { path: '', redirectTo: 'brand-story', pathMatch: 'full' } // Mặc định vào Brand Story
     ]
   },

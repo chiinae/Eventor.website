@@ -1,0 +1,140 @@
+.brand-story {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #fdf8ec;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  /* Banner */
+  .hero img {
+    width: 100%;
+    display: block;
+  }
+  
+  /* Tầm nhìn & Sứ mệnh */
+  .vision-mission {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 40px 0;
+  }
+  
+  .vision, .mission {
+    display: flex;
+    align-items: center;
+    width: 48%;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .vision img, .mission img {
+    width: 40%;
+    border-radius: 8px;
+  }
+  
+  .vision .text, .mission .text {
+    width: 60%;
+    padding-left: 15px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    color: #d4a373;
+    margin-bottom: 10px;
+  }
+  
+  ul {
+    padding-left: 20px;
+  }
+  
+  ul li {
+    margin-bottom: 5px;
+    font-size: 16px;
+  }
+  
+  /* Slogan */
+  .slogan {
+    text-align: center;
+    margin: 40px 0;
+  }
+  
+  .slogan .title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #d4a373;
+  }
+  
+  .slogan .subtitle {
+    font-size: 20px;
+    font-style: italic;
+  }
+  
+  /* Câu chuyện thương hiệu */
+  .brand-story-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin: 40px 0;
+  }
+  
+  .brand-story-content .image {
+    width: 40%;
+  }
+  
+  .brand-story-content .image img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .brand-story-content .text {
+    width: 60%;
+  }
+  
+  .brand-story-content .text p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+  
+  /* Cơ hội nghề nghiệp */
+  .career-opportunity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 50px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .career-opportunity img {
+    width: 40%;
+    border-radius: 8px;
+  }
+  
+  .career-opportunity .text {
+    width: 60%;
+    text-align: left;
+  }
+  
+  button {
+    background-color: #d4a373;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  button:hover {
+    background-color: #b87f50;
+  }
+  

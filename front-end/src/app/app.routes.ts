@@ -7,6 +7,9 @@ import { MyAccountComponent } from './client/my-account/my-account.component';
 import { InvoicesComponent } from './client/my-account/invoices/invoices.component';
 import { GeneralInfoComponent } from './client/my-account/general-info/general-info.component';
 import { SavedEventsComponent } from './client/my-account/saved-events/saved-events.component';
+import { HomepageComponent } from './client/homepage/homepage.component';
+import { BrandStoryComponent } from './client/homepage/brand-story/brand-story.component';
+
 
 export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent,},
@@ -23,11 +26,19 @@ export const routes: Routes = [
       { path: '', redirectTo: 'general-info', pathMatch: 'full' } // Mặc định vào "Thông tin chung"
     ]
   }, 
+  { 
+    path: 'homepage', 
+    component: HomepageComponent, // Homepage chứa Header & Footer
+    children: [
+      { path: 'brand-story', component: BrandStoryComponent },
+      { path: '', redirectTo: 'brand-story', pathMatch: 'full' } // Mặc định vào Brand Story
+    ]
+  },
   { path: '', redirectTo: 'my-account/general-info', pathMatch: 'full' }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes), MyAccountComponent],
+    imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
   })
   export class AppRoutingModule {}

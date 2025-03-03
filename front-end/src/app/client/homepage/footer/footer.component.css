@@ -1,0 +1,80 @@
+footer {
+    background-color: #fdf8ec;
+    padding: 40px 20px;
+    font-family: 'Arial', sans-serif;
+    color: #5a4635;
+  }
+  
+  .footer-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+    flex-wrap: wrap;
+  }
+  
+  .footer-section {
+    width: 20%;
+  }
+  
+  .footer-section h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 8px;
+  }
+  
+  .footer-section ul li a {
+    text-decoration: none;
+    color: #5a4635;
+  }
+  
+  .footer-section ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  button {
+    background-color: #d4a373;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #b87f50;
+  }
+  
+  /* Liên hệ */
+  .contact-info p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .contact-info img {
+    width: 20px;
+  }
+  
+  /* Mạng xã hội */
+  .social-icons {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0;
+  }
+  
+  .social-icons img {
+    width: 30px;
+    cursor: pointer;
+  }
+  

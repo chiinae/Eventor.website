@@ -3,7 +3,7 @@
     <!-- Nổi bật -->
     <div class="blog-highlight">
         <h2>Nổi bật</h2>
-        <div class="highlight-main">
+        <div class="highlight-main" (click)="goToDetail()">
             <img src="../../../../assets/images/blog/image_2.jpg" alt="Sự kiện nổi bật">
             <p class="highlight-title">Cẩm nang tổ chức sự kiện từ A-Z cho người mới bắt đầu</p>
             <p class="highlight-author">Tác giả: Kỷ Nguyên</p>
@@ -83,7 +83,7 @@
     <!-- Nổi bật -->
     <div class="blog-highlight">
         <h2>Tổng hợp</h2>
-        <div class="highlight-main">
+        <div class="highlight-main" (click)="goToDetail()">
             <img src="../../../../assets/images/blog/image_3.jpg" alt="Sự kiện nổi bật">
             <p class="highlight-title">Những sự kiện hoành tráng và thành công nhất thể giới</p>
             <p class="highlight-author">Tác giả: Đào Hà</p>
@@ -118,4 +118,7 @@
             <li><img src="../../../../assets/images/blog/image_3.jpg" alt=""> Làm thế nào để tổ chức một sự kiện hoàn hảo?</li>
         </ul>
     </div>
+    <router-outlet></router-outlet>
 </section>
+
+

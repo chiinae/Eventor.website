@@ -1,0 +1,157 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #F5F2E9;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Container chứa nội dung và sidebar */
+.blog-container {
+    width: 1100px;
+    display: flex;
+    gap: 20px;
+}
+
+/* Phần nội dung bài viết */
+.main-content {
+    width: 750px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Tiêu đề */
+header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    line-height: 1.4;
+}
+
+.author {
+    font-size: 14px;
+    color: #888;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+/* Banner */
+.banner {
+    width: 100%;
+    height: 350px;
+    background: url("../../../../../assets/images/blog/image_2.jpg") no-repeat center center;
+    background-size: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Nội dung bài viết */
+.blog-content {
+    line-height: 1.7;
+    color: #444;
+    font-size: 16px;
+}
+
+.blog-content p {
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+/* Ảnh trong bài viết */
+.blog-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Quảng cáo */
+.ad-banner {
+    width: 100%;
+    height: 400px;
+    background: url("../../../../../assets/images/blog/ads.png") no-repeat center center;
+    background-size: cover;
+    border-radius: 8px;
+}
+
+/* Danh sách bài viết liên quan */
+.related-posts {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.related-posts h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.related-posts ul {
+    list-style: none;
+}
+
+.related-posts ul li {
+    margin-bottom: 12px;
+}
+
+.related-posts ul li a {
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 14px;
+}
+
+.related-posts ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Bình luận */
+.comments {
+    margin-top: 30px;
+    background: #FAF3E0;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.comments h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.comment {
+    background: white;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 4px solid #F4A261;
+}
+
+.comment p {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.comment strong {
+    color: #000;
+    font-weight: bold;
+}

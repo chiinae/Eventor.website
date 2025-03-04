@@ -1,91 +1,78 @@
-/* HEADER CHÍNH */
+/* Tổng thể */
 .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px;
-    background-color: #fdf8ec; /* Màu nền nhẹ */
-    border-bottom: 2px solid #e0c08c; /* Viền dưới */
-  }
-  
-  /* LOGO */
-  .logo img {
-    height: 40px; /* Điều chỉnh kích thước logo */
-  }
-  
-  /* THANH TÌM KIẾM */
-  .search-bar {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    border-radius: 10px;
-    padding: 5px 15px;
-    border: 1px solid #ccc;
-    position: relative;
-  }
-  
-  .search-bar input {
-    border: none;
-    background: transparent;
-    outline: none;
-    padding: 8px;
-    width: 220px;
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .search-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    color: #666;
-    position: absolute;
-    left: 10px;
-  }
-  
-  /* NÚT ĐÓNG (X) */
-  .close-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    color: #666;
-    position: absolute;
-    right: 10px;
-  }
-  
-  /* MENU ĐIỀU HƯỚNG */
-  .nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 25px;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .nav-menu li {
-    font-size: 16px;
-    font-weight: 500;
-  }
-  
-  .nav-menu li a {
-    text-decoration: none;
-    color: #222;
-    transition: color 0.3s;
-  }
-  
-  .nav-menu li a:hover,
-  .nav-menu li:first-child a {
-    font-weight: bold;
-  }
-  
-  /* AVATAR NGƯỜI DÙNG */
-  .profile img {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #d4a373;
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #F8F1E4; /* Màu nền */
+  padding: 10px 20px;
+  font-family: serif;
+}
+
+/* Logo */
+.logo {
+  width: 50px;
+  height: 50px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Thanh tìm kiếm */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 20px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-size: 14px;
+  width: 150px;
+}
+
+.search-bar .search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Menu điều hướng */
+.nav-menu {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-menu li {
+  margin: 0 10px;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: black;
+  font-size: 16px;
+  padding: 5px 10px;
+}
+
+.nav-menu a:hover {
+  text-decoration: underline;
+}
+
+/* Mục được chọn */
+.nav-menu li:first-child a {
+  font-weight: bold;
+}
+
+/* Avatar */
+.profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}

@@ -1,0 +1,77 @@
+.payment-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    background: white; /* Đảm bảo nền trắng */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.payment-left {
+    width: 45%;
+    background: #F8F3E9;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.payment-left img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.payment-right {
+    width: 50%;
+    padding: 30px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background: #7A4D24;
+    color: white;
+    padding: 12px 24px;
+    font-size: 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    background: #5A3820;
+}
+.popup-image {
+    width: 300px;
+    height: 300px;
+    display: block;
+    margin: 0 auto;
+}

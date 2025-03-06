@@ -1,0 +1,100 @@
+<div class="member-register">
+<!-- Thông tin gói đăng ký -->
+    <div class="member-info">
+        <div class="info-box">
+            <p class="title">Gói đăng ký của bạn</p>
+            <h2 class="membership-type">Thành viên kim cương 2</h2>
+        </div>
+        <div class="info-details">
+            <p><strong>Ngày đăng ký:</strong> 12/09/2024</p>
+            <p><strong>Ngày hết hạn:</strong> 12/09/2025</p>
+            <p><strong>Sự kiện đã tạo:</strong> 04</p>
+            <p><strong>Lượt tạo còn lại:</strong> Không giới hạn</p>
+        </div>
+    </div>
+  
+
+    <!-- Tiêu đề gói đăng ký -->
+    <h2 class="title">Gói đăng ký</h2>
+    <hr />
+
+    <!-- Gói theo lượt sử dụng -->
+    <h3>Theo lượt sử dụng</h3>
+    <div class="package-list">
+        <div class="package">
+        <h4>Gói bạc 1 (Silver 1)</h4>
+        <ul>
+            <li>3 lần đăng ký sự kiện</li>
+            <li>Hỗ trợ kỹ thuật qua email</li>
+            <li>Hỗ trợ đặt lịch hẹn với hỗ trợ theo dõi lượt tham gia</li>
+            <li>Thời gian hiện thị: 45 ngày/sự kiện</li>
+        </ul>
+        <p class="price">49.000 VNĐ</p>
+        <button (click)="navigateTo('payment-fee');$event.preventDefault()">Đăng ký ngay!</button>
+        </div>
+
+        <div class="package">
+        <h4>Gói vàng 1 (Gold 1)</h4>
+        <ul>
+            <li>7 lần đăng ký sự kiện</li>
+            <li>Hỗ trợ kỹ thuật qua email</li>
+            <li>Hỗ trợ đặt lịch hẹn với hỗ trợ theo dõi lượt tham gia</li>
+            <li>Thời gian hiện thị: 45 ngày/sự kiện</li>
+        </ul>
+        <p class="price">99.000 VNĐ</p>
+        <button (click)="navigateTo('payment-free');$event.preventDefault()">Đăng ký ngay!</button>
+        </div>
+
+        <div class="package">
+        <h4>Gói kim cương 1 (Diamond 1)</h4>
+        <ul>
+            <li>20 lần đăng ký sự kiện</li>
+            <li>Hỗ trợ kỹ thuật qua email</li>
+            <li>Hỗ trợ đặt lịch hẹn với hỗ trợ theo dõi lượt tham gia</li>
+            <li>Thời gian hiện thị: 45 ngày/sự kiện</li>
+        </ul>
+        <p class="price">199.000 VNĐ</p>
+        <button (click)="navigateTo('performance-statistics');$event.preventDefault()">Đăng ký ngay!</button>
+        </div>
+    </div>
+
+<!-- Gói theo thời gian sử dụng -->
+    <h3>Theo thời gian sử dụng</h3>
+    <div class="package-list">
+        <div class="package">
+            <h4>Gói bạc 2 (Silver 2)</h4>
+        <ul>
+            <li>1 tháng đăng ký sự kiện</li>
+            <li>Hiển thị danh mục trong 3 ngày/kết thúc sự kiện</li>
+            <li>Hỗ trợ kỹ thuật qua email</li>
+            <li>Hỗ trợ đặt lịch hẹn với hỗ trợ theo dõi lượt tham gia</li>
+        </ul>
+        <p class="price">98.000 VNĐ</p>
+        <button (click)="navigateTo('payment');$event.preventDefault()">Đăng ký ngay!</button>
+        </div>
+
+        <div class="package">
+        <h4>Gói vàng 2 (Gold 2)</h4>
+        <ul>
+            <li>3 tháng đăng ký sự kiện</li>
+            <li>Hiển thị danh mục trong 5 ngày/kết thúc sự kiện</li>
+            <li>Hỗ trợ kỹ thuật qua email</li>
+            <li>Hỗ trợ đặt lịch hẹn với hỗ trợ theo dõi lượt tham gia</li>
+        </ul>
+        <p class="price">249.000 VNĐ</p>
+        <button (click)="navigateTo('payment');$event.preventDefault()">Đăng ký ngay!</button>
+        </div>
+
+        <div class="package">
+        <h4>Gói kim cương 2 (Diamond 2)</h4>
+        <ul>
+            <li>1 năm đăng ký sự kiện</li>
+            <li>Hiển thị danh mục trong 12 ngày/kết thúc sự kiện</li>
+            <li>Hỗ trợ kỹ thuật qua email</li>
+            <li>Hỗ trợ đặt lịch hẹn với hỗ trợ theo dõi lượt tham gia</li>
+        </ul>
+        <p class="price">799.000 VNĐ</p>
+        <button (click)="navigateTo('payment');$event.preventDefault()">Đăng ký ngay!</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="detail-container">
+  <div class="detail-header">
+      <h2><strong>[{{ job.level }}]</strong> {{ job.title }}</h2>
+      <div class="header-buttons">
+          <button class="save-btn">Lưu tin</button>
+          <button class="apply-btn">Đăng ký</button>
+      </div>
+  </div>
+
+  <div class="job-info">
+      <p><strong>📅 Hạn nộp hồ sơ:</strong> {{ job.deadline }}</p>
+      <p><strong>📍 Địa chỉ:</strong> {{ job.location }}</p>
+      <p><strong>⏰ Thời gian làm việc:</strong> {{ job.workingTime }}</p>
+  </div>
+
+  <div class="job-description">
+      <h3>Mô tả công việc</h3>
+      <ul>
+          <li *ngFor="let task of job.tasks">{{ task }}</li>
+      </ul>
+  </div>
+
+  <div class="job-requirements">
+      <h3>Yêu cầu ứng viên</h3>
+      <ul>
+          <li *ngFor="let req of job.requirements">{{ req }}</li>
+      </ul>
+  </div>
+
+  <div class="job-benefits">
+      <h3>Quyền lợi</h3>
+      <ul>
+          <li *ngFor="let benefit of job.benefits">{{ benefit }}</li>
+      </ul>
+  </div>
+
+  <button class="close-btn" (click)="closeDetail()">Quay lại</button>
+</div>

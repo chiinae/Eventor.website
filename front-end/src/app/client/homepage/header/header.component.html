@@ -5,10 +5,10 @@
       <button class="search-btn">🔍</button>
     </div>
     <ul class="nav-menu">
-      <li><a href="/my-events">Sự kiện của tôi</a></li>
-      <li><a href="/create-event">Tạo sự kiện</a></li>
-      <li><a href="/events">Sự kiện</a></li>
-      <li><a href="/register">Đăng ký thành viên</a></li>
+      <li><a href="#" (click)="navigateTo('my-events');$event.preventDefault()">Sự kiện của tôi</a></li>
+      <li><a href="#" (click)="navigateTo('create-event');$event.preventDefault()">Tạo sự kiện</a></li>
+      <li><a href="#" (click)="navigateTo('event-information');$event.preventDefault()">Sự kiện</a></li>
+      <li><a href="#" (click)="navigateTo('member-registration');$event.preventDefault()">Đăng ký thành viên</a></li>
       <li><a href="/saved">Đã lưu</a></li>
       <li><a href="/my-account">Tài khoản</a></li>
     </ul>

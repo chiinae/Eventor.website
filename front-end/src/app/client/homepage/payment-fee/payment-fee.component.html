@@ -1,0 +1,62 @@
+<div class="payment-container">
+    <!-- Phần bên trái -->
+    <div class="payment-left">
+        <img src="assets/images/create-event/event-placeholder.png" alt="Event Banner" class="event-image" />
+    </div>
+
+    <!-- Phần bên phải -->
+    <div class="payment-right">
+        <h2>Thông tin thanh toán</h2>
+        <div class="form-group">
+            <label>Hạng vé:</label>
+            <input type="text" [(ngModel)]="ticketType">
+        </div>
+        <div class="form-group">
+            <label>Đơn giá:</label>
+            <input type="text" [value]="pricePerTicket | number" disabled>
+        </div>
+        <div class="form-group">
+            <label>Số lượng:</label>
+            <input type="number" [(ngModel)]="quantity">
+        </div>
+        <div class="form-group">
+            <label>Tổng cộng:</label>
+            <input type="text" [value]="totalPrice | number" disabled>
+        </div>
+
+        <!-- Nút xác nhận thanh toán -->
+<button (click)="confirmPayment()">Xác nhận thanh toán</button>
+
+<!-- Popup QR Code -->
+<div class="popup-overlay" *ngIf="showQRCodePopup">
+    <div class="popup">
+      <img src="assets/images/qrcodepayment/image.png" alt="QR Code" />
+  
+      <p>Ngân hàng TMCP Tiên Phong (TP Bank)</p>
+      <p>Công ty Cổ phần dịch vụ Eventor</p>
+      <p>STK: 166778899</p>
+      <p>Nội dung thanh toán: #FE000106</p>
+  
+      <button class="close-btn" (click)="processPayment()">Xác nhận thanh toán</button>
+    </div>
+  </div>
+  
+  <!-- Popup Kết Quả Thanh Toán -->
+  <div class="popup-overlay" *ngIf="showResultPopup">
+    <div class="popup">
+      <img class="popup-image" *ngIf="isPaymentSuccessful" src="\assets\images\paymentpopup\sucess.png" alt="Success">
+      <img class="popup-image" *ngIf="!isPaymentSuccessful" src="assets\images\paymentpopup\fail.png" alt="Fail">
+  
+      <h2 *ngIf="isPaymentSuccessful">Đăng ký thành công</h2>
+      <h2 *ngIf="!isPaymentSuccessful">Thanh toán thất bại</h2>
+  
+      <p *ngIf="isPaymentSuccessful">Mã đặt chỗ: #FE000152</p>
+      <p *ngIf="!isPaymentSuccessful">Vui lòng thử lại sau.</p>
+  
+      <button class="close-btn" (click)="closePopup()">Trở về</button>
+    </div>
+  </div>
+  
+
+    </div>
+</div>

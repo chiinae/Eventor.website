@@ -1,0 +1,42 @@
+*{
+    font-size: 14px;
+}
+.event-content {
+padding: 20px;
+
+.info-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+
+    .info-box {
+    background: #f5f0e1;
+    color: #000;
+    padding: 15px;
+    border-radius: 5px;
+    width: 48%;
+    }
+}
+
+.description {
+    background: #f5f0e1;
+    color: #000;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.ticket-pricing {
+    margin-top: 20px;
+
+    table {
+    width: 100%;
+    border-collapse: collapse;
+
+    td {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+    }
+}
+}

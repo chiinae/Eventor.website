@@ -1,0 +1,105 @@
+.member-register {
+padding: 20px;
+background: #fdf6e4;
+border-radius: 8px;
+
+.member-info {
+    display: flex;
+    justify-content: space-between;
+    background: #f5e1ba;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+
+    .info-box {
+    font-weight: bold;
+    font-size: 18px;
+    }
+
+    .info-details p {
+    margin: 5px 0;
+    font-size: 18px;
+    }
+}
+
+.title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+hr {
+    margin: 10px 0;
+}
+
+h3 {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.package-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.package {
+    background: #fffae5;
+    border-radius: 8px;
+    padding: 15px;
+    width: 30%;
+    text-align: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+
+    h4 {
+    font-size: 18px;
+    color: #8b572a;
+    margin-bottom: 10px;
+    }
+
+    ul {
+    list-style: none;
+    padding: 0;
+    font-size: 14px;
+
+    li {
+        text-align: left;
+        margin-bottom: 5px;
+        padding-left: 20px;
+        position: relative;
+    }
+
+    li::before {
+        content: "✔";
+        color: green;
+        position: absolute;
+        left: 0;
+    }
+    }
+
+    .price {
+    font-weight: bold;
+    font-size: 18px;
+    color: #4f8fd9;
+    margin: 10px 0;
+    }
+
+    button {
+    background: #8b572a;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    }
+
+    button:hover {
+    background: #7a4c26;
+    }
+}
+}

@@ -1,0 +1,48 @@
+.detail-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.header-buttons button {
+    background: #8B5E3C;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.job-info p {
+    margin: 5px 0;
+}
+
+.job-description, .job-requirements, .job-benefits {
+    padding: 15px;
+    background: #FDF6EC;
+    border: 1px solid #E6CBA5;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.close-btn {
+    width: 100%;
+    background: #8B5E3C;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -1,0 +1,8 @@
+.banner-img {
+    width: 100%; /* Đảm bảo ảnh luôn full chiều ngang */
+    max-height: 50%; /* Giới hạn chiều cao, bạn có thể thay đổi */
+    object-fit: cover; /* Giữ tỉ lệ ảnh, cắt bớt phần dư */
+    display: block;
+    margin: 0 auto; /* Căn giữa ảnh */
+  }
+  

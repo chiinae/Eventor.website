@@ -1,44 +1,47 @@
 <section class="hiring-container">
-    <div *ngIf="!selectedJob">
-      <div class="hiring-header">
-        <img src="../../../../assets/images/hiring/hiring_1.jpg" alt="Banner tuyển dụng">
-        <div class="search-bar">
-          <input type="text" placeholder="Công việc">
-          <input type="text" placeholder="Khu vực">
-        </div>
-      </div>
-      
-      <h2 class="section-title">Vị trí nổi bật</h2>
-      <div class="featured-jobs">
-        <div class="job-card" *ngFor="let job of jobs" (click)="selectJob(job)">
-          <img [src]="job.image" [alt]="job.title">
-          <p>{{ job.title }}</p>
-          <span>{{ job.location }}</span>
-        </div>
-      </div>
-  
-      <h2 class="section-title">Các vị trí đang tuyển dụng</h2>
-      <div class="job-list">
-        <div class="job-item" *ngFor="let job of jobs" (click)="selectJob(job)">
-          <img [src]="job.image" [alt]="job.title">
-          <p>{{ job.title }}</p>
-          <span>{{ job.location }}</span>
-        </div>
-      </div>
-  
-      <div class="workplace-info">
-        <h3>Nơi làm việc bạn đang tìm kiếm</h3>
-        <ul>
-          <li>Tự do thử sức với nhiều lĩnh vực khác nhau</li>
-          <li>Mức lương thỏa thuận sau mỗi 6 tháng</li>
-          <li>Lộ trình thăng tiến rõ ràng</li>
-          <li>Chế độ lương, thưởng, nghỉ ngơi rõ ràng</li>
-        </ul>
-        <button class="apply-btn">ỨNG TUYỂN NGAY!</button>
+  <!-- Khi không chọn công việc và không mở form ứng tuyển -->
+  <div *ngIf="!selectedJob && !isApplying">
+    <div class="hiring-header">
+      <img src="../../../../assets/images/hiring/hiring_1.jpg" alt="Banner tuyển dụng">
+      <div class="search-bar">
+        <input type="text" placeholder="Công việc">
+        <input type="text" placeholder="Khu vực">
       </div>
     </div>
-  
-    <!-- Hiển thị chi tiết công việc khi selectedJob có giá trị -->
-    <app-detail-hiring *ngIf="selectedJob" [job]="selectedJob" (close)="closeDetail()"></app-detail-hiring>
-  </section>
-  
+
+    <h2 class="section-title">Vị trí nổi bật</h2>
+    <div class="featured-jobs">
+      <div class="job-card" *ngFor="let job of jobs" (click)="selectJob(job)">
+        <img [src]="job.image" [alt]="job.title">
+        <p>{{ job.title }}</p>
+        <span>{{ job.location }}</span>
+      </div>
+    </div>
+
+    <h2 class="section-title">Các vị trí đang tuyển dụng</h2>
+    <div class="job-list">
+      <div class="job-item" *ngFor="let job of jobs" (click)="selectJob(job)">
+        <img [src]="job.image" [alt]="job.title">
+        <p>{{ job.title }}</p>
+        <span>{{ job.location }}</span>
+      </div>
+    </div>
+
+    <div class="workplace-info">
+      <h3>Nơi làm việc bạn đang tìm kiếm</h3>
+      <ul>
+        <li>Tự do thử sức với nhiều lĩnh vực khác nhau</li>
+        <li>Mức lương thỏa thuận sau mỗi 6 tháng</li>
+        <li>Lộ trình thăng tiến rõ ràng</li>
+        <li>Chế độ lương, thưởng, nghỉ ngơi rõ ràng</li>
+      </ul>
+      <button class="apply-btn" (click)="openApplyForm()">ỨNG TUYỂN NGAY!</button>
+    </div>
+  </div>
+
+  <!-- Hiển thị chi tiết công việc -->
+  <app-detail-hiring *ngIf="selectedJob" [job]="selectedJob" (close)="closeDetail()"></app-detail-hiring>
+
+  <!-- Hiển thị form ứng tuyển -->
+  <app-apply-form *ngIf="isApplying" (close)="closeApplyForm()"></app-apply-form>
+</section>

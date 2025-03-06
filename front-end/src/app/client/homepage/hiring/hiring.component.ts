@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DetailHiringComponent } from './detail-hiring/detail-hiring.component';
+import { ApplyFormComponent } from './apply-form/apply-form.component';
 
 @Component({
   selector: 'app-hiring',
   standalone: true,
-  imports: [CommonModule, DetailHiringComponent], // ✅ Import CommonModule
+  imports: [CommonModule, DetailHiringComponent, ApplyFormComponent],
   templateUrl: './hiring.component.html',
   styleUrl: './hiring.component.css',
 })
 export class HiringComponent {
-  selectedJob: any = null; // ✅ Đảm bảo biến không bị undefined
+  selectedJob: any = null;
+  isApplying: boolean = false; // ✅ Biến kiểm soát hiển thị form ứng tuyển
 
-  jobs = [  // ✅ Khai báo danh sách công việc
+  jobs = [
     { id: 1, title: "[Junior] Web Developer", location: "TP Hồ Chí Minh", image: "../../../../assets/images/hiring/hiring_2.jpg" },
     { id: 2, title: "[Senior] Kế toán", location: "TP Hồ Chí Minh", image: "../../../../assets/images/hiring/hiring_3.png" },
     { id: 3, title: "Nhân viên chăm sóc khách hàng", location: "TP Hồ Chí Minh", image: "../../../../assets/images/hiring/hiring_4.jpg" }
@@ -41,13 +43,19 @@ export class HiringComponent {
         'Môi trường làm việc chuyên nghiệp.'
       ]
     };
-    
-    
   }
 
   closeDetail() {
     this.selectedJob = null;
   }
-  
-  
+
+  openApplyForm() {
+    console.log("Mở form ứng tuyển!"); // ✅ Kiểm tra xem có gọi hàm không
+    this.isApplying = true;
+  }
+
+  closeApplyForm() {
+    console.log("Đóng form ứng tuyển!"); // ✅ Kiểm tra xem có gọi hàm không
+    this.isApplying = false;
+  }
 }

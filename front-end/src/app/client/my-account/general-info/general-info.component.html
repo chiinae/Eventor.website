@@ -27,9 +27,11 @@
                     <i class="statistic-icon icon"></i>Thống kê 
                 </button></li>
             
-                <li><button (click)="logout()">
-                    <i class="logout-icon icon"></i>Đăng xuất
-                </button></li>
+                <li>
+                    <button (click)="logout()" class="logout-btn">
+                        <i class="logout-icon icon"></i>Đăng xuất
+                    </button>
+                </li>
             </ul>
         </div>        
     </div>
@@ -65,7 +67,7 @@
             <p>Số sự kiện đã tạo: yyy</p>
         </div>
         <div class="btn-account">
-            <button class="btn-back">Trở về trang chủ</button>
+            <button class="btn-back" (click)="backToHome()">Trở về trang chủ</button>
         </div>
         
     </div>

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; // ⚠️ Import thêm cái này
 import { EventListComponent } from "../events-list/events-list.component";
-import { EventPageComponent } from '../../after-login/event-page/event-page.component';
+import { EventPageComponent } from '../../main/event-page/event-page.component';
 
 @Component({
   selector: 'app-events-page',

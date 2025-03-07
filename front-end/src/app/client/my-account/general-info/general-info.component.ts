@@ -1,16 +1,20 @@
 import { Component } from '@angular/core';
-import { InvoicesComponent } from '../invoices/invoices.component';
-import { SavedEventsComponent } from '../saved-events/saved-events.component';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-general-info',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './general-info.component.html',
-  styleUrl: './general-info.component.css'
+  styleUrls: ['./general-info.component.css']
 })
 export class GeneralInfoComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   user = {
     avatarUrl: '../../../../assets/images/user-avatar.png',
@@ -18,12 +22,15 @@ export class GeneralInfoComponent {
     registrationDate: '11/05/2025'
   };
 
-  navigateTo(tab: string) {
-    this.router.navigate(['/my-account', tab]); // Điều hướng đúng vào tab trong my-account
+  navigateTo(route: string) {
+    this.router.navigate(['/my-account', route]);
   }
 
   logout() {
-    console.log('Đăng xuất...');
-    // Thực hiện xử lý đăng xuất tại đây (xóa token, chuyển hướng...)
+    this.authService.logout(); // Sẽ tự động chuyển về homepage
+  }
+
+  backToHome() {
+    this.router.navigate(['/homepage']);
   }
 }

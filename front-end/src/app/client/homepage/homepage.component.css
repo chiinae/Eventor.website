@@ -1,0 +1,5 @@
+.main-content {
+  margin-top: 60px;
+  padding: 20px;
+  min-height: calc(100vh - 120px); /* Để footer luôn ở dưới cùng */
+}

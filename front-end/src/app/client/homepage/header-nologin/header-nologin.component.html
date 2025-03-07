@@ -1,23 +1,29 @@
 <header class="header">
   <div class="header-container">
     <!-- Logo -->
-    <div class="logo-container">
-      <a (click)="navigateTo('/')" style="cursor: pointer">
-        <div class="logo"></div>
-      </a>
+    <div class="logo">
+    </div>
+
+    <!-- Search bar -->
+    <div class="search-wrapper">
+      <input type="text" class="search-input" placeholder="Search">
+      <i class="search-icon">🔍</i>
     </div>
 
     <!-- Navigation -->
-    <nav class="nav-links">
-      <a (click)="navigateTo('events')" class="nav-link">Sự kiện</a>
-      <a (click)="navigateTo('about')" class="nav-link">Về chúng tôi</a>
-      <a (click)="navigateTo('contact')" class="nav-link">Liên hệ</a>
+    <nav>
+      <ul class="nav-menu">
+        <li><a class="nav-item">Sự kiện của tôi</a></li>
+        <li><a class="nav-item">Tạo sự kiện</a></li>
+        <li><a class="nav-item">Sự kiện</a></li>
+        <li><a class="nav-item">Đăng ký thành viên</a></li>
+      </ul>
     </nav>
 
-    <!-- Auth Buttons -->
+    <!-- Auth buttons -->
     <div class="auth-buttons">
-      <button (click)="navigateTo('login')" class="btn-login">Đăng nhập</button>
-      <button (click)="navigateTo('signup')" class="btn-register">Đăng ký</button>
+      <button class="btn-login" (click)="login()">Đăng nhập</button>
+      <button class="btn-signup" (click)="navigateTo('signup')">Đăng ký</button>
     </div>
   </div>
 </header>

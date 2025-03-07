@@ -1,79 +1,170 @@
-/* Tổng thể */
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header */
 .header {
-    display: flex;
-    flex-direction: row;
-    background-color: #F8F1E4; /* Màu nền */
-    padding-right: 20px;
-    font-family: serif;
-    width: 100%;
-  }
-  
-  /* Logo */
-  .logo {
-    width: 200px;
-    height: 200px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-left: 40px; /* Đẩy logo sát lề trái */
-  }
-  
-  
-  /* Thanh tìm kiếm */
-  .search-bar {
+    background-color: #faf4e0;
+    border-bottom: 1px solid #e0e0e0;
+    height: 70px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+/* Header container */
+.header-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 50px;
+    height: 100%;
     display: flex;
     align-items: center;
-    background: white;
-    border-radius: 20px;
-    padding: 5px 10px;
-    margin-left: 20px;
-    border: 1px solid #ddd;
-  }
-  
-  .search-bar input {
-    border: none;
-    outline: none;
-    padding: 5px;
-    font-size: 14px;
-    width: 300px;
-  }
-  
-  .search-bar .search-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 10px;
-  }
-  
-  /* Menu điều hướng */
-  .nav-menu {
+    justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+    width: 40px;
+    height: 40px;
+    background-color: #8B4513;
     display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 70%;  
-    justify-content: space-evenly; /* Cách đều các mục */
-    flex-wrap: wrap; /* Tự động xuống dòng nếu không đủ chỗ */
-  }
-  
-  
-  .nav-menu li {
-    margin: 0 10px;
-  }
-  
-  .nav-menu a {
-    text-decoration: none;
-    color: black;
-    font-size: 14px;
-    padding: 5px 5px;
-  }
-  
-  .nav-menu a:hover {
-    text-decoration: underline;
-  }
-  
-  /* Mục được chọn */
-  .nav-menu li:first-child a {
+    align-items: center;
+    justify-content: center;
+    color: white;
     font-weight: bold;
-  }
+    font-size: 24px;
+}
+
+/* Search bar */
+.search-wrapper {
+    position: relative;
+    width: 300px;
+    margin-left: 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px 40px 8px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f8f8f8;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #8B4513;
+    background-color: #fff;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+/* Navigation */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-item {
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.nav-item:hover {
+    color: #8B4513;
+}
+
+/* Auth buttons */
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+    margin-left: 30px;
+}
+
+.btn-login {
+    padding: 8px 24px;
+    background-color: #8B4513;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #6b340f;
+}
+
+.btn-signup {
+    padding: 8px 24px;
+    background-color: white;
+    color: #8B4513;
+    border: 1px solid #8B4513;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.btn-signup:hover {
+    background-color: #8B4513;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .header-container {
+        padding: 0 20px;
+    }
+
+    .search-wrapper {
+        width: 250px;
+    }
+
+    .nav-menu {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    .search-wrapper {
+        width: 200px;
+    }
+
+    .nav-menu {
+        gap: 15px;
+    }
+
+    .auth-buttons {
+        gap: 10px;
+    }
+
+    .btn-login, .btn-signup {
+        padding: 8px 16px;
+    }
+}
   
   

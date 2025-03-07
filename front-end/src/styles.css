@@ -210,3 +210,14 @@ p.text-center a:hover {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Reset CSS cho header */
+app-header-nologin {
+    display: block;
+    width: 100%;
+}
+
+/* Thêm margin-top cho content để không bị header che */
+.main-content {
+    margin-top: 70px;
+}

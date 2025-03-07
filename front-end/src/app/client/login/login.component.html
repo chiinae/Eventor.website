@@ -39,6 +39,9 @@
                         <div *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched">
                             Mật khẩu là bắt buộc
                         </div>
+                        <div class="forgot-password text-end">
+                            <a href="javascript:void(0)" (click)="navigateToForgotPassword()">Quên mật khẩu?</a>
+                        </div>
                     </div>
 
                     <div class="error-message" *ngIf="errorMessage">

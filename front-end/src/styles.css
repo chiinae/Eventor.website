@@ -211,13 +211,126 @@ p.text-center a:hover {
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Common variables */
+:root {
+    /* Colors */
+    --primary-color: #DAA520;
+    --primary-dark: #8B4513;
+    --secondary-light: #FAF4E0;
+    --text-color: #4D4D4D;
+    --background-light: #F5F5F5;
+    --accent-color: #FF5722;
+    --success-color: #27AE60;
+    --warning-error-color: #E74C3C;
+    --info-color: #3498DB;
+
+    /* Fonts */
+    --heading-font: 'Oswald', sans-serif;
+    --body-font: 'Lora', serif;
+    --cta-font: 'Playfair Display', serif;
+
+
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+
+    /* Font sizes */
+    --font-xs: 12px;
+    --font-sm: 14px;
+    --font-md: 16px;
+    --font-lg: 18px;
+    --font-xl: 24px;
+
+    /* Border radius */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 16px;
+
+    /* Container width */
+    --container-max-width: 1440px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+}
+
+body, p {
+  font-family: var(--body-font);
+}
+
+button, .cta {
+  font-family: var(--cta-font);
+}
+
+/* Common styles */
+.container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-xl);
+}
+
+/* Button styles */
+.btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-outline {
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* Input styles */
+.input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-sm);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* Layout adjustments */
+.main-content {
+    margin-top: 70px;
+}
+
 /* Reset CSS cho header */
 app-header-nologin {
     display: block;
     width: 100%;
-}
-
-/* Thêm margin-top cho content để không bị header che */
-.main-content {
-    margin-top: 70px;
 }

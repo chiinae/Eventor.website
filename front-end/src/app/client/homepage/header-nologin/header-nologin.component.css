@@ -7,8 +7,8 @@
 
 /* Header */
 .header {
-    background-color: #faf4e0;
-    border-bottom: 1px solid #e0e0e0;
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border-color);
     height: 70px;
     position: fixed;
     top: 0;
@@ -19,9 +19,9 @@
 
 /* Header container */
 .header-container {
-    max-width: 1440px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 0 50px;
+    padding: 0 var(--spacing-xl);
     height: 100%;
     display: flex;
     align-items: center;
@@ -32,43 +32,42 @@
 .logo {
     width: 40px;
     height: 40px;
-    background-color: #8B4513;
+    background-color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--white);
     font-weight: bold;
-    font-size: 24px;
+    font-size: var(--font-xl);
 }
 
 /* Search bar */
 .search-wrapper {
     position: relative;
     width: 300px;
-    margin-left: 20px;
+    margin-left: var(--spacing-lg);
 }
 
 .search-input {
     width: 100%;
-    padding: 8px 40px 8px 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: #f8f8f8;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-sm);
+    background-color: var(--background-light);
 }
 
 .search-input:focus {
     outline: none;
-    border-color: #8B4513;
-    background-color: #fff;
+    border-color: var(--primary-color);
 }
 
 .search-icon {
     position: absolute;
-    right: 12px;
+    right: var(--spacing-md);
     top: 50%;
     transform: translateY(-50%);
-    color: #666;
+    color: var(--text-light);
 }
 
 /* Navigation */
@@ -76,68 +75,66 @@
     display: flex;
     align-items: center;
     list-style: none;
-    gap: 30px;
-    margin: 0;
-    padding: 0;
+    gap: var(--spacing-xl);
 }
 
 .nav-item {
-    color: #333;
+    color: var(--text-color);
     text-decoration: none;
-    font-size: 15px;
+    font-size: var(--font-sm);
     font-weight: 500;
     cursor: pointer;
     white-space: nowrap;
 }
 
 .nav-item:hover {
-    color: #8B4513;
+    color: var(--primary-color);
 }
 
 /* Auth buttons */
 .auth-buttons {
     display: flex;
-    gap: 15px;
-    margin-left: 30px;
+    gap: var(--spacing-md);
+    margin-left: var(--spacing-xl);
 }
 
 .btn-login {
-    padding: 8px 24px;
-    background-color: #8B4513;
-    color: white;
-    border: none;
-    border-radius: 4px;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-sm);
     font-weight: 500;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
 }
 
 .btn-login:hover {
-    background-color: #6b340f;
+    background-color: var(--primary-dark);
 }
 
 .btn-signup {
-    padding: 8px 24px;
-    background-color: white;
-    color: #8B4513;
-    border: 1px solid #8B4513;
-    border-radius: 4px;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-sm);
     font-weight: 500;
     cursor: pointer;
-    font-size: 14px;
     transition: all 0.3s ease;
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
 }
 
 .btn-signup:hover {
-    background-color: #8B4513;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--white);
 }
 
 /* Responsive */
 @media (max-width: 1200px) {
     .header-container {
-        padding: 0 20px;
+        padding: 0 var(--spacing-lg);
     }
 
     .search-wrapper {
@@ -145,7 +142,7 @@
     }
 
     .nav-menu {
-        gap: 20px;
+        gap: var(--spacing-lg);
     }
 }
 
@@ -155,15 +152,11 @@
     }
 
     .nav-menu {
-        gap: 15px;
+        gap: var(--spacing-md);
     }
 
     .auth-buttons {
-        gap: 10px;
-    }
-
-    .btn-login, .btn-signup {
-        padding: 8px 16px;
+        gap: var(--spacing-sm);
     }
 }
   

@@ -14,43 +14,77 @@
             
             <div class="input-group">
                 <label>Họ và Tên</label>
-                <input type="text" value="Nguyễn Minh Anh" readonly>
-                <span class="edit-icon">
+                <input type="text" 
+                       [(ngModel)]="user.first_name" 
+                       [readonly]="!editMode['first_name']"
+                       (ngModelChange)="updateField('first_name', $event)">
+                <input type="text" 
+                       [(ngModel)]="user.last_name" 
+                       [readonly]="!editMode['last_name']"
+                       (ngModelChange)="updateField('last_name', $event)">
+                <span class="edit-icon" *ngIf="!editMode['first_name'] || !editMode['last_name']" (click)="toggleEdit('first_name'); toggleEdit('last_name')">
                     <i class="fas fa-pen"></i>
                 </span>
+                <div class="action-buttons" *ngIf="editMode['first_name'] || editMode['last_name']">
+                    <button class="save-btn" (click)="saveField('first_name')">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button class="cancel-btn" (click)="cancelEdit('first_name')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="input-group">
                 <label>Ngày tháng năm sinh</label>
-                <input type="text" value="01/01/2000" readonly>
-                <span class="edit-icon">
+                <input type="date" 
+                       [(ngModel)]="user.dob" 
+                       [readonly]="!editMode['dob']"
+                       (ngModelChange)="updateField('dob', $event)">
+                <span class="edit-icon" *ngIf="!editMode['dob']" (click)="toggleEdit('dob')">
                     <i class="fas fa-pen"></i>
                 </span>
+                <div class="action-buttons" *ngIf="editMode['dob']">
+                    <button class="save-btn" (click)="saveField('dob')">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button class="cancel-btn" (click)="cancelEdit('dob')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="input-group">
                 <label>Email</label>
-                <input type="email" value="manhnguyen@gmail.com" readonly>
-                <span class="edit-icon">
-                    <i class="fas fa-pen"></i>
-                </span>
+                <input type="email" [value]="user.email" readonly>
             </div>
 
             <div class="input-group">
                 <label>Số điện thoại</label>
-                <input type="tel" value="0909 510 535" readonly>
-                <span class="edit-icon">
+                <input type="tel" 
+                       [(ngModel)]="user.phone_number" 
+                       [readonly]="!editMode['phone_number']"
+                       (ngModelChange)="updateField('phone_number', $event)">
+                <span class="edit-icon" *ngIf="!editMode['phone_number']" (click)="toggleEdit('phone_number')">
                     <i class="fas fa-pen"></i>
                 </span>
+                <div class="action-buttons" *ngIf="editMode['phone_number']">
+                    <button class="save-btn" (click)="saveField('phone_number')">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button class="cancel-btn" (click)="cancelEdit('phone_number')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
         </div>
         <div class="active-section">
             <h3>Thông tin hoạt động</h3>
-            <p>Ngày tạo tài khoản: 01/11/2023</p>
-            <p>Hạng thành viên: Thành viên kim cương 2</p>
-            <p>Ngày hết hạn: 12/09/2025</p>
-            <p>Số sự kiện đã tham gia: 18</p>
-            <p>Số sự kiện đã tạo: 4</p>
+            <p>Ngày tạo tài khoản: {{user.Create_At || 'Chưa có thông tin'}}</p>
+            <p>Hạng thành viên: {{user.membershipType || 'Thành viên thường'}}</p>
+            <p>Ngày hết hạn: {{user.membershipExpiry || 'Chưa có thông tin'}}</p>
+            <p>Số sự kiện đã tham gia: {{user.eventsJoined || 0}}</p>
+            <p>Số sự kiện đã tạo: {{user.eventsCreated || 0}}</p>
         </div>
         <button class="btn-back" (click)="backToHome()">Trở về trang chủ</button>
     </div>

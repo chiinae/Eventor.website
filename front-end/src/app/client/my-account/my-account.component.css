@@ -15,14 +15,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    color: var(--primary-dark);
 }
-
-.notification-icon { background-image: url('../../../assets/icons/notification.png'); }
-.my-events-icon { background-image: url('../../../assets/icons/my-events.png'); }
-.logout-icon { background-image: url('../../../assets/icons/logout.png'); }
-.statistic-icon { background-image: url('../../../assets/icons/statistic.png'); }
-.general-info-icon { background-image: url('../../../assets/icons/general-info.png'); }
-.my-invoices-icon { background-image: url('../../../assets/icons/my-invoices.png'); }
 
 /* Sidebar */
 .sidebar {

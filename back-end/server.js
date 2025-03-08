@@ -3,6 +3,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const app = express();
@@ -13,6 +15,7 @@ app.use(cors({
     credentials: true
 }));
 app.use(express.json());
+app.use(bodyParser.json());
 
 // Kết nối MongoDB
 mongoose.connect(process.env.MONGODB_URI)
@@ -24,6 +27,15 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Import User Model
 const User = require('./models/User');
+
+// Cấu hình nodemailer
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD
+  }
+});
 
 // Test route
 app.get('/api/test', (req, res) => {
@@ -87,27 +99,19 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log('Thông tin đăng nhập nhận được:', { email, password }); // Log để kiểm tra
-
-        // Tìm user
         const user = await User.findOne({ email });
-        console.log('User tìm thấy:', user); // Log để kiểm tra user và mật khẩu đã mã hóa
 
         if (!user) {
             return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
         }
 
-        // So sánh mật khẩu
         const isValidPassword = await bcrypt.compare(password, user.password);
-        console.log('Kết quả so sánh mật khẩu:', isValidPassword); // Log để kiểm tra kết quả so sánh
-
         if (!isValidPassword) {
             return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
         }
 
-        // Tạo JWT token
         const token = jwt.sign(
-            { userId: user._id, role: user.role },
+            { userId: user._id },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
@@ -119,12 +123,17 @@ app.post('/api/login', async (req, res) => {
                 id: user._id,
                 username: user.username,
                 email: user.email,
-                role: user.role
+                phone: user['phone'],
+                dateOfBirth: user.dateOfBirth,
+                createdAt: user.createdAt,
+                membershipType: user.membershipType,
+                membershipExpiry: user.membershipExpiry,
+                eventsJoined: user.eventsJoined,
+                eventsCreated: user.eventsCreated
             }
         });
     } catch (error) {
-        console.error('Lỗi server:', error);
-        res.status(500).json({ message: 'Lỗi server', error: error.message });
+        res.status(500).json({ message: 'Lỗi server' });
     }
 });
 
@@ -159,6 +168,217 @@ app.post('/api/create-test-user', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Lỗi server' });
     }
+});
+
+// Middleware xác thực token
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'Không tìm thấy token xác thực' });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Token không hợp lệ' });
+    }
+    req.user = user;
+    next();
+  });
+};
+
+// API cập nhật thông tin user
+app.put('/api/users/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const updateData = req.body;
+    
+    // Kiểm tra xem user có quyền cập nhật không
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ message: 'Không có quyền cập nhật thông tin này' });
+    }
+
+    // Loại bỏ các trường không cho phép cập nhật
+    delete updateData.email;
+    delete updateData.password;
+    delete updateData.id;
+    
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: updateData },
+      { new: true, select: '-password' }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'Không tìm thấy user' });
+    }
+
+    // Log để debug
+    console.log('Đã cập nhật user:', {
+      id: updatedUser._id,
+      ...updateData
+    });
+
+    res.json({
+      message: 'Cập nhật thông tin thành công',
+      user: {
+        id: updatedUser._id,
+        username: updatedUser.username,
+        email: updatedUser.email,
+        phone: updatedUser['phone'],
+        dateOfBirth: updatedUser.dateOfBirth,
+        createdAt: updatedUser.createdAt,
+        membershipType: updatedUser.membershipType,
+        membershipExpiry: updatedUser.membershipExpiry,
+        eventsJoined: updatedUser.eventsJoined,
+        eventsCreated: updatedUser.eventsCreated
+      }
+    });
+  } catch (error) {
+    console.error('Lỗi cập nhật user:', error);
+    res.status(500).json({ message: 'Lỗi server', error: error.message });
+  }
+});
+
+// API lấy thông tin user
+app.get('/api/users/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Kiểm tra quyền truy cập
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ message: 'Không có quyền truy cập thông tin này' });
+    }
+
+    const user = await User.findById(userId).select('-password');
+    
+    if (!user) {
+      return res.status(404).json({ message: 'Không tìm thấy user' });
+    }
+
+    res.json({
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        phone: user['phone'],
+        dateOfBirth: user.dateOfBirth,
+        createdAt: user.createdAt,
+        membershipType: user.membershipType,
+        membershipExpiry: user.membershipExpiry,
+        eventsJoined: user.eventsJoined,
+        eventsCreated: user.eventsCreated
+      }
+    });
+  } catch (error) {
+    console.error('Lỗi lấy thông tin user:', error);
+    res.status(500).json({ message: 'Lỗi server', error: error.message });
+  }
+});
+
+// API gửi email reset password
+app.post('/api/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'Email không tồn tại trong hệ thống' });
+    }
+
+    // Tạo token reset password (hết hạn sau 1 giờ)
+    const resetToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    // Lưu token và thời gian hết hạn vào database
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 giờ
+    await user.save();
+
+    // Tạo link reset password
+    const resetLink = `http://localhost:4200/reset-password?token=${resetToken}`;
+
+    // Gửi email
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Đặt lại mật khẩu Eventor',
+      html: `
+        <h1>Yêu cầu đặt lại mật khẩu</h1>
+        <p>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản Eventor.</p>
+        <p>Vui lòng click vào link bên dưới để đặt lại mật khẩu:</p>
+        <a href="${resetLink}">Đặt lại mật khẩu</a>
+        <p>Link này sẽ hết hạn sau 1 giờ.</p>
+        <p>Nếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.</p>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.json({ message: 'Email đặt lại mật khẩu đã được gửi' });
+
+  } catch (error) {
+    console.error('Lỗi gửi email:', error);
+    res.status(500).json({ message: 'Lỗi server' });
+  }
+});
+
+// API xác thực token reset password
+app.get('/api/reset-password/verify/:token', async (req, res) => {
+  try {
+    const { token } = req.params;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    const user = await User.findOne({
+      _id: decoded.userId,
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Token không hợp lệ hoặc đã hết hạn' });
+    }
+
+    res.json({ message: 'Token hợp lệ' });
+
+  } catch (error) {
+    res.status(400).json({ message: 'Token không hợp lệ' });
+  }
+});
+
+// API đặt lại mật khẩu mới
+app.post('/api/reset-password', async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    const user = await User.findOne({
+      _id: decoded.userId,
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: 'Token không hợp lệ hoặc đã hết hạn' });
+    }
+
+    // Hash mật khẩu mới
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    
+    // Cập nhật mật khẩu và xóa token reset
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.json({ message: 'Đặt lại mật khẩu thành công' });
+
+  } catch (error) {
+    res.status(400).json({ message: 'Token không hợp lệ' });
+  }
 });
 
 const PORT = process.env.PORT || 5000;

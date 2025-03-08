@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -17,11 +17,17 @@ export class AuthService {
     this.isLoggedInSubject.next(!!token);
   }
 
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   login(credentials: {email: string, password: string}): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((response: any) => {
         if (response.token) {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user));
           this.isLoggedInSubject.next(true);
         }
       })
@@ -33,11 +39,9 @@ export class AuthService {
   }
 
   logout() {
-    // Xóa token
     localStorage.removeItem('token');
-    // Cập nhật trạng thái đăng nhập
+    localStorage.removeItem('user');
     this.isLoggedInSubject.next(false);
-    // Chuyển về trang chủ
     this.router.navigate(['/homepage']);
   }
 
@@ -53,5 +57,21 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
+  }
+
+  updateUserInfo(userId: string, userData: any): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/users/${userId}`, 
+      userData,
+      { headers: this.getHeaders() }
+    ).pipe(
+      tap((response: any) => {
+        if (response.user) {
+          const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+          const updatedUser = { ...currentUser, ...response.user };
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+        }
+      })
+    );
   }
 } 

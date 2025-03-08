@@ -1,74 +1,57 @@
 <div class="container-account">
-    <div class="sidebar">
-        <div class="user-section">
-            <img src="../../../../assets/images/user-avatar.png" alt="Avatar" class="avatar">
-            <h4>Nguyễn Minh Anh</h4>
-            <p>Ngày đăng ký: 11/05/2025</p>
-        </div>
-        <div class="nav-section">
-            <ul>
-                <li><button class="active">
-                    <i class="general-info-icon icon"></i>Thông tin chung
-                </button></li>
-            
-                <li><button (click)="navigateTo('invoices')">
-                    <i class="my-invoices-icon icon"></i>Hóa đơn của tôi
-                </button></li>
-            
-                <li><button (click)="navigateTo('saved-events')">
-                    <i class="my-events-icon icon"></i>Sự kiện của tôi
-                </button></li>
-            
-                <li><button (click)="navigateTo('notification')">
-                    <i class="notification-icon icon"></i>Thông báo
-                </button></li>
-            
-                <li><button (click)="navigateTo('statistic')">
-                    <i class="statistic-icon icon"></i>Thống kê 
-                </button></li>
-            
-                <li>
-                    <button (click)="logout()" class="logout-btn">
-                        <i class="logout-icon icon"></i>Đăng xuất
-                    </button>
-                </li>
-            </ul>
-        </div>        
-    </div>
+    <div class="sidebar"></div>
     <div class="content">
-        <h2 class="title-account"><i class="general-info-icon icon"></i> Thông tin chung</h2>
+        <div class="title-account">
+            <span class="icon">
+                <i class="fas fa-home"></i>
+            </span>
+            Thông tin chung
+        </div>
         <hr>
 
         <div class="info-section">
             <h3>Thông tin cá nhân</h3>
+            
             <div class="input-group">
                 <label>Họ và Tên</label>
-                <input type="text">
+                <input type="text" value="Nguyễn Minh Anh" readonly>
+                <span class="edit-icon">
+                    <i class="fas fa-pen"></i>
+                </span>
             </div>
+
             <div class="input-group">
                 <label>Ngày tháng năm sinh</label>
-                <input type="text">
+                <input type="text" value="01/01/2000" readonly>
+                <span class="edit-icon">
+                    <i class="fas fa-pen"></i>
+                </span>
             </div>
+
             <div class="input-group">
                 <label>Email</label>
-                <input type="text">
+                <input type="email" value="manhnguyen@gmail.com" readonly>
+                <span class="edit-icon">
+                    <i class="fas fa-pen"></i>
+                </span>
             </div>
+
             <div class="input-group">
                 <label>Số điện thoại</label>
-                <input type="text">
+                <input type="tel" value="0909 510 535" readonly>
+                <span class="edit-icon">
+                    <i class="fas fa-pen"></i>
+                </span>
             </div>
         </div>
         <div class="active-section">
             <h3>Thông tin hoạt động</h3>
-            <p>Ngày tạo tài khoản: dd/mm/yyyy</p>
-            <p>Hạng thành viên: [Hạng thành viên]</p>
-            <p>Ngày hết hạn: dd/mm/yyyy</p>
-            <p>Số sự kiện đã tham gia: xxx</p>
-            <p>Số sự kiện đã tạo: yyy</p>
+            <p>Ngày tạo tài khoản: 01/11/2023</p>
+            <p>Hạng thành viên: Thành viên kim cương 2</p>
+            <p>Ngày hết hạn: 12/09/2025</p>
+            <p>Số sự kiện đã tham gia: 18</p>
+            <p>Số sự kiện đã tạo: 4</p>
         </div>
-        <div class="btn-account">
-            <button class="btn-back" (click)="backToHome()">Trở về trang chủ</button>
-        </div>
-        
+        <button class="btn-back" (click)="backToHome()">Trở về trang chủ</button>
     </div>
 </div>

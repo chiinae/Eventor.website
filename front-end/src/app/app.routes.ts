@@ -37,10 +37,10 @@ export const routes: Routes = [
     component: MyAccountComponent,
     canActivate: [AuthGuard],
     children: [
+      { path: '', redirectTo: 'general-info', pathMatch: 'full' },
       { path: 'general-info', component: GeneralInfoComponent },
       { path: 'invoices', component: InvoicesComponent },
       { path: 'saved-events', component: SavedEventsComponent },
-      { path: '', redirectTo: 'general-info', pathMatch: 'full' }
     ]
   },
   { 

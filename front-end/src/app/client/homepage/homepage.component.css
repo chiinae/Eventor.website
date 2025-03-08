@@ -1,5 +1,9 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
 .main-content {
-  margin-top: 60px;
-  padding: 20px;
-  min-height: calc(100vh - 120px); /* Để footer luôn ở dưới cùng */
+  padding-top: 70px; /* Bằng với chiều cao của header */
+  min-height: calc(100vh - 70px);
 }

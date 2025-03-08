@@ -1,2 +1,127 @@
+:host {
+    display: block;
+    background-color: #FDF7F1;
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-md);
+}
+
+.title-account {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    color: var(--text-color);
+    font-size: 32px;
+    margin-bottom: var(--spacing-xl);
+}
+
+.title-account .icon {
+    width: 40px;
+    height: 40px;
+    background-color: #C68B59;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Thông tin cá nhân section */
+.info-section h3 {
+    color: var(--text-color);
+    font-size: 20px;
+    margin-bottom: var(--spacing-lg);
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: var(--spacing-lg);
+}
+
+.input-group label {
+    display: block;
+    color: var(--text-color);
+    font-size: 16px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.input-group input {
+    width: 100%;
+    padding: var(--spacing-md);
+    padding-right: 40px;
+    border: 1px solid #E0E0E0;
+    border-radius: var(--border-radius-sm);
+    font-size: 16px;
+    background-color: white;
+}
+
+.edit-icon {
+    position: absolute;
+    right: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-icon:hover {
+    color: var(--primary-color);
+}
+
+/* Thông tin hoạt động section */
+.active-section {
+    margin-top: var(--spacing-xl);
+}
+
+.active-section h3 {
+    color: var(--text-color);
+    font-size: 20px;
+    margin-bottom: var(--spacing-lg);
+}
+
+.active-section p {
+    color: var(--text-color);
+    font-size: 16px;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.5;
+}
+
+/* Button styles */
+.btn-back {
+    display: flex;
+    justify-content: left;
+    padding: var(--spacing-sm) var(--spacing-xl);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--primary-dark);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: var(--spacing-xl);
+}
+
+.btn-back:hover {
+    background-color: var(--primary-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    :host {
+        padding: var(--spacing-lg);
+    }
+
+    .title-account {
+        font-size: 24px;
+    }
+
+    .title-account .icon {
+        width: 32px;
+        height: 32px;
+    }
+}
 
 

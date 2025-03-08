@@ -7,6 +7,8 @@
 body {
   background-color: #faf4e0;
   font-family: 'Lora', serif;
+  margin: 0;
+  padding: 0;
 }
 
 .logo {
@@ -326,7 +328,8 @@ button, .cta {
 
 /* Layout adjustments */
 .main-content {
-    margin-top: 70px;
+    padding-top: 70px;
+    min-height: calc(100vh - 70px);
 }
 
 /* Reset CSS cho header */

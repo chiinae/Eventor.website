@@ -1,18 +1,36 @@
-import { Component, NgModule, ViewEncapsulation } from '@angular/core';
-import { SavedEventsComponent } from './saved-events/saved-events.component';
-import { GeneralInfoComponent } from './general-info/general-info.component';
-import { InvoicesComponent } from './invoices/invoices.component';
-import { RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { GeneralInfoComponent } from './general-info/general-info.component';
 
 @Component({
   selector: 'app-my-account',
-  imports:[InvoicesComponent, GeneralInfoComponent, SavedEventsComponent, RouterModule, CommonModule],
   standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    GeneralInfoComponent
+  ],
   templateUrl: './my-account.component.html',
-  styleUrl: './my-account.component.css',
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./my-account.component.css']
 })
+export class MyAccountComponent {
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
-export class MyAccountComponent {}
+  navigateTo(route: string) {
+    this.router.navigate(['/my-account', route]);
+  }
+
+  isActiveRoute(route: string): boolean {
+    return this.router.url === `/my-account/${route}`;
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+}
 

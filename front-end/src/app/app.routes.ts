@@ -27,15 +27,8 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { 
-    path: 'my-events', 
-    component: MyEventsComponent,
-    canActivate: [AuthGuard]
-  },
-  { 
-    path: 'my-account', 
-    component: MyAccountComponent,
-    canActivate: [AuthGuard],
+  { path: 'my-events', component: MyEventsComponent, canActivate: [AuthGuard]},
+  { path: 'my-account', component: MyAccountComponent,canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'general-info', pathMatch: 'full' },
       { path: 'general-info', component: GeneralInfoComponent },

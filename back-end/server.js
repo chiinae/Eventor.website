@@ -381,6 +381,29 @@ app.post('/api/reset-password', async (req, res) => {
   }
 });
 
+//Chỉnh sửa tài khoản user
+// API cập nhật user
+app.put('/api/update', async (req, res) => {
+  try {
+    const { _id, username, phone, dateOfBirth } = req.body;
+
+    // Tìm user theo ID và cập nhật
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      { username, phone, dateOfBirth },
+      { new: true } // Trả về user đã cập nhật
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User không tồn tại' });
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi cập nhật user', error });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server đang chạy trên port ${PORT}`);

@@ -3,29 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-interface User {
-  _id?: string;
-  ServiceID?: string;
-  package_id?: string;
-  username?: string;
-  password?: string;
-  email?: string;
-  first_name?: string;
-  last_name?: string;
-  dob?: string;
-  phone_number?: string;
-  gender?: string;
-  role?: string;
-  Create_At?: string;
-  avatar?: string;
-  status?: string;
-  total_expenditure?: number;
-  membershipType?: string;
-  eventsCreated?: number;
-  eventsJoined?: number;
-  membershipExpiry?: string;
-}
+import { User } from '../../../interfaces/user.interface';
 
 interface EditMode {
   [key: string]: boolean;
@@ -45,19 +23,20 @@ interface EditMode {
 export class GeneralInfoComponent implements OnInit {
   user: User = {};
   editMode: EditMode = {
-    username: false,
-    dateOfBirth: false,
-    phone: false
+    first_name: false,
+    last_name: false,
+    dob: false,
+    phone_number: false
   };
   tempValues: { [key: string]: string } = {};
-
+  hasChanges: boolean = false;
   constructor(
     private router: Router,
     private authService: AuthService
   ) {}
-
   ngOnInit() {
     const userStr = localStorage.getItem('user');
+
     if (userStr) {
       const userData = JSON.parse(userStr);
       this.user = {
@@ -95,23 +74,19 @@ export class GeneralInfoComponent implements OnInit {
   saveField(field: string): void {
     if (!this.user._id) return;
 
-    const updateData = {
-      [field]: this.user[field as keyof User]
-    };
+    const updateData = { [field]: this.user[field as keyof User] };
 
     this.authService.updateUserInfo(this.user._id, updateData).subscribe({
-      next: (response) => {
+      next: () => {
         this.editMode[field] = false;
-        alert('Cập nhật thông tin thành công!');
+        this.hasChanges = true; // Đánh dấu có thay đổi
+        alert('Cập nhật thành công!');
       },
-      error: (error) => {
+      error: () => {
         if (this.tempValues[field]) {
-          this.user = {
-            ...this.user,
-            [field]: this.tempValues[field]
-          };
+          this.user[field as keyof User] = this.tempValues[field] as any; 
         }
-        alert('Có lỗi xảy ra khi cập nhật thông tin!');
+        alert('Có lỗi xảy ra khi cập nhật!');
       }
     });
   }
@@ -134,9 +109,6 @@ export class GeneralInfoComponent implements OnInit {
     this.authService.logout(); // Sẽ tự động chuyển về homepage
   }
 
-  backToHome(): void {
-    this.router.navigate(['/homepage']);
-  }
 
   updateField(field: string, value: any): void {
     if (!this.user._id) return;
@@ -153,5 +125,28 @@ export class GeneralInfoComponent implements OnInit {
         console.error('Lỗi khi cập nhật:', error);
       }
     });
+  }
+
+  saveAllChanges(): void {
+    if (!this.hasChanges) return; // Chỉ lưu khi có thay đổi
+
+    const fieldsToUpdate = Object.keys(this.editMode).filter(field => this.editMode[field]);
+
+    fieldsToUpdate.forEach(field => this.saveField(field));
+    this.hasChanges = false;
+  }
+
+  markAsChanged(): void {
+    this.hasChanges = true;
+  }
+
+  checkChanges(): void {
+    this.hasChanges = Object.keys(this.user).some(key => {
+      return this.user[key as keyof User] !== this.tempValues[key]; 
+    });
+  }
+
+  backToHome(): void {
+    this.router.navigate(['/homepage']);
   }
 }

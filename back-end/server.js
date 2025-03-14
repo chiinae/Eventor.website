@@ -403,6 +403,7 @@ app.put('/api/update', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Lỗi cập nhật user', error });
   }
+});
 
 // API lấy tất cả banner
 app.get('/api/banner', async (req, res) => {

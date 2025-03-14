@@ -1,1 +1,10 @@
-<p>admin-dashboard-cards works!</p>
+<div class="dashboard-cards">
+    <div class="dashboard-card" *ngFor="let card of dashboardCards">
+      <div class="icon">
+        <img [src]="card.icon" alt="icon">
+      </div>
+      <h3>{{ card.title }}</h3>
+      <button (click)="goToPage(card.route)">XEM CHI TIẾT</button>
+    </div>
+  </div>
+  

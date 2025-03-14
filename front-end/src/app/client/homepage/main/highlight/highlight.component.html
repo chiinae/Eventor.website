@@ -1,8 +1,16 @@
 <div class="highlight-container">
-    <div class="highlight-scroll">
-      <div class="highlight-wrapper">
-        <img *ngFor="let img of highlightImages" [src]="img" class="highlight-item" />
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+  <div class="highlight-scroll">
+    <div class="highlight-wrapper">
+      <div *ngFor="let banner of highlightImages" class="highlight-item">
+        <a [href]="banner.link" target="_blank" *ngIf="banner.link">
+          <img [src]="banner.imageUrl" [alt]="banner.title" />
+        </a>
+        <img *ngIf="!banner.link" [src]="banner.imageUrl" [alt]="banner.title" />
       </div>
     </div>
   </div>
+</div>
   

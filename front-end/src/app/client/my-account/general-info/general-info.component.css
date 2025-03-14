@@ -90,7 +90,7 @@
 }
 
 /* Button styles */
-.btn-back {
+.btn-back, .btn-save {
     display: flex;
     justify-content: left;
     padding: var(--spacing-sm) var(--spacing-xl);

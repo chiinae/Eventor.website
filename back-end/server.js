@@ -27,6 +27,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Import User Model
 const User = require('./models/User');
+const Banner = require('./models/Banner');
 
 // Cấu hình nodemailer
 const transporter = nodemailer.createTransport({
@@ -381,7 +382,97 @@ app.post('/api/reset-password', async (req, res) => {
   }
 });
 
+//Chỉnh sửa tài khoản user
+// API cập nhật user
+app.put('/api/update', async (req, res) => {
+  try {
+    const { _id, username, phone, dateOfBirth } = req.body;
+
+    // Tìm user theo ID và cập nhật
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      { username, phone, dateOfBirth },
+      { new: true } // Trả về user đã cập nhật
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User không tồn tại' });
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi cập nhật user', error });
+  }
+});
+
+// API lấy tất cả banner
+app.get('/api/banner', async (req, res) => {
+    try {
+        console.log('Đang kết nối tới database:', mongoose.connection.db.databaseName);
+        console.log('Đang lấy danh sách banner từ collection:', Banner.collection.collectionName);
+        
+        const banners = await Banner.find({}).lean();
+        
+        console.log('Kết quả truy vấn raw:', banners);
+        console.log('Số lượng banner tìm thấy:', banners.length);
+        
+        // Log chi tiết từng banner
+        banners.forEach((banner, index) => {
+            console.log(`Banner ${index + 1}:`, {
+                id: banner.id,
+                _id: banner._id,
+                title: banner.title,
+                imageUrl: banner.imageUrl,
+                status: banner.status
+            });
+        });
+
+        res.json({
+            total: banners.length,
+            banners: banners
+        });
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách banner:', error);
+        res.status(500).json({ 
+            message: 'Lỗi server', 
+            error: error.message,
+            stack: error.stack 
+        });
+    }
+});
+
+// API lấy banner theo ID
+app.get('/api/banner/:id', async (req, res) => {
+    try {
+        const bannerId = req.params.id;
+        console.log('Đang tìm banner với ID:', bannerId);
+        
+        const banner = await Banner.findOne({ id: bannerId });
+        
+        console.log('Kết quả tìm kiếm:', banner);
+        
+        if (!banner) {
+            console.log('Không tìm thấy banner:', bannerId);
+            return res.status(404).json({ 
+                message: 'Không tìm thấy banner',
+                requestedId: bannerId 
+            });
+        }
+        
+        console.log('Đã tìm thấy banner:', banner);
+        res.json(banner);
+    } catch (error) {
+        console.error('Lỗi khi lấy banner theo ID:', error);
+        res.status(500).json({ 
+            message: 'Lỗi server',
+            error: error.message,
+            requestedId: req.params.id
+        });
+    }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server đang chạy trên port ${PORT}`);
 });
+

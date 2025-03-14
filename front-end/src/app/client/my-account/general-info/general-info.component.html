@@ -1,91 +1,126 @@
 <div class="container-account">
-    <div class="sidebar"></div>
-    <div class="content">
-        <div class="title-account">
-            <span class="icon">
-                <i class="fas fa-home"></i>
-            </span>
-            Thông tin chung
-        </div>
-        <hr>
+  <div class="sidebar"></div>
+  <div class="content">
+      <div class="title-account">
+          <span class="icon">
+              <i class="fas fa-home"></i>
+          </span>
+          Thông tin chung
+      </div>
+      <hr>
 
-        <div class="info-section">
-            <h3>Thông tin cá nhân</h3>
-            
-            <div class="input-group">
-                <label>Họ và Tên</label>
-                <input type="text" 
-                       [(ngModel)]="user.first_name" 
-                       [readonly]="!editMode['first_name']"
-                       (ngModelChange)="updateField('first_name', $event)">
-                <input type="text" 
-                       [(ngModel)]="user.last_name" 
-                       [readonly]="!editMode['last_name']"
-                       (ngModelChange)="updateField('last_name', $event)">
-                <span class="edit-icon" *ngIf="!editMode['first_name'] || !editMode['last_name']" (click)="toggleEdit('first_name'); toggleEdit('last_name')">
-                    <i class="fas fa-pen"></i>
-                </span>
-                <div class="action-buttons" *ngIf="editMode['first_name'] || editMode['last_name']">
-                    <button class="save-btn" (click)="saveField('first_name')">
-                        <i class="fas fa-check"></i>
-                    </button>
-                    <button class="cancel-btn" (click)="cancelEdit('first_name')">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
+      <form (ngSubmit)="saveAllChanges()" #userForm="ngForm">
+          <div class="info-section">
+              <h3>Thông tin cá nhân</h3>
+              
+              <div class="input-group">
+                  <label>Họ và Tên</label>
+                  <hr>
+                  <div class="name-group">
+                      <div class="name-input">
+                          <span>Họ</span>
+                          <input type="text" [value]="user.first_name" readonly>
+                          <span class="edit-icon" *ngIf="!editMode['first_name']" (click)="toggleEdit('first_name')"> 
+                            <i class="fas fa-pen"></i>
+                        </span>
+                          <div class="edit-controls" *ngIf="editMode['first_name']">
+                              <input type="text" [(ngModel)]="user.first_name" name="first_name">
+                              <div class="action-buttons">
+                                  <button type="button" (click)="saveField('first_name')" class="btn-save">
+                                      <i class="fas fa-check"></i>
+                                  </button>
+                                  <button type="button" (click)="cancelEdit('first_name')" class="btn-cancel">
+                                      <i class="fas fa-times"></i>
+                                  </button>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="name-input">
+                            <span>Tên</span>
+                            <input type="text" [value]="user.last_name" readonly>
+                            <span class="edit-icon" *ngIf="!editMode['last_name']" (click)="toggleEdit('last_name')">  
+                                <i class="fas fa-pen"></i>
+                            </span>
+                            <div class="edit-controls" *ngIf="editMode['last_name']">
+                                <input type="text" [(ngModel)]="user.last_name" name="last_name">
+                                <div class="action-buttons">
+                                    <button type="button" (click)="saveField('last_name')" class="btn-save">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button type="button" (click)="cancelEdit('last_name')" class="btn-cancel">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>  
+                      </div>
+                  </div>
+              </div>
 
-            <div class="input-group">
-                <label>Ngày tháng năm sinh</label>
-                <input type="date" 
-                       [(ngModel)]="user.dob" 
-                       [readonly]="!editMode['dob']"
-                       (ngModelChange)="updateField('dob', $event)">
-                <span class="edit-icon" *ngIf="!editMode['dob']" (click)="toggleEdit('dob')">
-                    <i class="fas fa-pen"></i>
-                </span>
-                <div class="action-buttons" *ngIf="editMode['dob']">
-                    <button class="save-btn" (click)="saveField('dob')">
-                        <i class="fas fa-check"></i>
-                    </button>
-                    <button class="cancel-btn" (click)="cancelEdit('dob')">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
+              <div class="input-group">
+                  <label>Ngày tháng năm sinh</label>
+                  <input type="date" [value]="user.dob" readonly> 
+                  <span class="edit-icon" *ngIf="!editMode['dob']" (click)="toggleEdit('dob')"> 
+                      <i class="fas fa-pen"></i>
+                  </span>
+                  <div class="edit-controls" *ngIf="editMode['dob']">
+                      <input type="date" [(ngModel)]="user.dob" name="dob">
+                      <div class="action-buttons">
+                          <button type="button" (click)="saveField('dob')" class="btn-save">
+                              <i class="fas fa-check"></i>
+                          </button>
+                          <button type="button" (click)="cancelEdit('dob')" class="btn-cancel">
+                              <i class="fas fa-times"></i>
+                          </button>
+                      </div>
+                  </div>
+              </div>
 
-            <div class="input-group">
-                <label>Email</label>
-                <input type="email" [value]="user.email" readonly>
-            </div>
+              <div class="input-group">
+                  <label>Email</label>
+                  <input type="email" [value]="user.email" readonly>
+              </div>
 
-            <div class="input-group">
-                <label>Số điện thoại</label>
-                <input type="tel" 
-                       [(ngModel)]="user.phone_number" 
-                       [readonly]="!editMode['phone_number']"
-                       (ngModelChange)="updateField('phone_number', $event)">
-                <span class="edit-icon" *ngIf="!editMode['phone_number']" (click)="toggleEdit('phone_number')">
-                    <i class="fas fa-pen"></i>
-                </span>
-                <div class="action-buttons" *ngIf="editMode['phone_number']">
-                    <button class="save-btn" (click)="saveField('phone_number')">
-                        <i class="fas fa-check"></i>
-                    </button>
-                    <button class="cancel-btn" (click)="cancelEdit('phone_number')">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="active-section">
-            <h3>Thông tin hoạt động</h3>
-            <p>Ngày tạo tài khoản: {{user.Create_At || 'Chưa có thông tin'}}</p>
-            <p>Hạng thành viên: {{user.membershipType || 'Thành viên thường'}}</p>
-            <p>Ngày hết hạn: {{user.membershipExpiry || 'Chưa có thông tin'}}</p>
-            <p>Số sự kiện đã tham gia: {{user.eventsJoined || 0}}</p>
-            <p>Số sự kiện đã tạo: {{user.eventsCreated || 0}}</p>
-        </div>
-        <button class="btn-back" (click)="backToHome()">Trở về trang chủ</button>
-    </div>
+              <div class="input-group">
+                  <label>Số điện thoại</label>
+                  <input type="number" [value]="user.phone_number" readonly>
+                  <span class="edit-icon" *ngIf="!editMode['phone_number']" (click)="toggleEdit('phone_number')">
+                      <i class="fas fa-pen"></i>
+                  </span>
+                  <div class="edit-controls" *ngIf="editMode['phone_number']">
+                      <input type="number" [(ngModel)]="user.phone_number" name="phone_number">
+                      <div class="action-buttons">
+                          <button type="button" (click)="saveField('phone_number')" class="btn-save">
+                              <i class="fas fa-check"></i>
+                          </button>
+                          <button type="button" (click)="cancelEdit('phone_number')" class="btn-cancel">
+                              <i class="fas fa-times"></i>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="active-section">
+              <h3>Thông tin hoạt động</h3>
+              <p>Ngày tạo tài khoản: {{user.Create_At || 'Chưa có thông tin'}}</p>
+              <p>Hạng thành viên: {{user.membershipType || 'Thành viên thường'}}</p>
+              <p>Ngày hết hạn: {{user.membershipExpiry || 'Chưa có thông tin'}}</p>
+              <p>Số sự kiện đã tham gia: {{user.eventsJoined || 0}}</p>
+              <p>Số sự kiện đã tạo: {{user.eventsCreated || 0}}</p>
+          </div>
+
+          <div class="footer-actions">
+              <div class="notification" *ngIf="hasChanges">
+                  <i class="fas fa-info-circle"></i>
+                  Bạn có thay đổi chưa được lưu
+              </div>
+              <div class="buttons-group">
+                  <button type="button" class="btn btn-back" (click)="backToHome()">Trở về trang chủ</button>
+                  <button type="submit" class="btn btn-save-all" (click)="saveAllChanges()">
+                      <i class="fas fa-save"></i> Lưu tất cả thay đổi
+                  </button>
+              </div>
+          </div>
+      </form>
+  </div>
 </div>

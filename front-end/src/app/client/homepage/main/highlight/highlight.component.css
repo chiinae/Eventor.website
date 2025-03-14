@@ -1,27 +1,67 @@
 .highlight-container {
-overflow: hidden;
-padding-top: 70px ;
-background-color: #F8F1E4; /* Màu nền */;
+  width: 100%;
+  background-color: #F8F1E4;
+  padding: 10px 0;
 }
 
 .highlight-scroll {
-display: flex;
-overflow-x: auto;
-scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+  width: 100%;
+  overflow-x: auto;
+  padding: 10px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
 }
 
 .highlight-scroll::-webkit-scrollbar {
-display: none; /* Ẩn thanh cuộn trên Chrome */
+  height: 8px;
+}
+
+.highlight-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.highlight-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.highlight-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .highlight-wrapper {
-display: flex;
-gap: 15px;
+  display: flex;
+  gap: 20px;
 }
 
 .highlight-item {
-width: 100%;
-height: 75%;
-object-fit: cover;
-border-radius: 8px;
+  flex: 0 0 auto;
+  width: 470px;
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+.highlight-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.highlight-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.highlight-item:hover .highlight-image {
+  transform: scale(1.05);
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

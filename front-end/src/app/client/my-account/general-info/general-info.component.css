@@ -1,127 +1,120 @@
-:host {
-    display: block;
-    background-color: #FDF7F1;
-    padding: var(--spacing-xl);
-    border-radius: var(--border-radius-md);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-.title-account {
+body {
+    background-color: #f9f5e9;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.header {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
-    color: var(--text-color);
-    font-size: 32px;
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: 20px;
 }
 
-.title-account .icon {
-    width: 40px;
-    height: 40px;
-    background-color: #C68B59;
-    border-radius: 8px;
+.home-icon {
+    width: 60px;
+    height: 60px;
+    background-color: #d6ad4b;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    margin-right: 20px;
+}
+
+.home-icon::after {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: #f9f5e9;
+    margin: 20px auto;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 60%, 50% 60%, 50% 100%, 0% 100%);
+}
+
+.title {
+    font-size: 2.5rem;
+    color: #4a4a4a;
+}
+
+.divider {
+    height: 1px;
+    background-color: #4a4a4a;
+    margin: 10px 0 30px 0;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    color: #4a4a4a;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 10px;
+    color: #4a4a4a;
+    font-size: 1.1rem;
+}
+
+.form-input-container {
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
-/* Thông tin cá nhân section */
-.info-section h3 {
-    color: var(--text-color);
-    font-size: 20px;
-    margin-bottom: var(--spacing-lg);
+.form-input {
+    flex-grow: 1;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #fff;
 }
 
-.input-group {
-    position: relative;
-    margin-bottom: var(--spacing-lg);
-}
-
-.input-group label {
-    display: block;
-    color: var(--text-color);
-    font-size: 16px;
-    margin-bottom: var(--spacing-sm);
-}
-
-.input-group input {
-    width: 100%;
-    padding: var(--spacing-md);
-    padding-right: 40px;
-    border: 1px solid #E0E0E0;
-    border-radius: var(--border-radius-sm);
-    font-size: 16px;
-    background-color: white;
+.edit-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
 }
 
 .edit-icon {
-    position: absolute;
-    right: var(--spacing-md);
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #666;
     width: 20px;
     height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
+    color: #4a4a4a;
 }
 
-.edit-icon:hover {
-    color: var(--primary-color);
+.activity-info {
+    margin-top: 40px;
 }
 
-/* Thông tin hoạt động section */
-.active-section {
-    margin-top: var(--spacing-xl);
+.activity-item {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #4a4a4a;
 }
 
-.active-section h3 {
-    color: var(--text-color);
-    font-size: 20px;
-    margin-bottom: var(--spacing-lg);
-}
-
-.active-section p {
-    color: var(--text-color);
-    font-size: 16px;
-    margin-bottom: var(--spacing-md);
-    line-height: 1.5;
-}
-
-/* Button styles */
-.btn-back, .btn-save {
-    display: flex;
-    justify-content: left;
-    padding: var(--spacing-sm) var(--spacing-xl);
-    border: none;
-    border-radius: var(--border-radius-sm);
-    background-color: var(--primary-dark);
+.back-button {
+    display: block;
+    background-color: #8b4513;
     color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: var(--spacing-xl);
+    text-align: center;
+    padding: 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-top: 30px;
+    width: 200px;
+    margin-left: auto;
 }
-
-.btn-back:hover {
-    background-color: var(--primary-color);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    :host {
-        padding: var(--spacing-lg);
-    }
-
-    .title-account {
-        font-size: 24px;
-    }
-
-    .title-account .icon {
-        width: 32px;
-        height: 32px;
-    }
-}
-
-

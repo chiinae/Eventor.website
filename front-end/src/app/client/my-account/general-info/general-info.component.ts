@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { User } from '../../../interfaces/user.interface';
+import { User, UserStats } from '../../../interfaces/user.interface';
 
 interface EditMode {
   [key: string]: boolean;
@@ -21,19 +21,39 @@ interface EditMode {
   styleUrls: ['./general-info.component.css']
 })
 export class GeneralInfoComponent implements OnInit {
-  user: User = {};
+  user: User = {
+    _id: '',
+    ServiceID: '',
+    package_id: '',
+    username: '',
+    email: '',
+    first_name: '',
+    last_name: '',
+    dob: new Date(),
+    phone_number: '',
+    gender: '',
+    role: '',
+    Create_At: new Date(),
+    avatar: '',
+    status: '',
+    total_expenditure: 0
+  };
   editMode: EditMode = {
-    first_name: false,
-    last_name: false,
-    dob: false,
+    username: false,
+    dateOfBirth: false,
     phone_number: false
   };
-  tempValues: { [key: string]: string } = {};
   hasChanges: boolean = false;
+  userStats: UserStats | null = null;
+  loading = true;
+  tempValues: { [key: string]: string } = {};
+  error: string = '';
+
   constructor(
     private router: Router,
     private authService: AuthService
   ) {}
+
   ngOnInit() {
     const userStr = localStorage.getItem('user');
 
@@ -44,7 +64,6 @@ export class GeneralInfoComponent implements OnInit {
         ServiceID: userData.ServiceID,
         package_id: userData.package_id,
         username: userData.username || '',
-        password: userData.password || '',
         email: userData.email || '',
         first_name: userData.first_name || '',
         last_name: userData.last_name || '',
@@ -64,40 +83,44 @@ export class GeneralInfoComponent implements OnInit {
     }
   }
 
-  toggleEdit(field: string): void {
-    this.editMode[field] = !this.editMode[field];
-    if (this.editMode[field]) {
-      this.tempValues[field] = this.user[field as keyof User]?.toString() || '';
+  toggleEditMode(field: string): void {
+    if (field === 'all') {
+      // Nếu là 'all', reset tất cả các trường về false
+      Object.keys(this.editMode).forEach(key => {
+        this.editMode[key] = false;
+      });
+    } else {
+      this.editMode[field] = !this.editMode[field];
     }
   }
 
-  saveField(field: string): void {
-    if (!this.user._id) return;
-
-    const updateData = { [field]: this.user[field as keyof User] };
-
-    this.authService.updateUserInfo(this.user._id, updateData).subscribe({
-      next: () => {
-        this.editMode[field] = false;
-        this.hasChanges = true; // Đánh dấu có thay đổi
-        alert('Cập nhật thành công!');
-      },
-      error: () => {
-        if (this.tempValues[field]) {
-          this.user[field as keyof User] = this.tempValues[field] as any; 
-        }
-        alert('Có lỗi xảy ra khi cập nhật!');
-      }
-    });
+  toggleEdit(field: string): void {
+    this.toggleEditMode(field);
   }
 
-  cancelEdit(field: string): void {
-    this.editMode[field] = false;
-    if (this.tempValues[field]) {
-      this.user = {
-        ...this.user,
-        [field]: this.tempValues[field]
-      };
+  saveUserData(): void {
+    if (this.user) {
+      console.log('Saving user data:', this.user);
+      // Kiểm tra nếu user._id tồn tại trước khi gọi API
+      if (!this.user._id) {
+        this.error = 'Không tìm thấy ID người dùng';
+        console.log('User ID not found');
+        return;
+      }
+      this.authService.updateUserInfo(this.user._id, this.user).subscribe({
+        next: (updatedUser) => {
+          this.error = '';
+          console.log('User data saved successfully', updatedUser);
+          // Cập nhật lại thông tin người dùng từ response
+          this.user = updatedUser;
+          // Reset tất cả các trường về chế độ xem
+          this.toggleEditMode('all');
+        },
+        error: (err) => {
+          this.error = 'Không thể lưu thông tin người dùng: ' + (err.message || err);
+          console.log('Error saving user data:', err);
+        }
+      });
     }
   }
 
@@ -109,6 +132,9 @@ export class GeneralInfoComponent implements OnInit {
     this.authService.logout(); // Sẽ tự động chuyển về homepage
   }
 
+  backToHome(): void {
+    this.router.navigate(['/homepage']);
+  }
 
   updateField(field: string, value: any): void {
     if (!this.user._id) return;
@@ -128,12 +154,7 @@ export class GeneralInfoComponent implements OnInit {
   }
 
   saveAllChanges(): void {
-    if (!this.hasChanges) return; // Chỉ lưu khi có thay đổi
-
-    const fieldsToUpdate = Object.keys(this.editMode).filter(field => this.editMode[field]);
-
-    fieldsToUpdate.forEach(field => this.saveField(field));
-    this.hasChanges = false;
+    this.saveUserData();
   }
 
   markAsChanged(): void {
@@ -144,9 +165,5 @@ export class GeneralInfoComponent implements OnInit {
     this.hasChanges = Object.keys(this.user).some(key => {
       return this.user[key as keyof User] !== this.tempValues[key]; 
     });
-  }
-
-  backToHome(): void {
-    this.router.navigate(['/homepage']);
   }
 }

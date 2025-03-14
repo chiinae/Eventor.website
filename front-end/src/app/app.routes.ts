@@ -30,7 +30,7 @@ import { AdminFooterComponent } from './admin/admin-footer/admin-footer.componen
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  // { path: '', redirectTo: '/homepage', pathMatch: 'full' }, // Redirect trang chủ đến homepage
+  // { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect trang chủ đến homepage
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -65,14 +65,14 @@ export const routes: Routes = [
   // *** Routes cho Admin Panel ***
   { path: '', redirectTo: '/admin-homepage', pathMatch: 'full' },
   { path: 'admin-homepage', component: AdminHomepageComponent, canActivate: [AuthGuard],
-    // children: [
-    //   { path: '', component: AdminHomepageComponent}, // Trang Dashboard chính
-    //   { path: 'header', component: AdminHeaderComponent },
-    //   { path: 'sidebar', component: AdminSidebarComponent },
-    //   { path: 'dashboard-cards', component: AdminDashboardCardsComponent },
-    //   { path: 'content', component: AdminContentComponent },
-    //   { path: 'footer', component: AdminFooterComponent },
-    // ]
+    children: [
+      { path: '', component: AdminHomepageComponent}, // Trang Dashboard chính
+      { path: 'header', component: AdminHeaderComponent },
+      { path: 'sidebar', component: AdminSidebarComponent },
+      { path: 'dashboard-cards', component: AdminDashboardCardsComponent },
+      { path: 'content', component: AdminContentComponent },
+      { path: 'footer', component: AdminFooterComponent },
+    ]
   },
   // { path: 'admin/login', component: AdminLoginComponent },
 ];

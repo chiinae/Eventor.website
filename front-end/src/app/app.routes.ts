@@ -20,10 +20,17 @@ import { PaymentComponent } from './client/homepage/payment/payment.component';
 import { PaymentFeeComponent } from './client/homepage/payment-fee/payment-fee.component';
 import { PaymentFreeComponent } from './client/homepage/payment-free/payment-free.component';
 import { PerformanceStatisticsComponent } from './client/homepage/performance-statistics/performance-statistics.component';
+// Admin add component  
+import { AdminHomepageComponent } from './admin/admin-homepage/admin-homepage.component';
+import { AdminHeaderComponent } from './admin/admin-header/admin-header.component';
+import { AdminSidebarComponent } from './admin/admin-sidebar/admin-sidebar.component';
+import { AdminDashboardCardsComponent } from './admin/admin-dashboard-cards/admin-dashboard-cards.component';
+import { AdminContentComponent } from './admin/admin-content/admin-content.component';
+import { AdminFooterComponent } from './admin/admin-footer/admin-footer.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/homepage', pathMatch: 'full' }, // Redirect trang chủ đến homepage
+  // { path: '', redirectTo: '/homepage', pathMatch: 'full' }, // Redirect trang chủ đến homepage
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -54,5 +61,18 @@ export const routes: Routes = [
       { path: 'payment-free', component: PaymentFreeComponent, canActivate: [AuthGuard] },
       { path: 'performance-statistics', component: PerformanceStatisticsComponent, canActivate: [AuthGuard] }
     ]
-  }
+  },
+  // *** Routes cho Admin Panel ***
+  { path: '', redirectTo: '/admin-homepage', pathMatch: 'full' },
+  { path: 'admin-homepage', component: AdminHomepageComponent, canActivate: [AuthGuard],
+    // children: [
+    //   { path: '', component: AdminHomepageComponent}, // Trang Dashboard chính
+    //   { path: 'header', component: AdminHeaderComponent },
+    //   { path: 'sidebar', component: AdminSidebarComponent },
+    //   { path: 'dashboard-cards', component: AdminDashboardCardsComponent },
+    //   { path: 'content', component: AdminContentComponent },
+    //   { path: 'footer', component: AdminFooterComponent },
+    // ]
+  },
+  // { path: 'admin/login', component: AdminLoginComponent },
 ];

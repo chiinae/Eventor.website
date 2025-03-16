@@ -23,13 +23,52 @@ export class AuthService {
   }
 
   login(credentials: {email: string, password: string}): Observable<any> {
+    console.log('=== Starting login ===');
+    console.log('Login attempt:', credentials.email);
+    
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((response: any) => {
-        if (response.token) {
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('user', JSON.stringify(response.user));
-          this.isLoggedInSubject.next(true);
+        console.log('Raw login response:', response);
+        
+        if (!response) {
+          console.error('Response is null or undefined');
+          throw new Error('Không nhận được phản hồi từ server');
         }
+
+        // Kiểm tra response có success, token và user
+        if (!response.success || !response.token || !response.user) {
+          console.error('Invalid login response:', {
+            success: response.success,
+            hasToken: !!response.token,
+            hasUser: !!response.user
+          });
+          throw new Error('Phản hồi không hợp lệ từ server');
+        }
+
+        // Log thông tin user
+        console.log('User data from server:', {
+          _id: response.user._id,
+          email: response.user.email,
+          username: response.user.username
+        });
+
+        // Lưu token
+        localStorage.setItem('token', response.token);
+        
+        // Lưu user data
+        const userData = {
+          ...response.user,
+          _id: response.user._id // Đảm bảo _id được lưu đúng
+        };
+
+        console.log('Saving user data to localStorage:', userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+        
+        // Verify saved data
+        const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
+        console.log('Verified saved user data:', savedUser);
+        
+        this.isLoggedInSubject.next(true);
       })
     );
   }
@@ -59,19 +98,7 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  updateUserInfo(userId: string, userData: any): Observable<any> {
-    return this.http.put(
-      `${this.apiUrl}/users/${userId}`, 
-      userData,
-      { headers: this.getHeaders() }
-    ).pipe(
-      tap((response: any) => {
-        if (response.user) {
-          const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-          const updatedUser = { ...currentUser, ...response.user };
-          localStorage.setItem('user', JSON.stringify(updatedUser));
-        }
-      })
-    );
+  updateUserInfo(_id: string, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/users/${_id}`, data);
   }
 } 

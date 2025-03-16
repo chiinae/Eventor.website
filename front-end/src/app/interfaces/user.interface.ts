@@ -1,31 +1,35 @@
 export interface User {
     _id: string;
-    ServiceID: string;
-    package_id: string;
     username: string;
     email: string;
+    role: string;
+    membershipType: string;
+    eventsJoined: string[];
+    eventsCreated: string[];
     first_name: string;
     last_name: string;
-    dob: Date;
     phone_number: string;
     gender: string;
-    role: string;
-    Create_At: Date;
-    avatar: string;
     status: string;
-    total_expenditure: number;
-    membershipType?: string;
-    membershipExpiry?: string;
-    eventsJoined?: number;
-    eventsCreated?: number;
+    createdAt: Date;
+    ServiceID?: string;
+    package_id?: string;
+    dob?: Date;
+    Create_At?: Date;
+    avatar?: string;
+    total_expenditure?: number;
 }
 
 export interface UserStats {
-    membershipTier: string;
-    expiryDate: Date;
-    eventsAttended: number;
-    eventsCreated: number;
-    accountCreated: Date;
-    totalLogins?: number;
-    lastLogin?: Date;
+    totalEvents: number;
+    totalSpent: number;
+    memberSince: Date;
+    lastLogin: Date;
+}
+
+export interface ApiResponse<T> {
+    success: boolean;
+    message: string;
+    user?: User;
+    data?: T;
 }

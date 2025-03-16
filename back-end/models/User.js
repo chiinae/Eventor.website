@@ -1,32 +1,25 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
-  }
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    phone: { type: String },
+    dateOfBirth: { type: Date },
+    createdAt: { type: Date, default: Date.now },
+    membershipType: { type: String, default: 'standard' },
+    membershipExpiry: { type: Date },
+    eventsJoined: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
+    eventsCreated: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
+    first_name: { type: String },
+    last_name: { type: String },
+    gender: { type: String },
+    avatar: { type: String },
+    status: { type: String },
+    role: { type: String, default: 'user' }
 }, { 
-  timestamps: true,
-  // Chỉ định rõ collection name
-  collection: 'user' 
+    collection: 'user',
+    timestamps: true
 });
 
-// Log để kiểm tra model được tạo
-console.log('Model name:', mongoose.model('User', userSchema).collection.name);
-
-module.exports = mongoose.model('User', userSchema); 
+module.exports = mongoose.model('User', userSchema);

@@ -9,47 +9,73 @@
     <div class="personal-info">
         <h2 class="section-title">Thông tin cá nhân</h2>
         
+        <div *ngIf="error" class="error-message">
+            {{ error }}
+        </div>
+
+        <!-- Họ và Tên -->
         <div class="form-group">
-            <label class="form-label">Họ và Tên</label>
+            <label>Họ và Tên</label>
             <div class="form-input-container">
-                <input type="text" class="form-input" value="Nguyễn Minh Anh" readonly>
-                <button class="edit-button">
+                <input type="text" class="form-input" 
+                    [(ngModel)]="user.first_name" 
+                    (ngModelChange)="checkForChanges()"
+                    [readonly]="!editMode['name']" 
+                    placeholder="Họ">
+                <input type="text" class="form-input" 
+                    [(ngModel)]="user.last_name" 
+                    (ngModelChange)="checkForChanges()"
+                    [readonly]="!editMode['name']" 
+                    placeholder="Tên">
+                <button class="edit-button" (click)="toggleEdit('name')">
                     <svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                     </svg>
                 </button>
             </div>
         </div>
-        
+
+        <!-- Ngày tháng năm sinh -->
         <div class="form-group">
-            <label class="form-label">Ngày tháng năm sinh</label>
+            <label>Ngày tháng năm sinh</label>
             <div class="form-input-container">
-                <input type="text" class="form-input" value="01/01/2000" readonly>
-                <button class="edit-button">
+                <input type="date" class="form-input" 
+                    [(ngModel)]="user.dob" 
+                    (ngModelChange)="checkForChanges()"
+                    [readonly]="!editMode['dob']">
+                <button class="edit-button" (click)="toggleEdit('dob')">
                     <svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                     </svg>
                 </button>
             </div>
         </div>
-        
+
+        <!-- Email -->
         <div class="form-group">
-            <label class="form-label">Email</label>
+            <label>Email</label>
             <div class="form-input-container">
-                <input type="email" class="form-input" value="manhnguyen@gmail.com" readonly>
-                <button class="edit-button">
+                <input type="email" class="form-input" 
+                    [(ngModel)]="user.email" 
+                    (ngModelChange)="checkForChanges()"
+                    [readonly]="!editMode['email']">
+                <button class="edit-button" (click)="toggleEdit('email')">
                     <svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                     </svg>
                 </button>
             </div>
         </div>
-        
+
+        <!-- Số điện thoại -->
         <div class="form-group">
-            <label class="form-label">Số điện thoại</label>
+            <label>Số điện thoại</label>
             <div class="form-input-container">
-                <input type="tel" class="form-input" value="0909 510 535" readonly>
-                <button class="edit-button">
+                <input type="tel" class="form-input" 
+                    [(ngModel)]="user.phone_number" 
+                    (ngModelChange)="checkForChanges()"
+                    [readonly]="!editMode['phone_number']">
+                <button class="edit-button" (click)="toggleEdit('phone_number')">
                     <svg class="edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                     </svg>
@@ -57,30 +83,37 @@
             </div>
         </div>
     </div>
-    
+
     <div class="activity-info">
         <h2 class="section-title">Thông tin hoạt động</h2>
         
         <div class="activity-item">
-            Ngày tạo tài khoản: 01/11/2023
+            <span class="activity-label">Ngày tạo tài khoản:</span>
+            <span class="activity-value">{{ user.createdAt | date:'dd/MM/yyyy' }}</span>
         </div>
         
         <div class="activity-item">
-            Hạng thành viên: Thành viên kim cương 2
+            <span class="activity-label">Hạng thành viên:</span>
+            <span class="activity-value">{{ user.membershipType }}</span>
         </div>
         
         <div class="activity-item">
-            Ngày hết hạn: 12/09/2025
+            <span class="activity-label">Số sự kiện đã tham gia:</span>
+            <span class="activity-value">{{ user.eventsJoined?.length || 0 }}</span>
         </div>
         
         <div class="activity-item">
-            Số sự kiện đã tham gia: 18
-        </div>
-        
-        <div class="activity-item">
-            Số sự kiện đã tạo: 4
+            <span class="activity-label">Số sự kiện đã tạo:</span>
+            <span class="activity-value">{{ user.eventsCreated?.length || 0 }}</span>
         </div>
     </div>
-    
-    <a href="#" class="back-button">Trở về trang chủ</a>
+
+    <div class="button-container">
+        <button class="save-all-button" (click)="saveAllChanges()" *ngIf="hasChanges">
+            Lưu thay đổi
+        </button>
+        <button class="back-button" (click)="navigateTo('/')">
+            Trở về trang chủ
+        </button>
+    </div>
 </div>

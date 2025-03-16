@@ -5,94 +5,91 @@
     font-family: Arial, sans-serif;
 }
 
-body {
-    background-color: #f9f5e9;
-    padding: 20px;
-}
-
 .container {
     max-width: 800px;
     margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f5e9;
 }
 
 .header {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 24px;
 }
 
 .home-icon {
-    width: 60px;
-    height: 60px;
-    background-color: #d6ad4b;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    margin-right: 20px;
-}
-
-.home-icon::after {
-    content: "";
-    display: block;
-    width: 30px;
-    height: 30px;
-    background-color: #f9f5e9;
-    margin: 20px auto;
-    clip-path: polygon(0% 0%, 100% 0%, 100% 60%, 50% 60%, 50% 100%, 0% 100%);
+    width: 32px;
+    height: 32px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23B07C4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>');
+    background-repeat: no-repeat;
 }
 
 .title {
-    font-size: 2.5rem;
-    color: #4a4a4a;
+    font-size: 32px;
+    color: #4A4A4A;
+    font-weight: 600;
 }
 
 .divider {
-    height: 1px;
-    background-color: #4a4a4a;
-    margin: 10px 0 30px 0;
+    height: 2px;
+    background-color: #B07C4F;
+    margin: 20px 0;
+    opacity: 0.2;
 }
 
 .section-title {
-    font-size: 1.5rem;
-    color: #4a4a4a;
-    margin-bottom: 20px;
+    font-size: 24px;
+    color: #4A4A4A;
+    margin-bottom: 24px;
+    font-weight: 500;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
-.form-label {
+.form-group label {
     display: block;
-    margin-bottom: 10px;
-    color: #4a4a4a;
-    font-size: 1.1rem;
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 8px;
 }
 
 .form-input-container {
     display: flex;
+    gap: 12px;
     align-items: center;
 }
 
 .form-input {
-    flex-grow: 1;
+    flex: 1;
     padding: 12px;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    font-size: 1rem;
-    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: white;
+}
+
+.form-input:read-only {
+    background-color: #f5f5f5;
 }
 
 .edit-button {
     background: none;
     border: none;
+    padding: 8px;
     cursor: pointer;
-    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .edit-icon {
     width: 20px;
     height: 20px;
-    display: block;
-    color: #4a4a4a;
+    color: #B07C4F;
 }
 
 .activity-info {
@@ -100,21 +97,63 @@ body {
 }
 
 .activity-item {
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-    color: #4a4a4a;
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(176, 124, 79, 0.2);
+}
+
+.activity-label {
+    color: #666;
+}
+
+.activity-value {
+    color: #4A4A4A;
+    font-weight: 500;
+}
+
+.button-container {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.save-all-button {
+    padding: 12px 32px;
+    background-color: #B07C4F;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.save-all-button:hover {
+    background-color: #95663D;
 }
 
 .back-button {
-    display: block;
-    background-color: #8b4513;
-    color: white;
-    text-align: center;
-    padding: 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 1.1rem;
-    margin-top: 30px;
-    width: 200px;
-    margin-left: auto;
+    padding: 12px 32px;
+    background-color: transparent;
+    color: #B07C4F;
+    border: 1px solid #B07C4F;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-button:hover {
+    background-color: rgba(176, 124, 79, 0.1);
+}
+
+.error-message {
+    background-color: #FFF3F3;
+    color: #D32F2F;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    border: 1px solid #FFCDD2;
 }

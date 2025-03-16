@@ -29,6 +29,45 @@ mongoose.connect(process.env.MONGODB_URI)
 const User = require('./models/User');
 const Banner = require('./models/Banner');
 
+// Middleware xác thực JWT token
+const authenticateToken = (req, res, next) => {
+  console.log('=== Starting token authentication ===');
+  console.log('Headers:', req.headers);
+  
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  console.log('Extracted token:', token);
+
+  if (!token) {
+    console.log('No token provided');
+    return res.status(401).json({ 
+      success: false,
+      message: 'Không tìm thấy token xác thực' 
+    });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      console.error('Token verification error:', err);
+      return res.status(403).json({ 
+        success: false,
+        message: 'Token không hợp lệ hoặc đã hết hạn' 
+      });
+    }
+    
+    console.log('Decoded token:', decoded);
+    
+    // Gán thông tin user vào request
+    req.user = {
+      userId: decoded.userId
+    };
+    
+    console.log('User in request:', req.user);
+    next();
+  });
+};
+
 // Cấu hình nodemailer
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -43,7 +82,81 @@ app.get('/api/test', (req, res) => {
     res.json({ message: 'API đang hoạt động' });
 });
 
-// API lấy tất cả users
+// API lấy user theo ID (endpoint cụ thể nhất)
+app.get('/api/users/id/:_id', authenticateToken, async (req, res) => {
+  try {
+    console.log('=== Getting user by ID ===');
+    console.log('Params:', req.params);
+    console.log('User from token:', req.user);
+    console.log('Database name:', mongoose.connection.db.databaseName);
+    
+    if (!req.params._id) {
+      console.log('No ID provided in params');
+      return res.status(400).json({
+        success: false,
+        message: 'Thiếu ID người dùng'
+      });
+    }
+
+    console.log('Attempting to find user with ID:', req.params._id);
+    console.log('Collection name:', User.collection.collectionName);
+
+    // Kiểm tra xem ID có đúng định dạng MongoDB ObjectId không
+    if (!mongoose.Types.ObjectId.isValid(req.params._id)) {
+      console.log('Invalid MongoDB ObjectId:', req.params._id);
+      return res.status(400).json({
+        success: false,
+        message: 'ID người dùng không hợp lệ'
+      });
+    }
+
+    const user = await User.findById(req.params._id).select('-password');
+    console.log('Database query result:', user);
+    
+    if (!user) {
+      console.log('User not found with ID:', req.params._id);
+      return res.status(404).json({ 
+        success: false,
+        message: 'Không tìm thấy user' 
+      });
+    }
+
+    // Chuyển đổi sang plain object và đảm bảo _id là string
+    const userObj = user.toObject();
+    userObj._id = userObj._id.toString();
+
+    console.log('Found user:', userObj);
+    
+    // Trả về response với success và user
+    res.json({
+      success: true,
+      message: 'Lấy thông tin user thành công',
+      user: userObj
+    });
+  } catch (error) {
+    console.error('Error getting user by ID:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Lỗi server', 
+      error: error.message 
+    });
+  }
+});
+
+// API lấy user theo email (endpoint cụ thể)
+app.get('/api/users/email/:email', async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.params.email }, '-password');
+        if (!user) {
+            return res.status(404).json({ message: 'Không tìm thấy user' });
+        }
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: 'Lỗi server' });
+    }
+});
+
+// API lấy tất cả users (endpoint chung)
 app.get('/api/users', async (req, res) => {
     try {
         console.log('Đang truy vấn database:', mongoose.connection.db.databaseName);
@@ -57,17 +170,40 @@ app.get('/api/users', async (req, res) => {
     }
 });
 
-// API lấy user theo email
-app.get('/api/users/email/:email', async (req, res) => {
-    try {
-        const user = await User.findOne({ email: req.params.email }, '-password');
-        if (!user) {
-            return res.status(404).json({ message: 'Không tìm thấy user' });
-        }
-        res.json(user);
-    } catch (error) {
-        res.status(500).json({ message: 'Lỗi server' });
+// API lấy thông tin user theo email (endpoint chung nhất)
+app.get('/api/users/:email', authenticateToken, async (req, res) => {
+  try {
+    const { email } = req.params;
+
+    // Kiểm tra quyền truy cập
+    if (req.user.userId.toString() !== email) {
+      return res.status(403).json({ message: 'Không có quyền truy cập thông tin này' });
     }
+
+    const user = await User.findOne({ email }).select('-password');
+    
+    if (!user) {
+      return res.status(404).json({ message: 'Không tìm thấy user' });
+    }
+
+    res.json({
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        phone: user['phone'],
+        dateOfBirth: user.dateOfBirth,
+        createdAt: user.createdAt,
+        membershipType: user.membershipType,
+        membershipExpiry: user.membershipExpiry,
+        eventsJoined: user.eventsJoined,
+        eventsCreated: user.eventsCreated
+      }
+    });
+  } catch (error) {
+    console.error('Lỗi lấy thông tin user:', error);
+    res.status(500).json({ message: 'Lỗi server', error: error.message });
+  }
 });
 
 // API đăng ký
@@ -100,7 +236,19 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+        
+        // Log thông tin request
+        console.log('Login attempt:', { email });
+
+        // Tìm user trong collection 'user'
         const user = await User.findOne({ email });
+        
+        // Log kết quả tìm kiếm
+        console.log('Found user:', {
+            _id: user?._id,
+            email: user?.email,
+            username: user?.username
+        });
 
         if (!user) {
             return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
@@ -111,30 +259,40 @@ app.post('/api/login', async (req, res) => {
             return res.status(401).json({ message: 'Email hoặc mật khẩu không đúng' });
         }
 
+        // Tạo token với _id
         const token = jwt.sign(
-            { userId: user._id },
+            { userId: user._id.toString() },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
 
+        // Chuyển đổi user document thành plain object
+        const userObj = user.toObject();
+        
+        // Đảm bảo _id là string
+        userObj._id = userObj._id.toString();
+
+        // Log response data
+        console.log('Sending response:', {
+            _id: userObj._id,
+            email: userObj.email,
+            username: userObj.username
+        });
+
+        // Trả về response với đầy đủ thông tin
         res.json({
+            success: true,
             message: 'Đăng nhập thành công',
             token,
-            user: {
-                id: user._id,
-                username: user.username,
-                email: user.email,
-                phone: user['phone'],
-                dateOfBirth: user.dateOfBirth,
-                createdAt: user.createdAt,
-                membershipType: user.membershipType,
-                membershipExpiry: user.membershipExpiry,
-                eventsJoined: user.eventsJoined,
-                eventsCreated: user.eventsCreated
-            }
+            user: userObj
         });
     } catch (error) {
-        res.status(500).json({ message: 'Lỗi server' });
+        console.error('Login error:', error);
+        res.status(500).json({ 
+            success: false,
+            message: 'Lỗi server', 
+            error: error.message 
+        });
     }
 });
 
@@ -153,129 +311,6 @@ app.get('/api/check-user/:email', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Lỗi server' });
     }
-});
-
-// API tạo user test
-app.post('/api/create-test-user', async (req, res) => {
-    try {
-        const hashedPassword = await bcrypt.hash('123456', 10);
-        const testUser = new User({
-            username: 'test',
-            email: 'test@example.com',
-            password: hashedPassword
-        });
-        await testUser.save();
-        res.json({ message: 'Tạo user test thành công' });
-    } catch (error) {
-        res.status(500).json({ message: 'Lỗi server' });
-    }
-});
-
-// Middleware xác thực token
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json({ message: 'Không tìm thấy token xác thực' });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: 'Token không hợp lệ' });
-    }
-    req.user = user;
-    next();
-  });
-};
-
-// API cập nhật thông tin user
-app.put('/api/users/:userId', authenticateToken, async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const updateData = req.body;
-    
-    // Kiểm tra xem user có quyền cập nhật không
-    if (req.user.userId !== userId) {
-      return res.status(403).json({ message: 'Không có quyền cập nhật thông tin này' });
-    }
-
-    // Loại bỏ các trường không cho phép cập nhật
-    delete updateData.email;
-    delete updateData.password;
-    delete updateData.id;
-    
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { $set: updateData },
-      { new: true, select: '-password' }
-    );
-
-    if (!updatedUser) {
-      return res.status(404).json({ message: 'Không tìm thấy user' });
-    }
-
-    // Log để debug
-    console.log('Đã cập nhật user:', {
-      id: updatedUser._id,
-      ...updateData
-    });
-
-    res.json({
-      message: 'Cập nhật thông tin thành công',
-      user: {
-        id: updatedUser._id,
-        username: updatedUser.username,
-        email: updatedUser.email,
-        phone: updatedUser['phone'],
-        dateOfBirth: updatedUser.dateOfBirth,
-        createdAt: updatedUser.createdAt,
-        membershipType: updatedUser.membershipType,
-        membershipExpiry: updatedUser.membershipExpiry,
-        eventsJoined: updatedUser.eventsJoined,
-        eventsCreated: updatedUser.eventsCreated
-      }
-    });
-  } catch (error) {
-    console.error('Lỗi cập nhật user:', error);
-    res.status(500).json({ message: 'Lỗi server', error: error.message });
-  }
-});
-
-// API lấy thông tin user
-app.get('/api/users/:userId', authenticateToken, async (req, res) => {
-  try {
-    const { userId } = req.params;
-
-    // Kiểm tra quyền truy cập
-    if (req.user.userId !== userId) {
-      return res.status(403).json({ message: 'Không có quyền truy cập thông tin này' });
-    }
-
-    const user = await User.findById(userId).select('-password');
-    
-    if (!user) {
-      return res.status(404).json({ message: 'Không tìm thấy user' });
-    }
-
-    res.json({
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        phone: user['phone'],
-        dateOfBirth: user.dateOfBirth,
-        createdAt: user.createdAt,
-        membershipType: user.membershipType,
-        membershipExpiry: user.membershipExpiry,
-        eventsJoined: user.eventsJoined,
-        eventsCreated: user.eventsCreated
-      }
-    });
-  } catch (error) {
-    console.error('Lỗi lấy thông tin user:', error);
-    res.status(500).json({ message: 'Lỗi server', error: error.message });
-  }
 });
 
 // API gửi email reset password
@@ -383,14 +418,15 @@ app.post('/api/reset-password', async (req, res) => {
 });
 
 //Chỉnh sửa tài khoản user
+
 // API cập nhật user
 app.put('/api/update', async (req, res) => {
   try {
-    const { _id, username, phone, dateOfBirth } = req.body;
+    const { email, username, phone, dateOfBirth } = req.body;
 
     // Tìm user theo ID và cập nhật
-    const updatedUser = await User.findByIdAndUpdate(
-      _id,
+    const updatedUser = await User.findOneAndUpdate(
+      { email },
       { username, phone, dateOfBirth },
       { new: true } // Trả về user đã cập nhật
     );
@@ -402,6 +438,67 @@ app.put('/api/update', async (req, res) => {
     res.json(updatedUser);
   } catch (error) {
     res.status(500).json({ message: 'Lỗi cập nhật user', error });
+  }
+});
+
+// API cập nhật user theo ID
+app.put('/api/users/id/:_id', authenticateToken, async (req, res) => {
+  try {
+    console.log('=== Updating user by ID ===');
+    console.log('Params:', req.params);
+    console.log('Body:', req.body);
+    console.log('User from token:', req.user);
+    
+    if (!req.params._id) {
+      console.log('No ID provided in params');
+      return res.status(400).json({
+        success: false,
+        message: 'Thiếu ID người dùng'
+      });
+    }
+
+    // Kiểm tra xem ID có đúng định dạng MongoDB ObjectId không
+    if (!mongoose.Types.ObjectId.isValid(req.params._id)) {
+      console.log('Invalid MongoDB ObjectId:', req.params._id);
+      return res.status(400).json({
+        success: false,
+        message: 'ID người dùng không hợp lệ'
+      });
+    }
+
+    // Tìm và cập nhật user
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params._id,
+      { $set: req.body },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!updatedUser) {
+      console.log('User not found with ID:', req.params._id);
+      return res.status(404).json({
+        success: false,
+        message: 'Không tìm thấy user'
+      });
+    }
+
+    // Chuyển đổi sang plain object và đảm bảo _id là string
+    const userObj = updatedUser.toObject();
+    userObj._id = userObj._id.toString();
+
+    console.log('Updated user:', userObj);
+
+    res.json({
+      success: true,
+      message: 'Cập nhật thông tin user thành công',
+      user: userObj
+    });
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Lỗi server',
+      error: error.message
+    });
   }
 });
 
@@ -469,6 +566,32 @@ app.get('/api/banner/:id', async (req, res) => {
             requestedId: req.params.id
         });
     }
+});
+
+// API kiểm tra tất cả users
+app.get('/api/debug/users', async (req, res) => {
+  try {
+    console.log('=== Checking all users ===');
+    console.log('Database:', mongoose.connection.db.databaseName);
+    console.log('Collection:', User.collection.collectionName);
+    
+    const users = await User.find({}).lean();
+    console.log('Total users found:', users.length);
+    console.log('Users:', users);
+    
+    res.json({
+      success: true,
+      total: users.length,
+      users: users
+    });
+  } catch (error) {
+    console.error('Error getting users:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Lỗi server',
+      error: error.message
+    });
+  }
 });
 
 const PORT = process.env.PORT || 5000;

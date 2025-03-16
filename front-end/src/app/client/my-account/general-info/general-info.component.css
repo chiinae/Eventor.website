@@ -157,3 +157,19 @@
     margin-bottom: 16px;
     border: 1px solid #FFCDD2;
 }
+
+.loading-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.loading-state p {
+    color: #666;
+    font-size: 1.1rem;
+    margin: 0;
+}

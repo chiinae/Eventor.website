@@ -1,113 +1,233 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
 import { User, UserStats, ApiResponse } from '../interfaces/user.interface';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private apiUrl = 'http://localhost:5000/api';
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser: Observable<User | null>;
 
-  constructor(private http: HttpClient) { }
-
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {
+    this.currentUserSubject = new BehaviorSubject<User | null>(null);
+    this.currentUser = this.currentUserSubject.asObservable();
+    
+    // Chỉ load user nếu có token
+    if (localStorage.getItem('token')) {
+      this.loadCurrentUser().subscribe({
+        error: (error) => {
+          if (error.status === 403) {
+            this.clearUser();
+            this.showError('Phiên đăng nhập đã hết hạn');
+          }
+        }
+      });
+    }
   }
 
-  private getHeaders(): HttpHeaders {
+  private showSuccess(message: string): void {
+    this.snackBar.open(message, 'Đóng', {
+      duration: 3000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      panelClass: ['success-snackbar']
+    });
+  }
+
+  private showError(message: string): void {
+    this.snackBar.open(message, 'Đóng', {
+      duration: 5000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      panelClass: ['error-snackbar']
+    });
+  }
+
+  public get currentUserValue(): User | null {
+    return this.currentUserSubject.value;
+  }
+
+  clearUser(): void {
+    this.currentUserSubject.next(null);
+  }
+
+  loadCurrentUser(): Observable<User | null> {
+    console.log('Loading current user...');
     const token = localStorage.getItem('token');
-    console.log('=== Getting headers ===');
-    console.log('Token from localStorage:', token);
-    
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-    
-    console.log('Created headers:', headers);
-    return headers;
+    if (!token) {
+      console.log('No token found');
+      return of(null);
+    }
+
+    const userData = localStorage.getItem('user');
+    if (!userData) {
+      console.log('No user data found');
+      return of(null);
+    }
+
+    try {
+      const user = JSON.parse(userData);
+      console.log('Parsed user data:', user);
+      
+      if (!user._id) {
+        console.log('No user ID found');
+        return of(null);
+      }
+
+      return this.http.get<ApiResponse<User>>(`${this.apiUrl}/users/id/${user._id}`).pipe(
+        tap(response => {
+          console.log('User API response:', response);
+          if (response?.success && response?.user) {
+            // Cập nhật thông tin user trong localStorage
+            localStorage.setItem('user', JSON.stringify(response.user));
+            this.currentUserSubject.next(response.user);
+          } else {
+            console.error('Invalid API response:', response);
+          }
+        }),
+        map(response => {
+          if (response?.success && response?.user) {
+            return response.user;
+          }
+          console.error('No user data in response');
+          return null;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.error('Error loading user:', error);
+          if (error.status === 403) {
+            this.clearUser();
+          }
+          return throwError(() => error);
+        })
+      );
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      return of(null);
+    }
+  }
+
+  getCurrentUser(): Observable<User | null> {
+    return this.currentUser;
+  }
+
+  updateCurrentUser(userData: Partial<User>): Observable<User> {
+    const currentUser = this.currentUserValue;
+    if (!currentUser?._id) {
+      console.error('Không tìm thấy thông tin user');
+      return throwError(() => new Error('Không tìm thấy thông tin user'));
+    }
+
+    console.log('Updating user with data:', userData);
+    return this.http.put<ApiResponse<User>>(`${this.apiUrl}/users/id/${currentUser._id}`, userData).pipe(
+      tap(response => {
+        console.log('Update response:', response);
+        if (response?.success && response?.user) {
+          // Cập nhật thông tin user trong localStorage và subject
+          const updatedUser = response.user;
+          localStorage.setItem('user', JSON.stringify(updatedUser));
+          this.currentUserSubject.next(updatedUser);
+        }
+      }),
+      map(response => {
+        if (response?.success && response?.user) {
+          return response.user;
+        }
+        throw new Error('Invalid response format');
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error updating user:', error);
+        if (error.status === 403) {
+          this.clearUser();
+        }
+        return throwError(() => error);
+      })
+    );
+  }
+
+  logout(): void {
+    this.clearUser();
   }
 
   getUserById(id: string): Observable<ApiResponse<User>> {
-    console.log('Getting user by ID:', id);
-    const headers = this.getHeaders();
-    return this.http.get<ApiResponse<User>>(`${this.apiUrl}/users/id/${id}`, { headers });
+    return this.http.get<ApiResponse<User>>(`${this.apiUrl}/users/id/${id}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 403) {
+          this.clearUser();
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
-  updateUser(id: string, userData: Partial<User>): Observable<ApiResponse<User>> {
-    console.log('=== Start updateUser ===');
-    console.log('Input parameters:', { id, userData });
-    
-    // Lấy token trực tiếp để kiểm tra
-    const token = localStorage.getItem('token');
-    console.log('Token from localStorage:', token);
-    
-    // Tạo headers với token
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-    
-    console.log('Headers created:', {
-      contentType: headers.get('Content-Type'),
-      authorization: headers.get('Authorization')
-    });
-    
-    const url = `${this.apiUrl}/users/id/${id}`;
-    console.log('Request URL:', url);
-    console.log('Request body:', userData);
-
-    // Thêm log cho toàn bộ request config
-    console.log('Request config:', {
-      method: 'PUT',
-      url,
-      headers: {
-        'Content-Type': headers.get('Content-Type'),
-        'Authorization': headers.get('Authorization')
-      },
-      body: userData
-    });
-
-    return this.http.put<ApiResponse<User>>(url, userData, { headers }).pipe(
-      map(response => {
-        console.log('Server response:', response);
-        if (!response.success) {
-          console.error('Update failed:', response.message);
-          throw new Error(response.message || 'Cập nhật thất bại');
+  updateUserById(userId: string, userData: Partial<User>): Observable<any> {
+    return this.http.put(`${this.apiUrl}/users/${userId}`, userData).pipe(
+      tap(response => {
+        const currentUser = this.currentUserSubject.value;
+        if (currentUser && currentUser._id === userId) {
+          this.currentUserSubject.next({ ...currentUser, ...userData });
         }
-        console.log('Update successful:', response.user);
-        return response;
       }),
-      catchError(error => {
-        console.error('HTTP Error:', error);
-        console.error('Error details:', {
-          status: error.status,
-          statusText: error.statusText,
-          message: error.message,
-          error: error.error
-        });
-        throw error;
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error updating user:', error);
+        if (error.status === 403) {
+          this.clearUser();
+        }
+        return throwError(() => error);
       })
     );
   }
 
   getUserByEmail(email: string): Observable<ApiResponse<User>> {
-    console.log('Getting user by email:', email);
-    const headers = this.getHeaders();
-    return this.http.get<ApiResponse<User>>(`${this.apiUrl}/users/email/${email}`, { headers });
+    return this.http.get<ApiResponse<User>>(`${this.apiUrl}/users/email/${email}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 403) {
+          this.clearUser();
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
   getUsers(): Observable<ApiResponse<User[]>> {
-    return this.http.get<ApiResponse<User[]>>(`${this.apiUrl}/users`, { headers: this.getHeaders() });
+    return this.http.get<ApiResponse<User[]>>(`${this.apiUrl}/users`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 403) {
+          this.clearUser();
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
-  // lấy thông tin user theo username
   getUserByUsername(username: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users/${username}`, { headers: this.getHeaders() });
+    return this.http.get<User>(`${this.apiUrl}/users/${username}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 403) {
+          this.clearUser();
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
-  // lấy thông tin userstats
   getUserStats(username: string): Observable<UserStats> {
-    return this.http.get<UserStats>(`${this.apiUrl}/users/${username}/stats`, { headers: this.getHeaders() });
+    return this.http.get<UserStats>(`${this.apiUrl}/users/${username}/stats`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 403) {
+          this.clearUser();
+        }
+        return throwError(() => error);
+      })
+    );
   }
 } 

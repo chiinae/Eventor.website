@@ -1,8 +1,21 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-
-/* Cấu hình font và màu nền */
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400&display=swap');
+
+/* Styles cho MatSnackBar */
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #4caf50;
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
+}
+
+.mat-mdc-snack-bar-container.success-snackbar {
+  --mdc-snackbar-container-color: #4caf50;
+}
+
+.mat-mdc-snack-bar-container.error-snackbar {
+  --mdc-snackbar-container-color: #f44336;
+}
 
 body {
   background-color: #faf4e0;
@@ -54,7 +67,7 @@ body {
 }
 
 .toggle-buttons .active {
-  background-color: #C69C3F;
+  background-color: var(--primary-color);
   color: white;
 }
 
@@ -218,6 +231,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: var(--body-font);
 }
 
 /* Common variables */

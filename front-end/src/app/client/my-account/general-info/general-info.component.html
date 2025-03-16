@@ -6,7 +6,7 @@
     
     <div class="divider"></div>
     
-    <div class="personal-info">
+    <div *ngIf="user" class="personal-info">
         <h2 class="section-title">Thông tin cá nhân</h2>
         
         <div *ngIf="error" class="error-message">
@@ -84,7 +84,11 @@
         </div>
     </div>
 
-    <div class="activity-info">
+    <div *ngIf="!user" class="loading-state">
+        <p>Đang tải thông tin người dùng...</p>
+    </div>
+
+    <div *ngIf="user" class="activity-info">
         <h2 class="section-title">Thông tin hoạt động</h2>
         
         <div class="activity-item">
@@ -109,7 +113,7 @@
     </div>
 
     <div class="button-container">
-        <button class="save-all-button" (click)="saveAllChanges()" *ngIf="hasChanges">
+        <button class="save-all-button" (click)="saveAllChanges()" *ngIf="user && hasChanges">
             Lưu thay đổi
         </button>
         <button class="back-button" (click)="navigateTo('/')">

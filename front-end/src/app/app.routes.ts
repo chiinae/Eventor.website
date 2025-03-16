@@ -30,7 +30,7 @@ import { AdminFooterComponent } from './admin/admin-footer/admin-footer.componen
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  // { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect trang chủ đến homepage
+  { path: '', redirectTo: '/homepage', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -63,7 +63,6 @@ export const routes: Routes = [
     ]
   },
   // *** Routes cho Admin Panel ***
-  { path: '', redirectTo: '/admin-homepage', pathMatch: 'full' },
   { path: 'admin-homepage', component: AdminHomepageComponent, canActivate: [AuthGuard],
     children: [
       { path: '', component: AdminHomepageComponent}, // Trang Dashboard chính

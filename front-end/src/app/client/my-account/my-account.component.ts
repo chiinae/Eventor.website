@@ -1,36 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
+import { User } from '../../interfaces/user.interface';
 import { CommonModule } from '@angular/common';
-import { GeneralInfoComponent } from './general-info/general-info.component';
 
 @Component({
   selector: 'app-my-account',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    GeneralInfoComponent
-  ],
+  imports: [CommonModule, RouterModule],
   templateUrl: './my-account.component.html',
   styleUrls: ['./my-account.component.css']
 })
-export class MyAccountComponent {
+export class MyAccountComponent implements OnInit {
+  currentUser: User | null = null;
+
   constructor(
     private router: Router,
-    private authService: AuthService
+    private userService: UserService
   ) {}
 
-  navigateTo(route: string) {
-    this.router.navigate(['/my-account', route]);
+  ngOnInit(): void {
+    this.userService.currentUser.subscribe({
+      next: (user) => {
+        this.currentUser = user;
+        if (!user) {
+          this.router.navigate(['/login']);
+        }
+      },
+      error: (error) => {
+        console.error('Lỗi khi lấy thông tin user:', error);
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   isActiveRoute(route: string): boolean {
-    return this.router.url === `/my-account/${route}`;
+    return this.router.url.includes(route);
   }
 
-  logout() {
-    this.authService.logout();
+  navigateTo(tab: string): void {
+    this.router.navigate(['/my-account', tab]);
+  }
+
+  logout(): void {
+    this.userService.logout();
+  }
+
+  getDisplayName(): string {
+    if (!this.currentUser) return '';
+    return `${this.currentUser.first_name} ${this.currentUser.last_name}`;
+  }
+
+  formatDate(date: Date | string | undefined): string {
+    if (!date) return '';
+    return new Date(date).toLocaleDateString('vi-VN');
   }
 }
 

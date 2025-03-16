@@ -34,15 +34,18 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      console.log('Đang gửi dữ liệu:', this.loginForm.value);
-      this.authService.login(this.loginForm.value).subscribe({
+      const { email, password } = this.loginForm.value;
+      this.authService.login(email, password).subscribe({
         next: (response) => {
-          console.log('Đăng nhập thành công:', response);
-          this.router.navigate(['/homepage']);
+          if (response.success) {
+            this.router.navigate(['/']);
+          } else {
+            this.errorMessage = 'Đăng nhập thất bại';
+          }
         },
         error: (error) => {
-          console.error('Lỗi đăng nhập:', error);
-          this.errorMessage = error.error.message || 'Email hoặc mật khẩu không đúng';
+          console.error('Login error:', error);
+          this.errorMessage = error.message || 'Đã xảy ra lỗi khi đăng nhập';
         }
       });
     }

@@ -2,9 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { User, ApiResponse } from '../../../interfaces/user.interface';
 import { UserService } from '../../../services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 interface EditMode {
   [key: string]: boolean;
@@ -15,29 +19,15 @@ interface EditMode {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   templateUrl: './general-info.component.html',
   styleUrls: ['./general-info.component.css']
 })
 export class GeneralInfoComponent implements OnInit {
-  user: User = {
-    _id: '',
-    username: '',
-    email: '',
-    role: '',
-    membershipType: 'standard',
-    eventsJoined: [],
-    eventsCreated: [],
-    first_name: '',
-    last_name: '',
-    phone_number: '',
-    gender: '',
-    status: '',
-    createdAt: new Date(),
-    dob: new Date()
-  };
-  
+  user!: User;
   editMode: EditMode = {
     name: false,
     email: false,
@@ -48,20 +38,44 @@ export class GeneralInfoComponent implements OnInit {
   hasChanges: boolean = false;
   error: string = '';
   originalValues: { [key: string]: any } = {};
+  userForm: FormGroup;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+    private snackBar: MatSnackBar,
+    private formBuilder: FormBuilder
+  ) {
+    this.userForm = this.formBuilder.group({
+      first_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone_number: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      this.user = { ...this.user, ...JSON.parse(storedUser) };
-      // Lưu lại giá trị ban đầu
-      this.saveOriginalValues();
-    }
+    this.userService.getCurrentUser().subscribe({
+      next: (user) => {
+        if (user) {
+          this.user = user;
+          this.userForm.patchValue({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            phone_number: user.phone_number
+          });
+          this.saveOriginalValues();
+        } else {
+          this.router.navigate(['/login']);
+        }
+      },
+      error: (error: Error) => {
+        console.error('Lỗi khi lấy thông tin user:', error);
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   saveOriginalValues(): void {
@@ -107,46 +121,70 @@ export class GeneralInfoComponent implements OnInit {
   }
 
   saveAllChanges(): void {
-    if (!this.user._id) {
-      this.error = 'Không tìm thấy ID người dùng';
+    if (!this.user) {
+      this.snackBar.open('Không có thông tin người dùng', 'Đóng', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['error-snackbar']
+      });
       return;
     }
 
-    // Tạo object chứa các giá trị đã thay đổi
-    const changedValues: { [key: string]: any } = {};
+    const updatedData: Partial<User> = {};
+    let hasChanges = false;
+
+    // Kiểm tra từng trường và thêm vào updatedData nếu có thay đổi
     Object.keys(this.originalValues).forEach(key => {
-      const userValue = (this.user as any)[key];
-      if (this.originalValues[key] !== userValue) {
-        changedValues[key] = userValue;
+      if (this.user[key as keyof User] !== this.originalValues[key]) {
+        updatedData[key as keyof User] = this.user[key as keyof User] as any;
+        hasChanges = true;
       }
     });
 
-    if (Object.keys(changedValues).length === 0) {
-      this.error = 'Không có thay đổi nào để lưu';
+    if (!hasChanges) {
+      this.snackBar.open('Không có thay đổi nào để lưu', 'Đóng', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['info-snackbar']
+      });
       return;
     }
 
-    this.userService.updateUser(this.user._id, changedValues).subscribe({
-      next: (response: ApiResponse<User>) => {
-        if (response.success && response.user) {
-          // Cập nhật thông tin người dùng
-          this.user = { ...this.user, ...response.user };
-          // Cập nhật localStorage
-          localStorage.setItem('user', JSON.stringify(this.user));
-          // Reset các trạng thái
-          this.hasChanges = false;
-          this.error = '';
-          Object.keys(this.editMode).forEach(key => {
-            this.editMode[key] = false;
-          });
-          // Cập nhật lại giá trị gốc
-          this.saveOriginalValues();
-        } else {
-          this.error = response.message || 'Lỗi không xác định khi lưu thông tin';
-        }
+    console.log('Saving changes:', updatedData);
+    this.userService.updateCurrentUser(updatedData).subscribe({
+      next: (updatedUser) => {
+        console.log('Update successful:', updatedUser);
+        this.user = updatedUser;
+        this.saveOriginalValues();
+        this.hasChanges = false;
+        Object.keys(this.editMode).forEach(key => this.editMode[key] = false);
+        
+        this.snackBar.open('Cập nhật thông tin thành công', 'Đóng', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['success-snackbar']
+        });
       },
-      error: (err) => {
-        this.error = 'Không thể lưu thông tin người dùng: ' + (err.message || err);
+      error: (error) => {
+        console.error('Update failed:', error);
+        let errorMessage = 'Lỗi khi cập nhật thông tin';
+        
+        if (error.status === 403) {
+          errorMessage = 'Phiên đăng nhập đã hết hạn';
+          this.router.navigate(['/login']);
+        } else if (error.error?.message) {
+          errorMessage = error.error.message;
+        }
+
+        this.snackBar.open(errorMessage, 'Đóng', {
+          duration: 5000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar']
+        });
       }
     });
   }
@@ -163,30 +201,38 @@ export class GeneralInfoComponent implements OnInit {
     this.router.navigate(['/homepage']);
   }
 
-  updateField(field: string, value: any): void {
-    if (!this.user._id) return;
-
-    const updateData = {
-      [field]: value
-    };
-
-    this.userService.updateUser(this.user._id, updateData).subscribe({
-      next: (response: ApiResponse<User>) => {
-        if (response.success && response.user) {
-          console.log('Cập nhật thành công:', response.user);
-          // Cập nhật thông tin trong component
-          this.user = { ...this.user, ...response.user };
-          // Cập nhật localStorage
-          localStorage.setItem('user', JSON.stringify(this.user));
-        } else {
-          this.error = response.message || 'Lỗi không xác định';
+  updateSingleField(field: string, value: any): void {
+    if (this.user && this.user._id) {
+      const updateData = { [field]: value };
+      this.userService.updateUserById(this.user._id, updateData).subscribe({
+        next: (response: ApiResponse<User>) => {
+          if (response.success) {
+            Object.assign(this.user, updateData);
+            this.editMode[field] = false;
+            this.snackBar.open('Cập nhật thông tin thành công', 'Đóng', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top'
+            });
+          } else {
+            this.error = response.message || 'Lỗi không xác định';
+            this.snackBar.open('Có lỗi xảy ra khi cập nhật thông tin', 'Đóng', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top'
+            });
+          }
+        },
+        error: (error: Error) => {
+          this.error = `Không thể cập nhật ${field}: ` + (error.message || error);
+          this.snackBar.open('Có lỗi xảy ra khi cập nhật thông tin', 'Đóng', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top'
+          });
         }
-      },
-      error: (error: any) => {
-        console.error('Lỗi khi cập nhật:', error);
-        this.error = error.message || 'Lỗi không xác định';
-      }
-    });
+      });
+    }
   }
 
   markAsChanged(): void {
@@ -210,7 +256,6 @@ export class GeneralInfoComponent implements OnInit {
       return;
     }
 
-    // Chuyển đổi tên trường để khớp với schema
     const fieldMapping: { [key: string]: string } = {
       'phone_number': 'phone',
       'first_name': 'first_name',
@@ -221,7 +266,7 @@ export class GeneralInfoComponent implements OnInit {
     const updateData = { [serverField]: this.user[field as keyof User] };
     console.log('Update data to send:', updateData);
 
-    this.userService.updateUser(this.user._id, updateData).subscribe({
+    this.userService.updateUserById(this.user._id, updateData).subscribe({
       next: (response: ApiResponse<User>) => {
         console.log('Update response:', response);
         
@@ -230,7 +275,6 @@ export class GeneralInfoComponent implements OnInit {
           this.editMode[field] = false;
           this.error = '';
           
-          // Cập nhật lại thông tin user
           const oldData = { ...this.user };
           this.user = { ...this.user, ...response.user };
           console.log('User data updated:', {
@@ -241,20 +285,35 @@ export class GeneralInfoComponent implements OnInit {
           
           localStorage.setItem('user', JSON.stringify(this.user));
           console.log('LocalStorage updated');
+          this.snackBar.open('Cập nhật thông tin thành công', 'Đóng', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top'
+          });
         } else {
           console.error('Update failed:', response.message);
           this.error = response.message || 'Lỗi không xác định';
+          this.snackBar.open('Có lỗi xảy ra khi cập nhật thông tin', 'Đóng', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top'
+          });
         }
       },
-      error: (error: any) => {
+      error: (error: HttpErrorResponse) => {
         console.error('Error in saveField:', error);
         console.error('Error details:', {
           status: error.status,
           statusText: error.statusText,
-          message: error.message || error,
+          message: error.message,
           error: error.error
         });
-        this.error = `Không thể cập nhật ${field}: ` + (error.message || error);
+        this.error = `Không thể cập nhật ${field}: ` + error.message;
+        this.snackBar.open('Có lỗi xảy ra khi cập nhật thông tin', 'Đóng', {
+          duration: 3000,
+          horizontalPosition: 'end',
+          verticalPosition: 'top'
+        });
       }
     });
   }
@@ -271,5 +330,45 @@ export class GeneralInfoComponent implements OnInit {
       (this.user as any)[field] = this.originalValues[field];
     }
     this.editMode[field] = false;
+  }
+
+  onSubmit(): void {
+    if (this.userForm.valid && this.user && this.user._id) {
+      const updateData = {
+        ...this.userForm.value
+      };
+      this.userService.updateUserById(this.user._id, updateData).subscribe({
+        next: (response: ApiResponse<User>) => {
+          if (response.success) {
+            Object.assign(this.user, updateData);
+            this.snackBar.open('Cập nhật thông tin thành công', 'Đóng', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top'
+            });
+          } else {
+            this.error = response.message || 'Lỗi không xác định';
+            this.snackBar.open('Có lỗi xảy ra khi cập nhật thông tin', 'Đóng', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top'
+            });
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          this.snackBar.open('Có lỗi xảy ra khi cập nhật thông tin', 'Đóng', {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top'
+          });
+          console.error('Error updating user:', error);
+        }
+      });
+    }
+  }
+
+  formatDate(date: string | undefined): string {
+    if (!date) return '';
+    return new Date(date).toLocaleDateString('vi-VN');
   }
 }

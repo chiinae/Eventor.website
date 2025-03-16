@@ -22,7 +22,7 @@ import { PaymentFreeComponent } from './client/homepage/payment-free/payment-fre
 import { PerformanceStatisticsComponent } from './client/homepage/performance-statistics/performance-statistics.component';
 
 export const routes: Routes = [
-  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: '', redirectTo: '/homepage', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'my-events', component: MyEventsComponent },
@@ -49,12 +49,22 @@ export const routes: Routes = [
       { path: 'create-event', component: CreateEventComponent },
       { path: 'event-information', component: EventInformationComponent },
       { path: 'member-registration', component: MemberRegisterComponent },
-      { path: 'payment', component: PaymentComponent },
-      { path: 'payment-fee', component: PaymentFeeComponent },
-      { path: 'payment-free', component: PaymentFreeComponent },
-      { path: 'performance-statistics', component: PerformanceStatisticsComponent },
-      { path: '', redirectTo: 'after-login', pathMatch: 'full' }
+      { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
+      { path: 'payment-fee', component: PaymentFeeComponent, canActivate: [AuthGuard] },
+      { path: 'payment-free', component: PaymentFreeComponent, canActivate: [AuthGuard] },
+      { path: 'performance-statistics', component: PerformanceStatisticsComponent, canActivate: [AuthGuard] }
     ]
   },
-  { path: '', redirectTo: '/login', pathMatch: 'full' } // Single default route
+  // *** Routes cho Admin Panel ***
+  { path: 'admin-homepage', component: AdminHomepageComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', component: AdminHomepageComponent}, // Trang Dashboard chính
+      { path: 'header', component: AdminHeaderComponent },
+      { path: 'sidebar', component: AdminSidebarComponent },
+      { path: 'dashboard-cards', component: AdminDashboardCardsComponent },
+      { path: 'content', component: AdminContentComponent },
+      { path: 'footer', component: AdminFooterComponent },
+    ]
+  },
+  // { path: 'admin/login', component: AdminLoginComponent },
 ];

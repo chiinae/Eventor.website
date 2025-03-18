@@ -1,0 +1,25 @@
+<div class="categories-filter">
+    <button class="filter-btn" [class.active]="selectedCategory === 'all'" (click)="filterEvents('all')">All</button>
+    <button class="filter-btn" [class.active]="selectedCategory === 'for-you'" (click)="filterEvents('for-you')">For you</button>
+    <button class="filter-btn" [class.active]="selectedCategory === 'online'" (click)="filterEvents('online')">Online</button>
+    <button class="filter-btn" [class.active]="selectedCategory === 'this-weekend'" (click)="filterEvents('this-weekend')">This weekend</button>
+    <button class="filter-btn" [class.active]="selectedCategory === 'art'" (click)="filterEvents('art')">Nghệ thuật</button>
+    <button class="filter-btn" [class.active]="selectedCategory === 'free'" (click)="filterEvents('free')">Miễn phí</button>
+    <button class="filter-btn" [class.active]="selectedCategory === 'sports'" (click)="filterEvents('sports')">Thể thao</button>
+    <button class="filter-btn" [class.active]="selectedCategory === 'food'" (click)="filterEvents('foodDrink')">Food & Drink</button>
+    <button class="filter-btn" [class.active]="selectedCategory === 'charity'" (click)="filterEvents('charity')">Charity & Causes</button>
+</div>
+
+<div class="event-sections">
+    <div *ngIf="error" class="error-message">
+        {{ error }}
+    </div>
+    <app-event-list *ngIf="shouldShowCategory('all') || shouldShowCategory('for-you')" title="For You" [events]="forYouEvents"></app-event-list>
+    <app-event-list *ngIf="shouldShowCategory('all') || shouldShowCategory('this-weekend')" title="This Weekend" [events]="thisWeekEvents"></app-event-list>
+    <app-event-list *ngIf="shouldShowCategory('all') || shouldShowCategory('online')" title="Online" [events]="onlineEvents"></app-event-list>
+    <app-event-list *ngIf="shouldShowCategory('all') || shouldShowCategory('sports')" title="Thể thao" [events]="sportsEvents"></app-event-list>
+    <app-event-list *ngIf="shouldShowCategory('all') || shouldShowCategory('art')" title="Nghệ thuật" [events]="artEvents"></app-event-list>
+    <app-event-list *ngIf="shouldShowCategory('all') || shouldShowCategory('free')" title="Miễn phí" [events]="freeEvents"></app-event-list>
+    <app-event-list *ngIf="shouldShowCategory('all') || shouldShowCategory('food')" title="Food & Drink" [events]="foodDrinkEvents"></app-event-list>
+    <app-event-list *ngIf="shouldShowCategory('all') || shouldShowCategory('charity')" title="Charity & Causes" [events]="charityEvents"></app-event-list>
+</div>

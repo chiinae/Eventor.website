@@ -598,40 +598,38 @@ app.get('/api/debug/users', async (req, res) => {
 app.get('/api/event/:id', async (req, res) => {
   try {
       const eventId = req.params.id;
-      console.log('Đang tìm event với ID:', eventId);
-      console.log('Collection name:', Event.collection.collectionName);
-      console.log('Database name:', mongoose.connection.db.databaseName);
-      
-      // Log tất cả events để debug
-      const allEvents = await Event.find({});
-      console.log('Tất cả events trong database:', JSON.stringify(allEvents, null, 2));
-      
-      // Tìm event theo ID
       const event = await Event.findOne({ id: eventId });
-      console.log('Query tìm event với điều kiện:', { id: eventId });
-      console.log('Kết quả tìm kiếm:', event);
       
       if (!event) {
-          console.log('Không tìm thấy event:', eventId);
-          // Lấy danh sách tất cả id có sẵn để debug
-          const availableIds = allEvents.map(e => e.id);
-          console.log('Các ID hiện có trong database:', availableIds);
-          
           return res.status(404).json({ 
               message: 'Không tìm thấy event',
-              requestedId: eventId,
-              availableIds: availableIds
+              requestedId: eventId
           });
       }
       
-      console.log('Đã tìm thấy event:', event);
-      res.json(event);
+      res.json({
+          id: event.id,
+          _id: event._id,
+          event_name: event.event_name,
+          hour_start: event.hour_start,
+          start_date: event.start_date,
+          location: event.location,
+          price: event.price,
+          tickets: event.tickets,
+          event_image: event.event_image,
+          description: event.description,
+          category_id: event.category_id,
+          status: event.status,
+          max_participant: event.max_participant,
+          current_participant: event.current_participant,
+          created_at: event.created_at,
+          format: event.format,
+          organizer_id: event.organizer_id
+      });
   } catch (error) {
-      console.error('Lỗi khi tìm event:', error);
       res.status(500).json({ 
           message: 'Lỗi server',
-          error: error.message,
-          stack: error.stack
+          error: error.message
       });
   }
 });
@@ -655,7 +653,18 @@ app.get('/api/event', async (req, res) => {
               hour_start: event.hour_start,
               start_date: event.start_date,
               location: event.location,
-              price: event.price
+              price: event.price,
+              tickets: event.tickets,
+              event_image: event.event_image,
+              description: event.description,
+              category_id: event.category_id,
+              status: event.status,
+              max_participant: event.max_participant,
+              current_participant: event.current_participant,
+              created_at: event.created_at,
+              format: event.format,
+              organizer_id: event.organizer_id,
+              _id: event._id
           });
       });
 

@@ -9,11 +9,25 @@ import { Event } from '../../../../services/event.service';
   templateUrl: './event-list.component.html',
   styleUrl: './event-list.component.css'
 })
-
-export class EventListComponent { 
-  @Input() title!: string; 
+export class EventListComponent {
+  @Input() title!: string;
   @Input() events: Event[] = [];
   
+  maxVisibleEvents = 8;
+  showAll = false;
+
+  get visibleEvents(): Event[] {
+    return this.showAll ? this.events : this.events.slice(0, this.maxVisibleEvents);
+  }
+
+  get hasMoreEvents(): boolean {
+    return this.events.length > this.maxVisibleEvents;
+  }
+
+  toggleShowAll() {
+    this.showAll = !this.showAll;
+  }
+
   isFreeEvent(price: number): boolean {
     return price === 0;
   }

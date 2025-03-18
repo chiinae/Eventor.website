@@ -3,7 +3,7 @@ font-size: 36px;  /* Tăng kích thước chữ */
 font-weight: bold; /* Làm đậm chữ */
 text-transform: uppercase; /* Viết hoa toàn bộ nếu muốn */
 color: #333; /* Đổi màu chữ (có thể thay đổi theo thiết kế) */
-margin-bottom: 15px; /* Thêm khoảng cách dưới */
+margin-bottom: 10px; /* Giảm từ 15px xuống 10px */
 text-align: center; /* Căn giữa tiêu đề */
 }
 
@@ -11,92 +11,162 @@ text-align: center; /* Căn giữa tiêu đề */
 h1 {
   text-align: center;
   font-size: 24px;
-  margin-bottom: 10px;
-  margin-top: 30px;
+  margin-bottom: 8px; /* Giảm từ 10px xuống 8px */
+  margin-top: 20px; /* Giảm từ 30px xuống 20px */
+}
+
+.event-list {
+    margin-bottom: 1.5rem; /* Giảm từ 2rem xuống 1.5rem */
+}
+
+.event-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem; /* Giảm từ 1rem xuống 0.5rem */
+    padding: 0 0.5rem; /* Giảm từ 1rem xuống 0.5rem */
+}
+
+.event-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.event-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Giảm từ 1rem xuống 0.5rem */
+}
+
+.view-more-container {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.view-more {
+    padding: 0.5rem 2rem;
+    background-color: #944300;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.view-more:hover {
+    background-color: #772e00;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .event-items {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
-  padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 0.5rem; /* Giảm từ 1rem xuống 0.5rem */
 }
 
 .event-card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: all 0.3s ease; /* Thêm transition cho mượt mà */
-  cursor: pointer; /* Thêm con trỏ pointer khi hover */
-  position: relative; /* Thêm position relative */
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
 }
 
-/* Hiệu ứng khi hover */
 .event-card:hover {
-  transform: translateY(-5px); /* Di chuyển card lên trên 5px */
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* Tăng độ đậm của shadow */
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
 
-/* Container cho hình ảnh */
+.event-card:hover::after {
+    opacity: 1;
+}
+
+.event-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+}
+
 .event-img-container {
-  width: 100%;
-  height: 200px; /* Chiều cao cố định cho container */
-  overflow: hidden;
-  position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    position: relative;
 }
 
 .event-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Đảm bảo ảnh vừa khung và không bị méo */
-  transition: transform 0.3s ease; /* Thêm transition cho ảnh */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-/* Hiệu ứng zoom nhẹ cho ảnh khi hover */
-.event-card:hover .event-img {
-  transform: scale(1.05);
+.event-img-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.02) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.event-card:hover .event-img-container::after {
+    opacity: 1;
 }
 
 .event-details {
-  padding: 15px;
-  background: #fff;
+    padding: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-details {
+    transform: translateY(-2px);
 }
 
 .event-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #333;
-  line-height: 1.4;
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+    color: #2c3e50;
+    transition: color 0.3s ease;
+}
+
+.event-card:hover .event-title {
+    color: #944300;
 }
 
 .event-meta {
-  font-size: 14px;
-  color: #666;
-  margin: 8px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0.5rem 0;
 }
 
-.event-meta span {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.event-time, .event-location {
+    display: block;
+    margin: 0.2rem 0;
 }
 
 .event-price {
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 8px;
-  color: #2c5282; /* Màu xanh đậm cho giá */
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0.5rem 0 0 0;
 }
 
-.event-free {
-  color: #48bb78; /* Màu xanh lá cho sự kiện miễn phí */
-}
-
-.event-paid {
-  color: #2c5282; /* Màu xanh đậm cho sự kiện có phí */
+.event-price.free {
+    color: #27ae60;
 }

@@ -8,10 +8,19 @@ export interface Event {
   event_name: string;
   hour_start: string;
   start_date: string;
-  location: string;
+  location: {
+    name: string;
+    address: string;
+    city: string;
+  };
   price: number;
   image: string;
   event_image: string;
+  tickets: {
+    tier: string;
+    price: number;
+    quantity: number;
+  }[];
 }
 
 @Injectable({

@@ -12,14 +12,14 @@ export class HeaderComponent {
 
   navigateTo(route: string): void {
     switch(route) {
-      case 'my-events':
-        this.router.navigate(['/homepage/my-events']);
+      case 'main':
+        this.router.navigate(['/homepage/main']);
         break;
       case 'create-event':
         this.router.navigate(['/homepage/create-event']);
         break;
-      case 'event-information':
-        this.router.navigate(['/homepage/event-information']);
+      case 'listevents':
+        this.router.navigate(['/homepage/listevents']);
         break;
       case 'member-registration':
         this.router.navigate(['/homepage/member-registration']);
@@ -32,6 +32,26 @@ export class HeaderComponent {
         break;
       default:
         this.router.navigate(['/homepage']);
+    }
+  }
+
+  isRouteActive(route: string): boolean {
+    const currentUrl = this.router.url;
+    switch(route) {
+      case 'my-events':
+        return currentUrl.includes('/homepage/my-events');
+      case 'create-event':
+        return currentUrl.includes('/homepage/create-event');
+      case 'listevents':
+        return currentUrl.includes('/homepage/listevents');
+      case 'member-registration':
+        return currentUrl.includes('/homepage/member-registration');
+      case 'saved':
+        return currentUrl.includes('/homepage/saved');
+      case 'my-account':
+        return currentUrl.includes('/my-account');
+      default:
+        return false;
     }
   }
 }

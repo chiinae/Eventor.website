@@ -20,6 +20,8 @@ import { PaymentComponent } from './client/homepage/payment/payment.component';
 import { PaymentFeeComponent } from './client/homepage/payment-fee/payment-fee.component';
 import { PaymentFreeComponent } from './client/homepage/payment-free/payment-free.component';
 import { PerformanceStatisticsComponent } from './client/homepage/performance-statistics/performance-statistics.component';
+import { ListEventsComponent } from './client/homepage/listevents/listevents.component';
+import { DetaillisteventsComponent } from './client/homepage/listevents/detaillistevents/detaillistevents.component';
 // Admin add component  
 import { AdminHomepageComponent } from './admin/admin-homepage/admin-homepage.component';
 import { AdminHeaderComponent } from './admin/admin-header/admin-header.component';
@@ -59,7 +61,9 @@ export const routes: Routes = [
       { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
       { path: 'payment-fee', component: PaymentFeeComponent, canActivate: [AuthGuard] },
       { path: 'payment-free', component: PaymentFreeComponent, canActivate: [AuthGuard] },
-      { path: 'performance-statistics', component: PerformanceStatisticsComponent, canActivate: [AuthGuard] }
+      { path: 'performance-statistics', component: PerformanceStatisticsComponent, canActivate: [AuthGuard] },
+      {path: 'listevents', component: ListEventsComponent, canActivate: [AuthGuard]},
+      {path: 'detail-list-events', component: DetaillisteventsComponent, canActivate: [AuthGuard]}
     ]
   },
   // *** Routes cho Admin Panel ***

@@ -22,18 +22,26 @@ const eventSchema = new mongoose.Schema({
         required: true
     },
     location: {
-        type: String,
-        required: true
+        name: String,
+        address: String,
+        city: String
     },
     price: {
         type: Number,
         required: true,
         default: 0
     },
-    image: {
+    event_image: {
         type: String,
         required: true
-    }
+    },
+    tickets: [
+        {
+            tier: String,
+            price: Number,
+            quantity: Number
+        }
+    ]
 }, {
     timestamps: true,
     collection: 'event'  // Chỉ định rõ tên collection

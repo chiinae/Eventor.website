@@ -1,39 +1,53 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // ⚠️ Import thêm cái này
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { EventListComponent } from "../events-list/events-list.component";
-import { EventPageComponent } from '../../main/event-page/event-page.component';
+import { EventService, Event } from '../../../../services/event.service';
+// import { EventPageComponent } from '../../main/event-page/event-page.component';
+
+interface DisplayEvent {
+  name: string;
+  date: string;
+  location: string;
+  image: string;
+  isFree: boolean;
+  price: number;
+}
 
 @Component({
   selector: 'app-events-page',
   standalone: true,
-  imports: [CommonModule, EventListComponent, EventPageComponent],
+  imports: [CommonModule, EventListComponent],
   templateUrl: './events-page.component.html',
   styleUrl: './events-page.component.css'
 })
-export class EventsPageComponent {
-  MyEvents = [
-    { name: 'Workshop: Hành trình hướng nghiệp', date: '10:00 03/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event1.png', isFree: true, price: 0 },
-    
-    { name: 'Event: yêu Merchandise - all for Hoàng Dũng', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event2.png', isFree: true, price: 0 },
+export class EventsPageComponent implements OnInit {
+  AllEvents: DisplayEvent[] = [];
+  error: string = '';
 
-    { name: 'Workshop: KOKEDAMA - From the earth to the art', date: '8:00 02/03/2025', location: 'TP.Hồ Chí Minh', image: '../../../../assets/images/after-login/event3.png', isFree: true, price: 0 },
-    
+  constructor(private eventService: EventService) {}
 
-  ];
+  ngOnInit() {
+    this.loadAllEvents();
+  }
 
-  SavedEvents = [
-    { name: 'Fan Meeting: Juniverse Hà Nội', date: '14:00 01/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event4.png', isFree: false, price: 150000 },
-    { name: 'Event: yêu Merchandise - all for Hoàng Dũng', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event1.png', isFree: true, price: 0 },
-    { name: 'Gala: Đêm chung kết hoa khôi sinh viên Việt Nam', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event9.png', isFree: true, price: 0 },
-    { name: 'Fan Meeting: LMS’s First Meeting in Vietnam', date: '16:00 01/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event5.png', isFree: true, price: 0 },
-  ];
-
-  CreatedEvents = [
-    { name: 'Fan Meeting: LMS’s First Meeting in Vietnam', date: '16:00 01/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event5.png', isFree: true, price: 0 },
-    { name: 'Event: yêu Merchandise - all for Hoàng Dũng', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event2.png', isFree: true, price: 0 },
-    { name: 'Festival: SYAWALAN KELUARGA KETUT SUSILO', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event6.png', isFree: true, price: 0 },
-    { name: 'Hành trình lan tỏa yêu thương cùng Lương Thùy Linh', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event7.png', isFree: true, price: 0 },
-    { name: 'Workshop - Kể chuyện nghìn năm Sài Gòn', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event8.png', isFree: true, price: 0 },
-    { name: 'Gala: Đêm chung kết hoa khôi sinh viên Việt Nam', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event9.png', isFree: true, price: 0 },
-  ];
+  private loadAllEvents() {
+    this.eventService.getAllEvents().subscribe({
+      next: (response) => {
+        console.log('Dữ liệu events từ backend:', response);
+        // Chuyển đổi dữ liệu từ backend sang định dạng hiển thị
+        this.AllEvents = response.events.map(event => ({
+          name: event.event_name,
+          date: `${event.hour_start} ${event.start_date}`,
+          location: event.location.city,
+          image: event.event_image,
+          isFree: event.price === 0,
+          price: event.price
+        }));
+      },
+      error: (error) => {
+        console.error('Lỗi khi lấy dữ liệu events:', error);
+        this.error = 'Không thể tải danh sách sự kiện';
+      }
+    });
+  }
 }

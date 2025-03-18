@@ -21,13 +21,14 @@ import { PaymentFeeComponent } from './client/homepage/payment-fee/payment-fee.c
 import { PaymentFreeComponent } from './client/homepage/payment-free/payment-free.component';
 import { PerformanceStatisticsComponent } from './client/homepage/performance-statistics/performance-statistics.component';
 // Admin add component  
-import { AdminHomepageComponent } from './admin/admin-homepage/admin-homepage.component';
-import { AdminHeaderComponent } from './admin/admin-header/admin-header.component';
-import { AdminSidebarComponent } from './admin/admin-sidebar/admin-sidebar.component';
-import { AdminDashboardCardsComponent } from './admin/admin-dashboard-cards/admin-dashboard-cards.component';
-import { AdminContentComponent } from './admin/admin-content/admin-content.component';
-import { AdminFooterComponent } from './admin/admin-footer/admin-footer.component';
+import { MainhomepageComponent } from './admin/mainhomepage/mainhomepage.component';
+import { SidebarComponent } from './admin/sidebar/sidebar.component';
+import { MainheaderComponent } from './admin/mainheader/mainheader.component';
+import { ManageoverallComponent } from './admin/mainhomepage/manageoverall/manageoverall.component';
+import { AccountmanageComponent } from './admin/mainhomepage/accountmanage/accountmanage.component';
+import { RoleManagementComponent } from './admin/mainhomepage/accountmanage/role-management/role-management.component';
 import { AuthGuard } from './guards/auth.guard';
+import { MatOptgroup } from '@angular/material/core';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/homepage', pathMatch: 'full' },
@@ -63,15 +64,14 @@ export const routes: Routes = [
     ]
   },
   // *** Routes cho Admin Panel ***
-  { path: 'admin-homepage', component: AdminHomepageComponent, canActivate: [AuthGuard],
+  { path: 'admin-homepage', component: MainhomepageComponent, canActivate: [AuthGuard],
     children: [
-      { path: '', component: AdminHomepageComponent}, // Trang Dashboard chính
-      { path: 'header', component: AdminHeaderComponent },
-      { path: 'sidebar', component: AdminSidebarComponent },
-      { path: 'dashboard-cards', component: AdminDashboardCardsComponent },
-      { path: 'content', component: AdminContentComponent },
-      { path: 'footer', component: AdminFooterComponent },
+      { path: '', component: ManageoverallComponent}, // Trang Dashboard chính
+      { path: 'header', component: MainheaderComponent, canActivate: [AuthGuard] },
+      { path: 'sidebar', component: SidebarComponent, canActivate: [AuthGuard] },
+      { path: 'manageoverall', component: ManageoverallComponent, canActivate: [AuthGuard] },
+      { path: 'accountmanage', component: AccountmanageComponent, canActivate: [AuthGuard] },
+      { path: 'role', component: RoleManagementComponent, canActivate: [AuthGuard] },
     ]
   },
-  // { path: 'admin/login', component: AdminLoginComponent },
 ];

@@ -19,6 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
 export class SignupComponent {
   signupForm: FormGroup;
   errorMessage: string = '';
+  isLoading: boolean = false;
+  showPassword: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -26,27 +28,43 @@ export class SignupComponent {
     private router: Router
   ) {
     this.signupForm = this.fb.group({
-      username: ['', Validators.required],
+      username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required]
+    }, { validator: this.passwordMatchValidator });
   }
 
   onSubmit() {
+    console.log('Form Valid:', this.signupForm.valid);
+    console.log('Form Value:', this.signupForm.value);
+    console.log('isLoading:', this.isLoading);
     if (this.signupForm.valid) {
+      this.isLoading = true;
       this.authService.signup(this.signupForm.value).subscribe({
         next: (response) => {
           console.log('Đăng ký thành công:', response);
+          this.isLoading = false;
           this.navigateToLogin();
         },
         error: (error) => {
           this.errorMessage = error.error.message || 'Đăng ký thất bại';
+          this.isLoading = false;
         }
       });
     }
   }
 
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
   navigateToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  passwordMatchValidator(formGroup: FormGroup) {
+    return formGroup.get('password')?.value === formGroup.get('confirmPassword')?.value
+      ? null : { 'mismatch': true };
   }
 }

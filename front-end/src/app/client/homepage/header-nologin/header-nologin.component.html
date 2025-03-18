@@ -6,8 +6,11 @@
 
     <!-- Search bar -->
     <div class="search-wrapper">
-      <input type="text" class="search-input" placeholder="Search">
-      <i class="search-icon">🔍</i>
+      <div class="search-container">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="Search">
+        <i class="bi bi-x-lg close-icon" (click)="clearSearch()"></i>
+      </div>
     </div>
 
     <!-- Navigation -->
@@ -22,8 +25,8 @@
 
     <!-- Auth buttons -->
     <div class="auth-buttons">
-      <button class="btn-login" (click)="login()">Đăng nhập</button>
-      <button class="btn-signup" (click)="navigateTo('signup')">Đăng ký</button>
+      <button class="btn-primary" (click)="login()">Đăng nhập</button>
+      <button class="btn-primary" (click)="navigateTo('signup')">Đăng ký</button>
     </div>
   </div>
 </header>

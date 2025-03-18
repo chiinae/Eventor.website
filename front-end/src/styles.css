@@ -58,7 +58,6 @@ body {
 .toggle-buttons button {
   border: none;
   padding: 10px;
-  font-weight: 600;
   cursor: pointer;
   border-radius: 6px;
   transition: 0.3s;
@@ -106,7 +105,6 @@ body {
   padding: 12px;
   font-size: 16px;
   border-radius: 8px;
-  font-weight: 600;
   color: white;
   width: 100%;
   transition: 0.3s;
@@ -298,17 +296,16 @@ button, .cta {
 /* Button styles */
 .btn {
     padding: var(--spacing-sm) var(--spacing-lg);
-    border-radius: var(--border-radius-sm);
     font-size: var(--font-sm);
-    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
 .btn-primary {
     background-color: var(--primary-color);
-    color: var(--white);
+    color: white;
     border: none;
+    width: 120px;
+    height: 40px;
 }
 
 .btn-primary:hover {
@@ -346,8 +343,6 @@ button, .cta {
     min-height: calc(100vh - 70px);
 }
 
-/* Reset CSS cho header */
-app-header-nologin {
-    display: block;
-    width: 100%;
-}
+
+/* Search bar */
+

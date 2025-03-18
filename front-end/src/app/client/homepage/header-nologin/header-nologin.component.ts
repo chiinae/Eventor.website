@@ -20,4 +20,12 @@ export class HeaderNologinComponent {
   login() {
     this.router.navigate(['/login']);
   }
+
+  clearSearch() {
+    const searchInput = document.querySelector('.search-input') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.value = '';
+      searchInput.focus();
+    }
+  }
 }

@@ -1,19 +1,37 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   navigateTo(route: string): void {
     switch(route) {
-      case 'main':
-        this.router.navigate(['/homepage/main']);
+      case 'general-info':
+        this.router.navigate(['/my-account/general-info']);
+        break;
+      case 'invoices':
+        this.router.navigate(['/my-account/invoices']);
+        break;
+      case 'statistics':
+        this.router.navigate(['/my-account/statistics']);
+        break;
+      case 'notifications':
+        this.router.navigate(['/my-account/notifications']);
+        break;
+      case 'my-events':
+        this.router.navigate(['/my-account/my-events']);
         break;
       case 'create-event':
         this.router.navigate(['/homepage/create-event']);
@@ -27,31 +45,20 @@ export class HeaderComponent {
       case 'saved':
         this.router.navigate(['/homepage/saved']);
         break;
-      case 'my-account':
-        this.router.navigate(['/my-account']);
-        break;
       default:
         this.router.navigate(['/homepage']);
     }
   }
 
-  isRouteActive(route: string): boolean {
-    const currentUrl = this.router.url;
-    switch(route) {
-      case 'my-events':
-        return currentUrl.includes('/homepage/my-events');
-      case 'create-event':
-        return currentUrl.includes('/homepage/create-event');
-      case 'listevents':
-        return currentUrl.includes('/homepage/listevents');
-      case 'member-registration':
-        return currentUrl.includes('/homepage/member-registration');
-      case 'saved':
-        return currentUrl.includes('/homepage/saved');
-      case 'my-account':
-        return currentUrl.includes('/my-account');
-      default:
-        return false;
+  clearSearch() {
+    const searchInput = document.querySelector('.search-input') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.value = '';
+      searchInput.focus();
     }
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

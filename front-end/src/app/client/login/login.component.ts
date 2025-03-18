@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -34,9 +35,11 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      this.isLoading = true;
       const { email, password } = this.loginForm.value;
       this.authService.login(email, password).subscribe({
         next: (response) => {
+          this.isLoading = false;
           if (response.success) {
             this.router.navigate(['/']);
           } else {
@@ -44,6 +47,7 @@ export class LoginComponent {
           }
         },
         error: (error) => {
+          this.isLoading = false;
           console.error('Login error:', error);
           this.errorMessage = error.message || 'Đã xảy ra lỗi khi đăng nhập';
         }
@@ -59,6 +63,10 @@ export class LoginComponent {
     if (passwordInput) {
       passwordInput.type = this.showPassword ? 'text' : 'password';
     }
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   navigateToSignup() {

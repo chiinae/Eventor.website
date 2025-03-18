@@ -228,7 +228,8 @@ app.post('/api/register', async (req, res) => {
         await user.save();
         res.status(201).json({ message: 'Đăng ký thành công' });
     } catch (error) {
-        console.error('Lỗi đăng ký:', error); // Log lỗi
+        console.error('Lỗi đăng ký:', error); // Log lỗi chi tiết
+        console.error('Chi tiết lỗi:', error.stack); // Log stack trace của lỗi
         res.status(500).json({ message: 'Lỗi server', error: error.message });
     }
 });

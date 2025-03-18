@@ -1,3 +1,10 @@
+<div *ngIf="showErrorPopup" class="error-popup">
+  <div class="bi bi-x-circle "></div>
+  <p class="notification">Thông báo!</p>
+  <p>Số điện thoại hoặc mật khẩu không đúng, vui lòng nhập lại.</p>
+  <button (click)="closeErrorPopup()">Đóng</button>
+</div>
+
 <div class="login-page">
   <div class="login-container">
     <!-- Logo -->
@@ -72,9 +79,6 @@
           </button>
           <button type="button" class="social-btn google">
             <i class="bi bi-google"></i>
-          </button>
-          <button type="button" class="social-btn apple">
-            <i class="bi bi-apple"></i>
           </button>
         </div>
       </div>

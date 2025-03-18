@@ -1,3 +1,6 @@
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
 /* Cấu hình font và màu nền */
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400&display=swap');
 

@@ -21,6 +21,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
   isLoading: boolean = false;
+  showErrorPopup: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -44,12 +45,14 @@ export class LoginComponent {
             this.router.navigate(['/']);
           } else {
             this.errorMessage = 'Đăng nhập thất bại';
+            this.showErrorPopup = true;
           }
         },
         error: (error) => {
           this.isLoading = false;
           console.error('Login error:', error);
-          this.errorMessage = error.message || 'Đã xảy ra lỗi khi đăng nhập';
+          this.errorMessage = error.error.message || 'Đã xảy ra lỗi khi đăng nhập';
+          this.showErrorPopup = true;
         }
       });
     }
@@ -79,5 +82,9 @@ export class LoginComponent {
 
   navigateToForgotPassword() {
     this.router.navigate(['/forgot-password']); // Chuyển hướng đến trang quên mật khẩu
+  }
+
+  closeErrorPopup() {
+    this.showErrorPopup = false;
   }
 }

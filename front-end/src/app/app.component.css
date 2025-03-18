@@ -1,0 +1,98 @@
+.chatbot-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+#chatbotBtn {
+  background-color: var(--primary-dark);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  width: 350px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 15px;
+}
+
+.chat-window.ng-trigger {
+  display: block;
+}
+
+#chatbotBtn:hover {
+  background-color: var(--primary-color);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.message {
+  padding: 10px;
+  margin-bottom: 8px;
+  background-color: #e4e6eb;
+  border-radius: 15px;
+  max-width: 80%;
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+.chat-input {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  margin-right: 5px;
+}
+
+.chat-input button {
+  padding: 10px 15px;
+  background-color: var(--primary-dark);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.chat-input button:hover {
+  background-color: var(--primary-color);
+}
+
+.chatbot-message {
+  padding: 10px;
+  margin-bottom: 8px;
+  background-color: #d1e7dd;
+  border-radius: 15px;
+  max-width: 80%;
+  align-self: flex-start;
+  margin-right: auto;
+}

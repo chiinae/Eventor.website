@@ -110,6 +110,18 @@
             <span class="activity-label">Số sự kiện đã tạo:</span>
             <span class="activity-value">{{ user.eventsCreated?.length || 0 }}</span>
         </div>
+<<<<<<< HEAD
+=======
+    </div>
+
+    <div class="button-container">
+        <button class="save-all-button" (click)="saveAllChanges()" *ngIf="user && hasChanges">
+            Lưu thay đổi
+        </button>
+        <button class="back-button" (click)="navigateTo('/')">
+            Trở về trang chủ
+        </button>
+>>>>>>> a792bd7a1799c5f3d0516a09f6bc2a1ccf76489e
     </div>
 
     <div class="button-container">

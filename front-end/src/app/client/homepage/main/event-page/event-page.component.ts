@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // ⚠️ Import thêm cái này
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BannerComponent } from "../banner/banner.component";
 import { HighlightComponent } from "../highlight/highlight.component";
 import { EventListComponent } from "../event-list/event-list.component";
-
+import { EventService, Event } from '../../../../services/event.service';
+import { forkJoin } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-event-page',
@@ -12,30 +15,85 @@ import { EventListComponent } from "../event-list/event-list.component";
   templateUrl: './event-page.component.html',
   styleUrl: './event-page.component.css'
 })
-export class EventPageComponent {
-  recommendedEvents = [
-    { name: 'Workshop: Hành trình hướng nghiệp', date: '10:00 03/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event1.png', isFree: true, price: 0 },
+export class EventPageComponent implements OnInit {
+  recommendedEvents: Event[] = [];
+  upcomingEvents: Event[] = [];
+  freeEvents: Event[] = [];
+
+  private readonly freeEventIds = ['B002', 'B003', 'B004', 'B005', 'B006', 'B007'];
+  private readonly upcomingEventIds = ['B005', 'B006', 'B007', 'B002'];
+  private readonly recommendedEventIds = ['B003', 'B005', 'B002'];
+
+  constructor(private eventService: EventService) {
+    console.log('EventPageComponent được khởi tạo');
+    // Test API lấy tất cả events
+    this.eventService.getAllEvents().subscribe({
+      next: (response: {total: number, events: Event[]}) => {
+        console.log('Test API - Tất cả events:', response);
+      },
+      error: (error: any) => {
+        console.error('Test API - Lỗi khi lấy tất cả events:', error);
+      }
+    });
+  }
+
+  ngOnInit() {
+    console.log('EventPageComponent bắt đầu load dữ liệu');
+    this.loadEvents();
+  }
+
+  private loadEvents() {
+    console.log('Bắt đầu load các events...');
     
-    { name: 'Event: yêu Merchandise - all for Hoàng Dũng', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event2.png', isFree: true, price: 0 },
+    // Load sự kiện cho recommended events
+    console.log('Loading recommended events:', this.recommendedEventIds);
+    forkJoin(
+      this.recommendedEventIds.map(id => 
+        this.eventService.getEventById(id).pipe(
+          tap(event => console.log(`Loaded recommended event ${id}:`, event)),
+          catchError(error => {
+            console.error(`Lỗi khi tải recommended event ${id}:`, error);
+            return of(null);
+          })
+        )
+      )
+    ).subscribe(events => {
+      this.recommendedEvents = events.filter((event): event is Event => event !== null);
+      console.log('Recommended events loaded:', this.recommendedEvents);
+    });
 
-    { name: 'Workshop: KOKEDAMA - From the earth to the art', date: '8:00 02/03/2025', location: 'TP.Hồ Chí Minh', image: '../../../../assets/images/after-login/event3.png', isFree: true, price: 0 },
-    
+    // Load sự kiện cho upcoming events
+    console.log('Loading upcoming events:', this.upcomingEventIds);
+    forkJoin(
+      this.upcomingEventIds.map(id => 
+        this.eventService.getEventById(id).pipe(
+          tap(event => console.log(`Loaded upcoming event ${id}:`, event)),
+          catchError(error => {
+            console.error(`Lỗi khi tải upcoming event ${id}:`, error);
+            return of(null);
+          })
+        )
+      )
+    ).subscribe(events => {
+      this.upcomingEvents = events.filter((event): event is Event => event !== null);
+      console.log('Upcoming events loaded:', this.upcomingEvents);
+    });
 
-  ];
-
-  upcomingEvents = [
-    { name: 'Fan Meeting: Juniverse Hà Nội', date: '14:00 01/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event4.png', isFree: false, price: 150000 },
-    { name: 'Event: yêu Merchandise - all for Hoàng Dũng', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event1.png', isFree: true, price: 0 },
-    { name: 'Gala: Đêm chung kết hoa khôi sinh viên Việt Nam', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event9.png', isFree: true, price: 0 },
-    { name: 'Fan Meeting: LMS’s First Meeting in Vietnam', date: '16:00 01/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event5.png', isFree: true, price: 0 },
-  ];
-
-  freeEvents = [
-    { name: 'Fan Meeting: LMS’s First Meeting in Vietnam', date: '16:00 01/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event5.png', isFree: true, price: 0 },
-    { name: 'Event: yêu Merchandise - all for Hoàng Dũng', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event2.png', isFree: true, price: 0 },
-    { name: 'Festival: SYAWALAN KELUARGA KETUT SUSILO', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event6.png', isFree: true, price: 0 },
-    { name: 'Hành trình lan tỏa yêu thương cùng Lương Thùy Linh', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event7.png', isFree: true, price: 0 },
-    { name: 'Workshop - Kể chuyện nghìn năm Sài Gòn', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event8.png', isFree: true, price: 0 },
-    { name: 'Gala: Đêm chung kết hoa khôi sinh viên Việt Nam', date: '8:00 02/03/2025', location: 'Hà Nội', image: '../../../../assets/images/after-login/event9.png', isFree: true, price: 0 },
-  ];
+    // Load sự kiện cho free events
+    console.log('Loading free events:', this.freeEventIds);
+    forkJoin(
+      this.freeEventIds.map(id => 
+        this.eventService.getEventById(id).pipe(
+          tap(event => console.log(`Loaded free event ${id}:`, event)),
+          catchError(error => {
+            console.error(`Lỗi khi tải free event ${id}:`, error);
+            return of(null);
+          })
+        )
+      )
+    ).subscribe(events => {
+      this.freeEvents = events.filter((event): event is Event => event !== null);
+      console.log('Free events loaded:', this.freeEvents);
+    });
+  }
 }

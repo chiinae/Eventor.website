@@ -28,6 +28,7 @@ mongoose.connect(process.env.MONGODB_URI)
 // Import User Model
 const User = require('./models/User');
 const Banner = require('./models/Banner');
+const Event = require('./models/Event');
 
 // Cấu hình nodemailer
 const transporter = nodemailer.createTransport({
@@ -382,36 +383,27 @@ app.post('/api/reset-password', async (req, res) => {
   }
 });
 
-// API tạo banner mới
-app.post('/api/banner', async (req, res) => {
-    try {
-        console.log('Dữ liệu banner nhận được:', req.body);
-        const { id, title, link, start_date, end_date, status, imageUrl } = req.body;
+//Chỉnh sửa tài khoản user
+// API cập nhật user
+app.put('/api/update', async (req, res) => {
+  try {
+    const { _id, username, phone, dateOfBirth } = req.body;
 
-        // Kiểm tra banner đã tồn tại
-        const existingBanner = await Banner.findOne({ id });
-        if (existingBanner) {
-            console.log('Banner đã tồn tại:', id);
-            return res.status(400).json({ message: 'Banner đã tồn tại' });
-        }
+    // Tìm user theo ID và cập nhật
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      { username, phone, dateOfBirth },
+      { new: true } // Trả về user đã cập nhật
+    );
 
-        const banner = new Banner({
-            id,
-            title,
-            link,
-            start_date,
-            end_date,
-            status: status || 'active',
-            imageUrl
-        });
-
-        const savedBanner = await banner.save();
-        console.log('Đã lưu banner thành công:', savedBanner);
-        res.status(201).json(savedBanner);
-    } catch (error) {
-        console.error('Lỗi khi tạo banner:', error);
-        res.status(500).json({ message: 'Lỗi server', error: error.message });
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User không tồn tại' });
     }
+
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi cập nhật user', error });
+  }
 });
 
 // API lấy tất cả banner
@@ -476,6 +468,85 @@ app.get('/api/banner/:id', async (req, res) => {
             message: 'Lỗi server',
             error: error.message,
             requestedId: req.params.id
+        });
+    }
+});
+
+// API lấy event theo ID
+app.get('/api/event/:id', async (req, res) => {
+    try {
+        const eventId = req.params.id;
+        console.log('Đang tìm event với ID:', eventId);
+        console.log('Collection name:', Event.collection.collectionName);
+        console.log('Database name:', mongoose.connection.db.databaseName);
+        
+        // Log tất cả events để debug
+        const allEvents = await Event.find({});
+        console.log('Tất cả events trong database:', JSON.stringify(allEvents, null, 2));
+        
+        // Tìm event theo ID
+        const event = await Event.findOne({ id: eventId });
+        console.log('Query tìm event với điều kiện:', { id: eventId });
+        console.log('Kết quả tìm kiếm:', event);
+        
+        if (!event) {
+            console.log('Không tìm thấy event:', eventId);
+            // Lấy danh sách tất cả id có sẵn để debug
+            const availableIds = allEvents.map(e => e.id);
+            console.log('Các ID hiện có trong database:', availableIds);
+            
+            return res.status(404).json({ 
+                message: 'Không tìm thấy event',
+                requestedId: eventId,
+                availableIds: availableIds
+            });
+        }
+        
+        console.log('Đã tìm thấy event:', event);
+        res.json(event);
+    } catch (error) {
+        console.error('Lỗi khi tìm event:', error);
+        res.status(500).json({ 
+            message: 'Lỗi server',
+            error: error.message,
+            stack: error.stack
+        });
+    }
+});
+
+// API lấy tất cả events
+app.get('/api/event', async (req, res) => {
+    try {
+        console.log('Đang kết nối tới database:', mongoose.connection.db.databaseName);
+        console.log('Đang lấy danh sách event từ collection:', Event.collection.collectionName);
+        
+        const events = await Event.find({}).lean();
+        
+        console.log('Kết quả truy vấn raw:', events);
+        console.log('Số lượng event tìm thấy:', events.length);
+        
+        // Log chi tiết từng event và id của nó
+        events.forEach((event, index) => {
+            console.log(`Event ${index + 1}:`, {
+                id: event.id,
+                event_name: event.event_name,
+                hour_start: event.hour_start,
+                start_date: event.start_date,
+                location: event.location,
+                price: event.price
+            });
+        });
+
+        res.json({
+            total: events.length,
+            events: events
+        });
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách events:', error);
+        res.status(500).json({ 
+            message: 'Lỗi server', 
+            error: error.message,
+            stack: error.stack 
         });
     }
 });

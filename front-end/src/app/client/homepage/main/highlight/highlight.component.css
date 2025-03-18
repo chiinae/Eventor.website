@@ -33,6 +33,7 @@
 .highlight-wrapper {
   display: flex;
   gap: 20px;
+  padding: 10px;
 }
 
 .highlight-item {
@@ -42,22 +43,74 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  object-fit: cover;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 .highlight-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
 .highlight-link {
   display: block;
   width: 100%;
   height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease-in-out;
 }
 
 .highlight-item:hover .highlight-image {
-  transform: scale(1.05);
+  transform: scale(1.1);
+}
+
+/* Thêm overlay khi hover */
+.highlight-link::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.highlight-item:hover .highlight-link::after {
+  opacity: 1;
+}
+
+/* Thêm hiệu ứng shine */
+.highlight-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 100%);
+  transform: skewX(-25deg);
+  transition: all 0.75s ease;
+  z-index: 1;
+}
+
+.highlight-item:hover .highlight-link::before {
+  animation: shine 1s ease-in-out;
+}
+
+@keyframes shine {
+  100% {
+    left: 125%;
+  }
 }
 
 img {

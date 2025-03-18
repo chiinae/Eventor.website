@@ -1,0 +1,29 @@
+<header class="header">
+  <div class="header-container">
+    <!-- Logo -->
+    <div class="logo">
+    </div>
+
+    <!-- Search bar -->
+    <div class="search-wrapper">
+      <input type="text" class="search-input" placeholder="Search">
+      <i class="search-icon">🔍</i>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+      <ul class="nav-menu">
+        <li><a class="nav-item">Sự kiện của tôi</a></li>
+        <li><a class="nav-item">Tạo sự kiện</a></li>
+        <li><a class="nav-item">Sự kiện</a></li>
+        <li><a class="nav-item">Đăng ký thành viên</a></li>
+      </ul>
+    </nav>
+
+    <!-- Auth buttons -->
+    <div class="auth-buttons">
+      <button class="btn-login" (click)="login()">Đăng nhập</button>
+      <button class="btn-signup" (click)="navigateTo('signup')">Đăng ký</button>
+    </div>
+  </div>
+</header>

@@ -1,3 +1,6 @@
-<app-header></app-header>  <!-- Phần Header -->
-<router-outlet></router-outlet> <!-- Nội dung trang con -->
-<app-footer></app-footer>  <!-- Phần Footer -->
+<app-header-nologin *ngIf="!isLoggedIn"></app-header-nologin>
+<app-header *ngIf="isLoggedIn"></app-header>
+<div class="main-content">
+    <router-outlet></router-outlet>
+</div>
+<app-footer></app-footer>

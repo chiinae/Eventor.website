@@ -1,113 +1,86 @@
-<div class="container-account">
-    <div class="sidebar">
-        <div class="user-section">
-            <img src="../../../../assets/images/user-avatar.png" alt="Avatar" class="avatar">
-            <h4>Nguyễn Minh Anh</h4>
-            <p>Ngày đăng ký: 11/05/2025</p>
+<div class="container">
+    <div class="header">
+        <div>
+            <i class="bi bi-receipt"></i>
         </div>
-        <div class="nav-section">
-            <ul>
-                <li><button class="active">
-                    <i class="general-info-icon icon"></i>Thông tin chung
-                </button></li>
-            
-                <li><button (click)="navigateTo('invoices')">
-                    <i class="my-invoices-icon icon"></i>Hóa đơn của tôi
-                </button></li>
-            
-                <li><button (click)="navigateTo('saved-events')">
-                    <i class="my-events-icon icon"></i>Sự kiện của tôi
-                </button></li>
-            
-                <li><button (click)="navigateTo('notification')">
-                    <i class="notification-icon icon"></i>Thông báo
-                </button></li>
-            
-                <li><button (click)="navigateTo('statistic')">
-                    <i class="statistic-icon icon"></i>Thống kê 
-                </button></li>
-            
-                <li><button (click)="logout()">
-                    <i class="logout-icon icon"></i>Đăng xuất
-                </button></li>
-            </ul>
-        </div>        
+        <h1 class="title">Hóa đơn của tôi</h1>
     </div>
-    <div class="content">
-        <h2 class="title-account"><i class="my-invoices-icon icon"></i> Hóa đơn của tôi</h2>
-        <hr>
+    <hr>
+    <div class="search-filter">
+        <div class="filter-group">
+            <div class="filter-dropdown">
+                <select [(ngModel)]="selectedFilter" (change)="onFilterChange()">
+                    <option value="eventId">Mã giao dịch</option>
+                    <option value="name">Tên sự kiện</option>
+                    <option value="type">Loại sự kiện</option>
+                    <option value="paymentTime">Thời gian thanh toán</option>
+                </select>
+            </div>
 
-        <div class="table-container">
-            <label for="filter">Lọc sự kiện:</label>
-            <select id="filter">
-                <option>Workshop/Seminal</option>
-                <option>Course</option>
-                <option>Program</option>
-                <option>Festival</option>
-                <option>Contest</option>
-            </select>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Mã giao dịch</th>
-                        <th>Tên sự kiện</th>
-                        <th>Người mua</th>
-                        <th>Thời gian</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#WS125456</td>
-                        <td>Workshop: Làm chủ bản th...</td>
-                        <td>Nguyễn Minh Anh</td>
-                        <td>14:05 13/01/2025</td>
-                    </tr>
-                    <tr>
-                        <td>#CZ004125</td>
-                        <td>Course: Khóa học nói trước ...</td>
-                        <td>Nguyễn Minh Anh</td>
-                        <td>00:30 05/01/2025</td>
-                    </tr>
-                    <tr>
-                        <td>#PG000016</td>
-                        <td>Program: Mentorship Progr...</td>
-                        <td>Nguyễn Minh Anh</td>
-                        <td>12:30 30/12/2024</td>
-                    </tr>
-                    <tr>
-                        <td>#SM4725060</td>
-                        <td>Seminar: Win the darkness...</td>
-                        <td>Nguyễn Minh Anh</td>
-                        <td>18:06 6/12/2024</td>
-                    </tr>
-                    <tr>
-                        <td>#SM4725066</td>
-                        <td>Seminar: Sách và câu chuyệ...</td>
-                        <td>Nguyễn Minh Anh</td>
-                        <td>06:12 2/11/2024</td>
-                    </tr>
-                    <tr>
-                        <td>#FE000106</td>
-                        <td>Festival: Lễ hội countdown...</td>
-                        <td>Nguyễn Minh Anh</td>
-                        <td>10:41 30/10/2024</td>
-                    </tr>
-                    <tr>
-                        <td>#CT000016</td>
-                        <td>Contest: Understanding ab...</td>
-                        <td>Nguyễn Minh Anh</td>
-                        <td>1:42 03/10/2024</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="pagination">
-                <button class="btn">trang trước</button>
-                <button class="btn">trang sau</button>
+            <!-- Ô tìm kiếm -->
+            <div class="search-input-container" *ngIf="selectedFilter === 'eventId' || selectedFilter === 'name'">
+                <input type="text" 
+                       class="search-input" 
+                       [(ngModel)]="searchTerm" 
+                       [placeholder]="getPlaceholder()"
+                       (ngModelChange)="filterEvents()">
+            </div>
+
+            <!-- Dropdown loại sự kiện -->
+            <div class="filter-dropdown" *ngIf="selectedFilter === 'type'">
+                <select [(ngModel)]="selectedEventType" (ngModelChange)="filterEvents()">
+                    <option value="">Tất cả</option>
+                    <option *ngFor="let type of eventTypes" [value]="type">{{type}}</option>
+                </select>
+            </div>
+
+            <!-- Chọn thời gian -->
+            <div class="date-picker-container" *ngIf="selectedFilter === 'paymentTime'">
+                <input type="date" 
+                       [(ngModel)]="selectedDate" 
+                       class="search-input"
+                       (ngModelChange)="filterEvents()">
             </div>
         </div>
-        <div class="btn-account">
-            <button class="btn-back">Trở về trang chủ</button>
-        </div>
-        
     </div>
+
+    <div class="events-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã giao dịch</th>
+                    <th>Tên sự kiện</th>
+                    <th>Ngày tổ chức</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let event of filteredEvents | slice:(currentPage-1)*itemsPerPage:currentPage*itemsPerPage">
+                    <td class="event-id">{{event.eventId}}</td>
+                    <td>{{event.name}}</td>
+                    <td>{{event.date | date:'HH:mm dd/MM/yyyy'}}</td>
+                    <td>
+                        <span class="status" [ngClass]="event.status">
+                            {{event.status === 'pending' ? 'Chờ xử lý' : 
+                              event.status === 'completed' ? 'Hoàn thành' : 'Đã hủy'}}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination" *ngIf="filteredEvents.length > 0">
+        <button class="page-button" (click)="previousPage()" [disabled]="currentPage === 1">
+            Trang trước
+        </button>
+        <span class="page-info">Trang {{currentPage}} / {{totalPages}}</span>
+        <button class="page-button" (click)="nextPage()" [disabled]="currentPage === totalPages">
+            Trang sau
+        </button>
+    </div>
+
+    <button class="back-button" (click)="navigateTo('/')">
+        Trở về trang chủ
+    </button>
 </div>

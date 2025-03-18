@@ -1,0 +1,16 @@
+<div class="banner-container">
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+  
+  <ng-container *ngIf="currentBanner">
+    <a *ngIf="currentBanner.link" [href]="currentBanner.link" target="_blank">
+      <img [src]="currentBanner.imageUrl" [alt]="currentBanner.title" class="banner-img" />
+    </a>
+    <img *ngIf="!currentBanner.link" [src]="currentBanner.imageUrl" [alt]="currentBanner.title" class="banner-img" />
+  </ng-container>
+  
+  <div *ngIf="!currentBanner && !error" class="banner-placeholder">
+    <p>Đang tải banner...</p>
+  </div>
+</div>

@@ -1,28 +1,52 @@
 import { Component } from '@angular/core';
-import { LoginComponent } from '../login/login.component';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
-  imports: [LoginComponent, CommonModule, FormsModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css'
+  styleUrls: ['./signup.component.css']
 })
 export class SignupComponent {
-  phoneNumber: string = ''; 
-  password: string = '';
-  confirmPassword: string = '';
+  signupForm: FormGroup;
+  errorMessage: string = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.signupForm = this.fb.group({
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
+
+  onSubmit() {
+    if (this.signupForm.valid) {
+      this.authService.signup(this.signupForm.value).subscribe({
+        next: (response) => {
+          console.log('Đăng ký thành công:', response);
+          this.navigateToLogin();
+        },
+        error: (error) => {
+          this.errorMessage = error.error.message || 'Đăng ký thất bại';
+        }
+      });
+    }
+  }
 
   navigateToLogin() {
     this.router.navigate(['/login']);
-  }
-
-  onRegister() {
-    // Xử lý đăng ký ở đây
-    console.log('Đăng ký với:', this.phoneNumber, this.password);
   }
 }

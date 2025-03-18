@@ -1,41 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from './services/api.service';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  template: `
-    <div style="text-align: center; padding: 20px;">
-      <h1>Test Kết Nối Backend</h1>
-      <button (click)="testConnection()" class="btn-primary" style="max-width: 200px;">
-        Test Kết Nối
-      </button>
-      <div *ngIf="message" style="margin-top: 20px; padding: 10px; border-radius: 4px;" 
-           [style.background-color]="isError ? '#ffebee' : '#e8f5e9'"
-           [style.color]="isError ? '#c62828' : '#2e7d32'">
-        {{ message }}
-      </div>
-    </div>
-  `
+  standalone: true,
+  imports: [RouterModule, CommonModule],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  message: string = '';
-  isError: boolean = false;
-
-  constructor(private apiService: ApiService) {}
-
-  ngOnInit() {}
-
-  testConnection() {
-    this.apiService.testConnection().subscribe(
-      (response) => {
-        this.message = response.message;
-        this.isError = false;
-      },
-      (error) => {
-        this.message = 'Lỗi kết nối với backend: ' + (error.message || 'Không xác định');
-        this.isError = true;
-      }
-    );
-  }
+export class AppComponent {
+  title = 'Eventor';
 }
 

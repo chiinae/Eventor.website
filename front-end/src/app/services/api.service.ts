@@ -14,4 +14,9 @@ export class ApiService {
   testConnection(): Observable<any> {
     return this.http.get(`${this.apiUrl}/test`);
   }
+
+  // Update information
+  updateUser(user: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/update`, user);
+  }  
 } 

@@ -1,18 +1,30 @@
-<nav class="header">
-  <div class="logo"></div>
-  <div class="search-bar">
-    <input type="text" placeholder="Tìm kiếm sự kiện...">
-    <button class="search-btn"><i class="fas fa-search"></i></button>
+<header class="header">
+  <div class="header-container">
+    <!-- Logo -->
+    <div class="logo"></div>
+
+    <!-- Search bar -->
+    <div class="search-wrapper">
+      <div class="search-container">
+        <i class="bi bi-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="Search">
+        <i class="bi bi-x-lg close-icon" (click)="clearSearch()"></i>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <ul class="nav-menu">
+      <li><a class="nav-item" href="javascript:void(0)" (click)="navigateTo('my-events')">Sự kiện của tôi</a></li>
+      <li><a class="nav-item" href="javascript:void(0)" (click)="navigateTo('create-event')">Tạo sự kiện</a></li>
+      <li><a class="nav-item" href="javascript:void(0)" (click)="navigateTo('event-information')">Sự kiện</a></li>
+      <li><a class="nav-item" href="javascript:void(0)" (click)="navigateTo('member-registration')">Đăng ký thành viên</a></li>
+      <li><a class="nav-item" href="javascript:void(0)" (click)="navigateTo('saved')">Đã lưu</a></li>
+      <li><a class="nav-item" href="javascript:void(0)" (click)="navigateTo('my-account')">Tài khoản</a></li>
+    </ul>
+
+    <!-- Profile -->
+    <div class="profile">
+      <img src="../../../../assets/images/user-avatar.png" alt="User Avatar">
+    </div>
   </div>
-  <ul class="nav-menu">
-    <li><a href="javascript:void(0)" (click)="navigateTo('my-events')">Sự kiện của tôi</a></li>
-    <li><a href="javascript:void(0)" (click)="navigateTo('create-event')">Tạo sự kiện</a></li>
-    <li><a href="javascript:void(0)" (click)="navigateTo('event-information')">Sự kiện</a></li>
-    <li><a href="javascript:void(0)" (click)="navigateTo('member-registration')">Đăng ký thành viên</a></li>
-    <li><a href="javascript:void(0)" (click)="navigateTo('saved')">Đã lưu</a></li>
-    <li><a href="javascript:void(0)" (click)="navigateTo('my-account')">Tài khoản</a></li>
-  </ul>
-  <div class="profile">
-    <img src="../../../../assets/images/user-avatar.png" alt="User Avatar">
-  </div>
-</nav>
+</header>

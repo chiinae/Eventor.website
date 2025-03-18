@@ -19,6 +19,10 @@ export class AuthService {
     private userService: UserService,
     private router: Router
   ) {
+    // Xóa token nếu người dùng đang ở trang homepage
+    if (window.location.pathname === '/' || window.location.pathname === '/homepage') {
+      localStorage.removeItem('token');
+    }
     this.isLoggedInSubject = new BehaviorSubject<boolean>(!!localStorage.getItem('token'));
     this.isLoggedIn = this.isLoggedInSubject.asObservable();
   }

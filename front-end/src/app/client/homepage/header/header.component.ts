@@ -34,4 +34,12 @@ export class HeaderComponent {
         this.router.navigate(['/homepage']);
     }
   }
+
+  clearSearch() {
+    const searchInput = document.querySelector('.search-input') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.value = '';
+      searchInput.focus();
+    }
+  }
 }

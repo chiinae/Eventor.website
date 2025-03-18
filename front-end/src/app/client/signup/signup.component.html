@@ -1,101 +1,126 @@
 <body>
-    <div class="container vh-100 d-flex align-items-center">
-        <div class="p-4">
-            <div class="text-center">
-                <div class="logo"></div>
+    <div class="signup-page">
+        <div class="signup-container">
+            <!-- Logo -->
+            <div class="logo">
             </div>
-    
-            <div class="toggle-buttons d-flex justify-content-between">
-                <button class="btn btn-outline-secondary" (click)="navigateToLogin()">Đăng nhập</button>
-                <button class="btn btn-outline-primary active">Đăng ký</button>
+
+            <!-- Login/Register Toggle -->
+            <div class="auth-toggle">
+                <button class="toggle-btn" (click)="navigateToLogin()">Đăng nhập</button>
+                <button class="toggle-btn active">Đăng ký</button>
             </div>
-    
-            <div class="signup-container">
-                <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-                    <h2>Đăng ký</h2>
-                    
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input 
-                            type="text" 
-                            id="username" 
-                            formControlName="username" 
-                            class="form-control">
-                        <div *ngIf="signupForm.get('username')?.errors?.['required'] && signupForm.get('username')?.touched">
-                            Username là bắt buộc
-                        </div>
+
+            <!-- Signup Form -->
+            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+                <!-- Username Input -->
+                <div class="form-group">
+                    <label>Tên đăng nhập</label>
+                    <input 
+                        type="text" 
+                        formControlName="username"
+                        placeholder="Nhập tên đăng nhập"
+                        class="form-input">
+                    <div class="error-message" *ngIf="signupForm.get('username')?.errors?.['required'] && signupForm.get('username')?.touched">
+                        Tên đăng nhập là bắt buộc
                     </div>
-
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            formControlName="email" 
-                            class="form-control">
-                        <div *ngIf="signupForm.get('email')?.errors?.['required'] && signupForm.get('email')?.touched">
-                            Email là bắt buộc
-                        </div>
-                        <div *ngIf="signupForm.get('email')?.errors?.['email'] && signupForm.get('email')?.touched">
-                            Email không hợp lệ
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">Mật khẩu</label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            formControlName="password" 
-                            class="form-control">
-                        <div *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched">
-                            Mật khẩu là bắt buộc
-                        </div>
-                        <div *ngIf="signupForm.get('password')?.errors?.['minlength'] && signupForm.get('password')?.touched">
-                            Mật khẩu phải có ít nhất 6 ký tự
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="confirmPassword">Xác nhận mật khẩu</label>
-                        <input 
-                            type="password" 
-                            id="confirmPassword" 
-                            formControlName="confirmPassword" 
-                            class="form-control">
-                        <div *ngIf="signupForm.get('confirmPassword')?.errors?.['required'] && signupForm.get('confirmPassword')?.touched">
-                            Xác nhận mật khẩu là bắt buộc
-                        </div>
-                        <div *ngIf="signupForm.errors?.['mismatch'] && signupForm.get('confirmPassword')?.touched">
-                            Mật khẩu không khớp
-                        </div>
-                    </div>
-
-                    <div class="error-message" *ngIf="errorMessage">
-                        {{ errorMessage }}
-                    </div>
-
-                    <button 
-                        type="submit" 
-                        [disabled]="!signupForm.valid"
-                        class="btn-signup">
-                        Đăng ký
-                    </button>
-
-                    <p class="login-link">
-                        Đã có tài khoản? <a (click)="navigateToLogin()">Đăng nhập</a>
-                    </p>
-                </form>
-            </div>
-    
-            <div class="social-login text-center">
-                <p>Đăng ký bằng:</p>
-                <div class="d-flex justify-content-center gap-2">
-                    <button class="btn btn-outline-primary"><i class="fab fa-facebook-f"></i></button>
-                    <button class="btn btn-outline-danger"><i class="fab fa-google"></i></button>
-                    <button class="btn btn-outline-dark"><i class="fab fa-apple"></i></button>
                 </div>
-            </div>
+
+                <!-- Email Input -->
+                <div class="form-group">
+                    <label>Email</label>
+                    <input 
+                        type="email" 
+                        formControlName="email"
+                        placeholder="Nhập email"
+                        class="form-input">
+                    <div class="error-message" *ngIf="signupForm.get('email')?.errors?.['required'] && signupForm.get('email')?.touched">
+                        Email là bắt buộc
+                    </div>
+                    <div class="error-message" *ngIf="signupForm.get('email')?.errors?.['email'] && signupForm.get('email')?.touched">
+                        Email không hợp lệ
+                    </div>
+                </div>
+
+                <!-- Password Input -->
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <div class="password-input">
+                        <input 
+                            [type]="showPassword ? 'text' : 'password'"
+                            formControlName="password"
+                            placeholder="Nhập mật khẩu"
+                            class="form-input">
+                        <i 
+                            class="bi" 
+                            [class.bi-eye]="!showPassword"
+                            [class.bi-eye-slash]="showPassword"
+                            (click)="togglePasswordVisibility()">
+                        </i>
+                    </div>
+                    <div class="error-message" *ngIf="signupForm.get('password')?.errors?.['required'] && signupForm.get('password')?.touched">
+                        Mật khẩu là bắt buộc
+                    </div>
+                </div>
+
+                <!-- Confirm Password Input -->
+                <div class="form-group">
+                    <label>Nhập lại mật khẩu</label>
+                    <div class="password-input">
+                        <input 
+                            [type]="showPassword ? 'text' : 'password'"
+                            formControlName="confirmPassword"
+                            placeholder="Nhập lại mật khẩu"
+                            class="form-input">
+                        <i 
+                            class="bi" 
+                            [class.bi-eye]="!showPassword"
+                            [class.bi-eye-slash]="showPassword"
+                            (click)="togglePasswordVisibility()">
+                        </i>
+                    </div>
+                    <div class="error-message" *ngIf="signupForm.get('confirmPassword')?.errors?.['required'] && signupForm.get('confirmPassword')?.touched">
+                        Xác nhận mật khẩu là bắt buộc
+                    </div>
+                    <div class="error-message" *ngIf="signupForm.errors?.['mismatch'] && signupForm.get('confirmPassword')?.touched">
+                        Mật khẩu không khớp
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div class="error-message" *ngIf="errorMessage">
+                    {{ errorMessage }}
+                </div>
+
+                <!-- Signup Button -->
+                <button 
+                    type="submit" 
+                    class="signup-btn" 
+                    [disabled]="!signupForm.valid || isLoading">
+                    {{ isLoading ? 'Đang đăng ký...' : 'Đăng ký' }}
+                </button>
+
+                <!-- Social Signup -->
+                <div class="social-login">
+                    <p>Đăng ký với:</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-btn facebook">
+                            <i class="bi bi-facebook"></i>
+                        </button>
+                        <button type="button" class="social-btn google">
+                            <i class="bi bi-google"></i>
+                        </button>
+                        <button type="button" class="social-btn apple">
+                            <i class="bi bi-apple"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Login Link -->
+                <div class="login-link">
+                    Đã có tài khoản? <a (click)="navigateToLogin()">Đăng nhập</a>
+                </div>
+            </form>
         </div>
     </div>
 </body>

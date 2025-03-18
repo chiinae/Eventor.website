@@ -23,8 +23,37 @@
     </ul>
 
     <!-- Profile -->
-    <div class="profile">
-      <img src="../../../../assets/images/user-avatar.png" alt="User Avatar">
+    <div class="profile-container">
+      <div class="profile" title="Tài khoản">
+        <img src="../../../../assets/images/user-avatar.png" alt="User Avatar">
+      </div>
+      <div class="profile-dropdown">
+        <a class="dropdown-item" (click)="navigateTo('general-info')">
+          <i class="bi bi-house"></i>
+          Thông tin chung
+        </a>
+        <a class="dropdown-item" (click)="navigateTo('invoices')">
+          <i class="bi bi-receipt"></i>
+          Hóa đơn của tôi
+        </a>
+        <a class="dropdown-item" (click)="navigateTo('statistics')">
+          <i class="bi bi-graph-up"></i>
+          Thống kê
+        </a>
+        <a class="dropdown-item" (click)="navigateTo('notifications')">
+          <i class="bi bi-bell"></i>
+          Thông báo
+        </a>
+        <a class="dropdown-item" (click)="navigateTo('my-events')">
+          <i class="bi bi-calendar-event"></i>
+          Sự kiện đã tạo
+        </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item logout" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          Đăng xuất
+        </a>
+      </div>
     </div>
   </div>
 </header>

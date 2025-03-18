@@ -80,7 +80,10 @@ export class AuthService {
     localStorage.removeItem('user');
     this.isLoggedInSubject.next(false);
     this.userService.clearUser();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/homepage']).then(() => {
+      // Reload trang để đảm bảo header-nologin được hiển thị 
+      window.location.reload();
+    });
   }
 
   getLoginStatus(): Observable<boolean> {

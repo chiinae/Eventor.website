@@ -34,7 +34,7 @@
     border-radius: 6px;
     overflow: hidden;
     margin-bottom: 30px;
-    border: 1px solid #d3b37a;
+    border: 1px solid var(--primary-color);
 }
 
 .toggle-btn {
@@ -49,7 +49,7 @@
 }
 
 .toggle-btn.active {
-    background-color: #d3b37a;
+    background-color: var(--primary-color);
     color: white;
 }
 
@@ -81,7 +81,7 @@
 
 .form-input:focus {
     outline: none;
-    border-color: #d3b37a;
+    border-color: var(--primary-color);
 }
 
 /* Password input */
@@ -125,7 +125,7 @@
     width: 100%;
     padding: 14px;
     margin-top: 20px;
-    background-color: #7a4a2e;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 6px;
@@ -136,7 +136,7 @@
 }
 
 .login-btn:hover {
-    background-color: #8b5a3e;
+    background-color: var(--primary-dark);
 }
 
 .login-btn:disabled {
@@ -189,10 +189,6 @@
     color: #db4437;
 }
 
-.apple {
-    background-color: white;
-    color: #000;
-}
 
 /* Register link */
 .register-link {
@@ -245,4 +241,49 @@
         width: 36px;
         height: 36px;
     }
+}
+
+.error-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.bi-x-circle {
+    font-size: 50px;
+    color: var(--warning-error-color);
+    margin-bottom: 10px;
+}
+
+.notification {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.error-popup h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.error-popup p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.error-popup button {
+    background-color: var(--warning-error-color);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }

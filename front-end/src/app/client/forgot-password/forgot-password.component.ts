@@ -13,6 +13,7 @@ export class ForgotPasswordComponent {
   otpCode: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
+  email: string = '';
 
   constructor(private router: Router) {}
 

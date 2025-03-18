@@ -7,3 +7,24 @@
 
  <!-- <app-my-account></app-my-account> -->
 
+<div class="chatbot-button">
+    <button id="chatbotBtn" (click)="toggleChat()">
+        <i class="fa-solid fa-robot"></i>
+        Chat với Chatbot
+    </button>
+    <div *ngIf="chatVisible" class="chat-window">
+        <h2>Nhắn tin với Chatbot</h2>
+        <p class="chatbot-message">Bạn muốn tìm sự kiện như thế nào?</p>
+        <div class="chat-messages">
+            <div *ngFor="let message of messages" class="message">
+                {{ message }}
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" [(ngModel)]="userMessage" placeholder="Nhập tin nhắn..." />
+            <button (click)="sendMessage()">Gửi</button>
+        </div>
+    </div>
+</div>
+
+

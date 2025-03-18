@@ -1,0 +1,17 @@
+<nav class="admin-sidebar">
+  <img class="logo" src="assets/images/logo-main.png" alt="logo-main">
+  <ul>
+    <li *ngFor="let item of menuItems">
+      <a [routerLink]="item.path" routerLinkActive="active">
+        <img [src]="item.icon" alt="">
+        {{ item.label }}
+      </a>
+    </li>
+  </ul>
+  <div class="logout-container">
+    <a [routerLink]="'/logout'" class="logout-button">
+      <img src="assets/images/icon-admin-homepage/logout-icon.png" alt="Logout">
+      Đăng xuất
+    </a>
+  </div>
+</nav>

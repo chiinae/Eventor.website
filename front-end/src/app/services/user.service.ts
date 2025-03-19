@@ -19,20 +19,10 @@ export class UserService {
     private router: Router,
     private snackBar: MatSnackBar
   ) {
-    this.currentUserSubject = new BehaviorSubject<User | null>(null);
+    // Khởi tạo currentUserSubject với dữ liệu từ localStorage nếu có
+    const userData = localStorage.getItem('user');
+    this.currentUserSubject = new BehaviorSubject<User | null>(userData ? JSON.parse(userData) : null);
     this.currentUser = this.currentUserSubject.asObservable();
-    
-    // Chỉ load user nếu có token
-    if (localStorage.getItem('token')) {
-      this.loadCurrentUser().subscribe({
-        error: (error) => {
-          if (error.status === 403) {
-            this.clearUser();
-            this.showError('Phiên đăng nhập đã hết hạn');
-          }
-        }
-      });
-    }
   }
 
   private showSuccess(message: string): void {
@@ -58,14 +48,16 @@ export class UserService {
   }
 
   clearUser(): void {
+    localStorage.removeItem('user');
     this.currentUserSubject.next(null);
   }
 
   loadCurrentUser(): Observable<User | null> {
     console.log('Loading current user...');
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('auth_token');
     if (!token) {
       console.log('No token found');
+      this.clearUser();
       return of(null);
     }
 
@@ -81,6 +73,7 @@ export class UserService {
       
       if (!user._id) {
         console.log('No user ID found');
+        this.clearUser();
         return of(null);
       }
 
@@ -88,11 +81,14 @@ export class UserService {
         tap(response => {
           console.log('User API response:', response);
           if (response?.success && response?.user) {
-            // Cập nhật thông tin user trong localStorage
-            localStorage.setItem('user', JSON.stringify(response.user));
-            this.currentUserSubject.next(response.user);
+            // Cập nhật thông tin user trong localStorage và subject
+            const updatedUser = response.user;
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            this.currentUserSubject.next(updatedUser);
+            console.log('User data updated in service:', updatedUser);
           } else {
             console.error('Invalid API response:', response);
+            this.clearUser();
           }
         }),
         map(response => {
@@ -100,6 +96,7 @@ export class UserService {
             return response.user;
           }
           console.error('No user data in response');
+          this.clearUser();
           return null;
         }),
         catchError((error: HttpErrorResponse) => {
@@ -112,11 +109,25 @@ export class UserService {
       );
     } catch (error) {
       console.error('Error parsing user data:', error);
+      this.clearUser();
       return of(null);
     }
   }
 
   getCurrentUser(): Observable<User | null> {
+    // Nếu không có user trong subject, thử load lại từ localStorage
+    if (!this.currentUserSubject.value) {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        try {
+          const user = JSON.parse(userData);
+          this.currentUserSubject.next(user);
+        } catch (error) {
+          console.error('Error parsing user data from localStorage:', error);
+          this.clearUser();
+        }
+      }
+    }
     return this.currentUser;
   }
 

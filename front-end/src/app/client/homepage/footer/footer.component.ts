@@ -11,7 +11,13 @@ import { Router } from '@angular/router';
 export class FooterComponent {
     constructor(private router: Router) {}
   
-    navigateTo(tab: string) {
-      this.router.navigate(['/homepage', tab]);
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  
+    navigateTo(path: string) {
+      this.router.navigate(['/homepage', path]).then(() => {
+        this.scrollToTop();
+      });
     }
 }

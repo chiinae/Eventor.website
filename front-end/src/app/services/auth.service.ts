@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, tap, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, tap, catchError, switchMap } from 'rxjs/operators';
 import { User } from '../interfaces/user.interface';
 import { UserService } from './user.service';
 import { Router } from '@angular/router';
@@ -11,20 +11,19 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:5000/api';
-  private isLoggedInSubject: BehaviorSubject<boolean>;
-  public isLoggedIn: Observable<boolean>;
+  private tokenKey = 'auth_token';
+  private sessionTimeKey = 'session_start_time';
+  private sessionDuration = 3600000; // 1 hour in milliseconds
+  private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasValidSession());
 
   constructor(
     private http: HttpClient,
     private userService: UserService,
     private router: Router
   ) {
-    // Xóa token nếu người dùng đang ở trang homepage
-    if (window.location.pathname === '/' || window.location.pathname === '/homepage') {
-      localStorage.removeItem('token');
+    if (this.hasValidSession()) {
+      this.isLoggedInSubject.next(true);
     }
-    this.isLoggedInSubject = new BehaviorSubject<boolean>(!!localStorage.getItem('token'));
-    this.isLoggedIn = this.isLoggedInSubject.asObservable();
   }
 
   login(email: string, password: string): Observable<any> {
@@ -32,40 +31,37 @@ export class AuthService {
       tap(response => {
         console.log('Login response:', response);
         if (!response) {
-          console.error('No response from server');
-          throw new Error('No response from server');
+          throw new Error('Không nhận được phản hồi từ server');
         }
-
-        if (!response.success) {
-          console.error('Login failed:', response.message);
-          throw new Error(response.message || 'Login failed');
+        if (response.token) {
+          this.setSession(response.token);
+          if (response.user) {
+            localStorage.setItem('user', JSON.stringify(response.user));
+          }
+          this.isLoggedInSubject.next(true);
+        } else {
+          throw new Error('Token không hợp lệ');
         }
-
-        if (!response.token) {
-          console.error('No token in response');
-          throw new Error('No token in response');
-        }
-
-        localStorage.setItem('token', response.token);
-        if (response.user) {
-          console.log('Saving user to localStorage:', response.user);
-          localStorage.setItem('user', JSON.stringify(response.user));
-        }
-        this.isLoggedInSubject.next(true);
       }),
       switchMap(() => {
-        console.log('Loading current user after login...');
-        return this.userService.loadCurrentUser();
+        return this.userService.loadCurrentUser().pipe(
+          catchError(error => {
+            console.error('Error loading user:', error);
+            return of(null);
+          })
+        );
       }),
       tap(user => {
-        console.log('User loaded after login:', user);
         if (user) {
-          this.router.navigate(['/homepage']);
+          console.log('User loaded successfully:', user);
         } else {
-          console.error('Failed to load user after login');
-          this.logout();
-          throw new Error('Failed to load user data');
+          console.warn('No user data loaded, but continuing...');
         }
+      }),
+      catchError(error => {
+        console.error('Login error:', error);
+        this.logout();
+        throw error;
       })
     );
   }
@@ -76,21 +72,51 @@ export class AuthService {
 
   logout(): void {
     console.log('Logging out...');
-    localStorage.removeItem('token');
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.sessionTimeKey);
     localStorage.removeItem('user');
     this.isLoggedInSubject.next(false);
     this.userService.clearUser();
-    this.router.navigate(['/homepage']).then(() => {
-      // Reload trang để đảm bảo header-nologin được hiển thị 
-      window.location.reload();
-    });
+    this.router.navigate(['/homepage']);
+  }
+
+  private setSession(token: string): void {
+    localStorage.setItem(this.tokenKey, token);
+    localStorage.setItem(this.sessionTimeKey, Date.now().toString());
+  }
+
+  private hasValidSession(): boolean {
+    const token = localStorage.getItem(this.tokenKey);
+    const sessionStart = localStorage.getItem(this.sessionTimeKey);
+
+    if (!token || !sessionStart) {
+      return false;
+    }
+
+    const sessionAge = Date.now() - parseInt(sessionStart);
+    if (sessionAge > this.sessionDuration) {
+      this.logout();
+      return false;
+    }
+
+    return true;
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
   }
 
   getLoginStatus(): Observable<boolean> {
-    return this.isLoggedIn;
+    return this.isLoggedInSubject.asObservable();
   }
 
   getCurrentLoginStatus(): boolean {
     return this.isLoggedInSubject.value;
+  }
+
+  refreshSession(): void {
+    if (this.hasValidSession()) {
+      this.setSession(this.getToken()!);
+    }
   }
 } 

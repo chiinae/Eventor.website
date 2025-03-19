@@ -1,0 +1,83 @@
+<div class="statistics-container">
+
+  <!-- Thống kê tổng quan -->
+  <div class="overview-stats">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="bi bi-calendar-event"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Tổng số sự kiện</h3>
+        <p class="stat-value">{{totalEvents}}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="bi bi-people"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Tổng số người tham gia</h3>
+        <p class="stat-value">{{totalParticipants}}</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="bi bi-cash-stack"></i>
+      </div>
+      <div class="stat-info">
+        <h3>Tổng doanh thu</h3>
+        <p class="stat-value">{{formatCurrency(totalRevenue)}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Biểu đồ -->
+  <div class="charts-container">
+    <div class="chart-section">
+      <div class="chart-card">
+        <h3>Doanh thu theo ngày</h3>
+        <canvas id="revenueChart"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-card">
+        <h3>Tỉ lệ doanh thu trên sự kiện</h3>
+        <canvas id="eventDistributionChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-container">
+    <div class="pagination">
+      <button class="page-btn" [disabled]="currentPage === 1" (click)="previousPage()">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      
+      <button class="page-btn" 
+              *ngFor="let page of pages" 
+              [class.active]="page === currentPage"
+              (click)="goToPage(page)">
+        {{page}}
+      </button>
+      
+      <button class="page-btn" [disabled]="currentPage === totalPages" (click)="nextPage()">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Nút điều hướng -->
+  <div class="navigation-buttons">
+    <button class="btn btn-primary" (click)="onExportData()">
+      Đề xuất cải tiến 
+    </button>
+    <button class="btn btn-primary" routerLink="/my-account">
+      <i class="bi bi-arrow-left me-2"></i>
+      Trở về trang chủ
+    </button>
+  </div>
+</div> 

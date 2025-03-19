@@ -18,7 +18,8 @@ import { routes } from './app.routes';
     MatDialogModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

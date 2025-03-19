@@ -11,14 +11,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./header-nologin.component.css']
 })
 export class HeaderNologinComponent {
+  isMenuOpen = false;
+
   constructor(private router: Router) {}
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+    const menuToggle = document.querySelector('.menu-toggle');
+    if (menuToggle) {
+      menuToggle.classList.toggle('active');
+    }
+  }
 
   navigateTo(route: string) {
     this.router.navigate([route]);
+    this.isMenuOpen = false;
   }
 
   login() {
     this.router.navigate(['/login']);
+    this.isMenuOpen = false;
   }
 
   clearSearch() {

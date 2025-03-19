@@ -4,29 +4,37 @@
     <div class="logo">
     </div>
 
-    <!-- Search bar -->
-    <div class="search-wrapper">
-      <div class="search-container">
-        <i class="bi bi-search search-icon"></i>
-        <input type="text" class="search-input" placeholder="Search">
-        <i class="bi bi-x-lg close-icon" (click)="clearSearch()"></i>
+    <!-- Hamburger Menu Button -->
+    <button class="menu-toggle" (click)="toggleMenu()">
+      <span class="hamburger"></span>
+    </button>
+
+    <!-- Mobile Menu Container -->
+    <div class="mobile-menu" [class.active]="isMenuOpen">
+      <!-- Search bar -->
+      <div class="search-wrapper">
+        <div class="search-container">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" class="search-input" placeholder="Search">
+          <i class="bi bi-x-lg close-icon" (click)="clearSearch()"></i>
+        </div>
       </div>
-    </div>
 
-    <!-- Navigation -->
-    <nav>
-      <ul class="nav-menu">
-        <li><a class="nav-item">Sự kiện của tôi</a></li>
-        <li><a class="nav-item">Tạo sự kiện</a></li>
-        <li><a class="nav-item">Sự kiện</a></li>
-        <li><a class="nav-item">Đăng ký thành viên</a></li>
-      </ul>
-    </nav>
+      <!-- Navigation -->
+      <nav>
+        <ul class="nav-menu">
+          <li><a class="nav-item">Sự kiện của tôi</a></li>
+          <li><a class="nav-item">Tạo sự kiện</a></li>
+          <li><a class="nav-item">Sự kiện</a></li>
+          <li><a class="nav-item">Đăng ký thành viên</a></li>
+        </ul>
+      </nav>
 
-    <!-- Auth buttons -->
-    <div class="auth-buttons">
-      <button class="btn-primary" (click)="login()">Đăng nhập</button>
-      <button class="btn-primary" (click)="navigateTo('signup')">Đăng ký</button>
+      <!-- Auth buttons -->
+      <div class="auth-buttons">
+        <button class="btn-primary" (click)="login()">Đăng nhập</button>
+        <button class="btn-primary" (click)="navigateTo('signup')">Đăng ký</button>
+      </div>
     </div>
   </div>
 </header>

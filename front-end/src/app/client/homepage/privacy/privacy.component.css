@@ -1,0 +1,280 @@
+.privacy-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: black;
+  background-color: var(--secondary-light);
+  min-height: 100vh;
+}
+
+h1, h2 {
+  font-family: var(--heading-font);
+  font-weight: 600;
+}
+
+.privacy-container h1 {
+  color: var(--primary-color);
+  margin-bottom: 40px;
+  text-align: center;
+  font-size: 2.8em;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.privacy-container h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+.privacy-section {
+  margin-bottom: 40px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(122, 74, 46, 0.1);
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.privacy-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.privacy-section h2 {
+  color: var(--primary-color);
+  margin-bottom: 25px;
+  font-size: 1.6em;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.privacy-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+}
+
+.privacy-section p {
+  line-height: 1.8;
+  margin-bottom: 20px;
+  color: black;
+  font-size: 1.1em;
+}
+
+.privacy-section ul {
+  list-style-type: none;
+  margin-left: 0;
+  margin-bottom: 20px;
+}
+
+.privacy-section li {
+  margin-bottom: 15px;
+  line-height: 1.8;
+  color: black;
+  font-size: 1.1em;
+  padding-left: 25px;
+  position: relative;
+}
+
+.privacy-section li::before {
+  content: '•';
+  color: var(--primary-color);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+@media (max-width: 768px) {
+  .privacy-container {
+    padding: 20px 15px;
+  }
+
+  .privacy-section {
+    padding: 20px;
+  }
+
+  .privacy-container h1 {
+    font-size: 2.2em;
+    margin-bottom: 30px;
+  }
+
+  .privacy-section h2 {
+    font-size: 1.4em;
+    margin-bottom: 20px;
+  }
+
+  .privacy-section p, 
+  .privacy-section li {
+    font-size: 1em;
+    line-height: 1.6;
+  }
+}
+
+/* Thêm hiệu ứng cho các section */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Thêm delay cho từng section */
+.privacy-section:nth-child(1) { animation-delay: 0.1s; }
+.privacy-section:nth-child(2) { animation-delay: 0.2s; }
+.privacy-section:nth-child(3) { animation-delay: 0.3s; }
+.privacy-section:nth-child(4) { animation-delay: 0.4s; }
+.privacy-section:nth-child(5) { animation-delay: 0.5s; }
+.privacy-section:nth-child(6) { animation-delay: 0.6s; }
+.privacy-section:nth-child(7) { animation-delay: 0.7s; }
+
+/* Custom styles for cards */
+.privacy-section.card {
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.privacy-section.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Custom text colors */
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+/* Custom background colors */
+.bg-light {
+  background-color: var(--secondary-light) !important;
+}
+
+/* List group customization */
+.list-group-item {
+  background-color: transparent;
+  border-color: rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: rgba(176, 124, 79, 0.05);
+}
+
+/* Icon styles */
+.bi {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .bi {
+  transform: scale(1.1);
+}
+
+/* Animation for sections */
+.privacy-section {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add animation delay for each section */
+.privacy-section:nth-child(1) { animation-delay: 0.1s; }
+.privacy-section:nth-child(2) { animation-delay: 0.2s; }
+.privacy-section:nth-child(3) { animation-delay: 0.3s; }
+.privacy-section:nth-child(4) { animation-delay: 0.4s; }
+.privacy-section:nth-child(5) { animation-delay: 0.5s; }
+.privacy-section:nth-child(6) { animation-delay: 0.6s; }
+.privacy-section:nth-child(7) { animation-delay: 0.7s; }
+
+/* Custom alert styles */
+.alert {
+  border: none;
+  border-radius: 8px;
+}
+
+.alert-info {
+  color: var(--info-color);
+}
+
+.alert-warning {
+  color: var(--warning-error-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .privacy-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .display-4 {
+    font-size: 2rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .card-body {
+    padding: 1.25rem;
+  }
+}
+
+/* Custom button styles */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}

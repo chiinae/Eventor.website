@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } 
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -35,27 +37,50 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      this.isLoading = true;
-      const { email, password } = this.loginForm.value;
-      this.authService.login(email, password).subscribe({
-        next: (response) => {
-          this.isLoading = false;
-          if (response.success) {
-            this.router.navigate(['/']);
-          } else {
-            this.errorMessage = 'Đăng nhập thất bại';
-            this.showErrorPopup = true;
-          }
-        },
-        error: (error) => {
-          this.isLoading = false;
-          console.error('Login error:', error);
-          this.errorMessage = error.error.message || 'Đã xảy ra lỗi khi đăng nhập';
-          this.showErrorPopup = true;
-        }
-      });
+    if (!this.loginForm.valid) {
+      this.errorMessage = 'Vui lòng nhập đầy đủ email và mật khẩu';
+      return;
     }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const { email, password } = this.loginForm.value;
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+        console.log('Login successful');
+        this.isLoading = false;
+        this.snackBar.open('Đăng nhập thành công', 'Đóng', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+        });
+        setTimeout(() => {
+          this.router.navigate(['/homepage']).then(() => {
+            window.location.reload();
+          });
+        }, 1000);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.error('Login error:', error);
+        
+        if (error.status === 401) {
+          this.errorMessage = 'Email hoặc mật khẩu không đúng';
+        } else if (error.status === 0) {
+          this.errorMessage = 'Không thể kết nối đến server';
+        } else {
+          this.errorMessage = error.message || 'Đã có lỗi xảy ra khi đăng nhập';
+        }
+
+        this.snackBar.open(this.errorMessage, 'Đóng', {
+          duration: 5000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
   }
 
   showPassword: boolean = false;
@@ -81,7 +106,7 @@ export class LoginComponent {
   }
 
   navigateToForgotPassword() {
-    this.router.navigate(['/forgot-password']); // Chuyển hướng đến trang quên mật khẩu
+    this.router.navigate(['/forgot-password']);
   }
 
   closeErrorPopup() {

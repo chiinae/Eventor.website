@@ -22,16 +22,23 @@ export class MyAccountComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (!this.authService.getCurrentLoginStatus()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
     this.userService.currentUser.subscribe({
       next: (user) => {
-        this.currentUser = user;
-        if (!user) {
-          this.router.navigate(['/login']);
+        if (user) {
+          this.currentUser = user;
+          this.authService.refreshSession();
         }
       },
       error: (error) => {
         console.error('Lỗi khi lấy thông tin user:', error);
-        this.router.navigate(['/login']);
+        if (error.status === 401) {
+          this.router.navigate(['/login']);
+        }
       }
     });
   }
@@ -40,8 +47,25 @@ export class MyAccountComponent implements OnInit {
     return this.router.url.includes(route);
   }
 
-  navigateTo(tab: string): void {
-    this.router.navigate(['/my-account', tab]);
+  navigateTo(route: string) {
+    this.authService.refreshSession();
+    
+    switch(route) {
+      case 'general-info':
+        this.router.navigate(['/my-account/general-info']);
+        break;
+      case 'invoices':
+        this.router.navigate(['/my-account/invoices']);
+        break;
+      case 'statistics':
+        this.router.navigate(['/my-account/statistics']);
+        break;
+      case 'saved-events':
+        this.router.navigate(['/my-account/saved-events']);
+        break;
+      default:
+        this.router.navigate(['/my-account']);
+    }
   }
 
   logout(): void {

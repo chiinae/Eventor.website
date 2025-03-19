@@ -50,19 +50,30 @@ export class HomepageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Kiểm tra trạng thái đăng nhập khi component được khởi tạo
     this.isLoggedIn = this.authService.getCurrentLoginStatus();
     
+    // Theo dõi thay đổi trạng thái đăng nhập
     this.authService.getLoginStatus().subscribe(
       (loggedIn: boolean) => {
+        console.log('Login status changed:', loggedIn);
         this.isLoggedIn = loggedIn;
+        
         if (loggedIn) {
+          // Nếu đã đăng nhập, lấy thông tin user
           this.userService.getCurrentUser().subscribe(
             (user) => {
               if (user) {
                 this.currentUser = user;
+                console.log('Current user loaded:', user);
               }
+            },
+            (error) => {
+              console.error('Error loading user:', error);
             }
           );
+        } else {
+          this.currentUser = null;
         }
       }
     );

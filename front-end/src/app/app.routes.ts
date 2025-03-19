@@ -6,6 +6,7 @@ import { MyAccountComponent } from './client/my-account/my-account.component';
 import { InvoicesComponent } from './client/my-account/invoices/invoices.component';
 import { GeneralInfoComponent } from './client/my-account/general-info/general-info.component';
 import { SavedEventsComponent } from './client/my-account/saved-events/saved-events.component';
+import { StatisticsComponent } from './client/my-account/statistics/statistics.component';
 import { HomepageComponent } from './client/homepage/homepage.component';
 import { BrandStoryComponent } from './client/homepage/brand-story/brand-story.component';
 import { BlogComponent } from './client/homepage/blog/blog.component';
@@ -22,6 +23,7 @@ import { PaymentFreeComponent } from './client/homepage/payment-free/payment-fre
 import { PerformanceStatisticsComponent } from './client/homepage/performance-statistics/performance-statistics.component';
 import { ListEventsComponent } from './client/homepage/listevents/listevents.component';
 import { DetaillisteventsComponent } from './client/homepage/listevents/detaillistevents/detaillistevents.component';
+import { PrivacyComponent } from './client/homepage/privacy/privacy.component';
 // Admin add component  
 import { MainhomepageComponent } from './admin/mainhomepage/mainhomepage.component';
 import { SidebarComponent } from './admin/sidebar/sidebar.component';
@@ -37,13 +39,13 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'my-events', component: MyEventsComponent, canActivate: [AuthGuard]},
   { path: 'my-account', component: MyAccountComponent,canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'general-info', pathMatch: 'full' },
       { path: 'general-info', component: GeneralInfoComponent },
       { path: 'invoices', component: InvoicesComponent },
       { path: 'saved-events', component: SavedEventsComponent },
+      { path: 'statistics', component: StatisticsComponent }
     ]
   },
   { 
@@ -63,8 +65,9 @@ export const routes: Routes = [
       { path: 'payment-fee', component: PaymentFeeComponent, canActivate: [AuthGuard] },
       { path: 'payment-free', component: PaymentFreeComponent, canActivate: [AuthGuard] },
       { path: 'performance-statistics', component: PerformanceStatisticsComponent, canActivate: [AuthGuard] },
-      {path: 'listevents', component: ListEventsComponent, canActivate: [AuthGuard]},
-      {path: 'detail-list-events', component: DetaillisteventsComponent, canActivate: [AuthGuard]}
+      { path: 'listevents', component: ListEventsComponent, canActivate: [AuthGuard] },
+      { path: 'detail-list-events', component: DetaillisteventsComponent, canActivate: [AuthGuard] },
+      { path: 'privacy', component: PrivacyComponent }
     ]
   },
   // *** Routes cho Admin Panel ***

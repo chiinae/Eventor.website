@@ -1,26 +1,37 @@
 .member-register {
 padding: 20px;
-background: #fdf6e4;
+background: var(--background-light);
 border-radius: 8px;
+
+
+.membership-type {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 30px
+}
 
 .member-info {
     display: flex;
     justify-content: space-between;
-    background: #f5e1ba;
+    background: var(--background-light);
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 18px;
-
-    .info-box {
-    font-weight: bold;
+}
+.info-box {
+    background-color: var(--secondary-light);
+    padding: 20px;
+    margin-bottom: 10px;
     font-size: 18px;
-    }
+}
 
-    .info-details p {
+.info-details p {
     margin: 5px 0;
     font-size: 18px;
-    }
+    background-color: var(--secondary-light);
+    padding: 20px;
 }
+
 
 .title {
     text-align: center;

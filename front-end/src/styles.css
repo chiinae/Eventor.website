@@ -1,4 +1,3 @@
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400&display=swap');
 
@@ -275,15 +274,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--heading-font);
+  font-family: var(--heading-font) !important;
 }
 
 body, p {
-  font-family: var(--body-font);
+  font-family: var(--body-font) !important;
 }
 
 button, .cta {
-  font-family: var(--cta-font);
+  font-family: var(--cta-font) !important;
 }
 
 /* Common styles */

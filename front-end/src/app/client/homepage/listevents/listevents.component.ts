@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BannerComponent } from "../main/banner/banner.component";
-import { HighlightComponent } from "../main/highlight/highlight.component";
 import { EventListComponent } from "../main/event-list/event-list.component";
 import { EventService, Event } from '../../../services/event.service';
 import { forkJoin } from 'rxjs';
@@ -11,7 +9,7 @@ import { of } from 'rxjs';
 @Component({
   selector: 'app-list-events',
   standalone: true,
-  imports: [CommonModule, BannerComponent, HighlightComponent, EventListComponent],
+  imports: [CommonModule, EventListComponent],
   templateUrl: './listevents.component.html',
   styleUrl: './listevents.component.css'
 })

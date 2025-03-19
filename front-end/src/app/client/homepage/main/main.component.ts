@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BannerComponent } from "./banner/banner.component";
-import { HighlightComponent } from "./highlight/highlight.component";
-import { EventListComponent } from "./event-list/event-list.component";
 import { EventPageComponent } from "./event-page/event-page.component";
 
 @Component({
@@ -10,9 +7,6 @@ import { EventPageComponent } from "./event-page/event-page.component";
   standalone: true,
   imports: [
     CommonModule,
-    BannerComponent,
-    HighlightComponent,
-    EventListComponent,
     EventPageComponent
   ],
   templateUrl: './main.component.html',

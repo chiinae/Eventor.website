@@ -1,11 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ListEventsComponent } from './listevents.component';
-import { BannerComponent } from '../main/banner/banner.component';
-import { HighlightComponent } from '../main/highlight/highlight.component';
-import { EventListComponent } from '../main/event-list/event-list.component';
 import { EventService, Event } from '../../../services/event.service';
 import { of } from 'rxjs';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ListEventsComponent', () => {
   let component: ListEventsComponent;
@@ -26,7 +22,15 @@ describe('ListEventsComponent', () => {
     price: 0,
     image: 'test.jpg',
     event_image: 'test.jpg',
-    tickets: []
+    tickets: [],
+    description: 'Test Description',
+    category_id: 'C001',
+    status: 'active',
+    max_participant: 100,
+    current_participant: 50,
+    created_at: '2024-03-19',
+    format: 'online',
+    organizer_id: 'O001'
   };
 
   beforeEach(async () => {
@@ -35,16 +39,8 @@ describe('ListEventsComponent', () => {
     spy.getAllEvents.and.returnValue(of({ total: 1, events: [mockEvent] }));
 
     await TestBed.configureTestingModule({
-      imports: [
-        ListEventsComponent,
-        BannerComponent,
-        HighlightComponent,
-        EventListComponent,
-        HttpClientTestingModule
-      ],
-      providers: [
-        { provide: EventService, useValue: spy }
-      ]
+      declarations: [ListEventsComponent],
+      providers: [{ provide: EventService, useValue: spy }]
     }).compileComponents();
 
     eventService = TestBed.inject(EventService) as jasmine.SpyObj<EventService>;

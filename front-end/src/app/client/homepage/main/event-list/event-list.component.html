@@ -9,13 +9,28 @@
                     <img [src]="event.event_image" [alt]="event.event_name" class="event-img">
                 </div>
                 <div class="event-details">
+                    <span class="event-location">{{ event.location.city }}</span>
                     <h3 class="event-title">{{ event.event_name }}</h3>
                     <p class="event-meta">
-                        <span class="event-time">🕒 {{ event.hour_start }} - {{ event.start_date }}</span>
-                        <span class="event-location">📍 {{ event.location.city }}</span>
+                        <span class="event-time">{{ event.hour_start }} • {{ event.start_date }}</span>
+                        <span>{{ event.location.name }}</span>
+                        <span>{{ event.location.address }}</span>
                     </p>
+                    
+                    <div class="event-participants">
+                        <div class="participant-count">
+                            <span class="participant-icon">👥</span>
+                            <span>{{ event.current_participant }}/{{ event.max_participant }}</span>
+                        </div>
+                        <div class="participant-progress">
+                            <div class="participant-progress-bar" 
+                                 [style.width.%]="(event.current_participant / event.max_participant) * 100">
+                            </div>
+                        </div>
+                    </div>
+                    
                     <p class="event-price" [class.free]="event.price === 0">
-                        {{ event.price === 0 ? 'Miễn phí' : event.price + 'đ' }}
+                        {{ event.price === 0 ? 'Miễn phí' : 'Chỉ từ ' + event.price + ' VND' }}
                     </p>
                 </div>
             </div>

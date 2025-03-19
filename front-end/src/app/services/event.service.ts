@@ -8,6 +8,14 @@ export interface Event {
   event_name: string;
   hour_start: string;
   start_date: string;
+  description: string;
+  category_id: string;
+  status: string;
+  max_participant: number;
+  current_participant: number;
+  created_at: string;
+  format: string;
+  organizer_id: string;
   location: {
     name: string;
     address: string;
@@ -49,6 +57,9 @@ export class EventService {
     return this.http.get<Event>(`${this.apiUrl}/${id}`).pipe(
       tap(event => {
         console.log(`Nhận được dữ liệu event ${id}:`, event);
+        if (!event) {
+          console.warn(`Không tìm thấy event với ID ${id}`);
+        }
       }),
       catchError(error => {
         console.error(`Lỗi khi lấy event ${id}:`, error);

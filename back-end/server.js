@@ -649,6 +649,7 @@ app.get('/api/event', async (req, res) => {
       events.forEach((event, index) => {
           console.log(`Event ${index + 1}:`, {
               id: event.id,
+              _id: event._id,
               event_name: event.event_name,
               hour_start: event.hour_start,
               start_date: event.start_date,
@@ -664,7 +665,6 @@ app.get('/api/event', async (req, res) => {
               created_at: event.created_at,
               format: event.format,
               organizer_id: event.organizer_id,
-              _id: event._id
           });
       });
 

@@ -9,6 +9,18 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    status: {
+        type: String,
+        required: true
+    },
+    max_participant: {
+        type: Number,
+        required: true
+    },
+    current_participant: {
+        type: Number,
+        required: true
+    },
     event_name: {
         type: String,
         required: true

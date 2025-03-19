@@ -12,13 +12,41 @@
     <div class="mobile-menu" [class.active]="isMenuOpen">
       <!-- Search bar -->
       <div class="search-wrapper">
-        <div class="search-container">
+        <form class="search-container" (ngSubmit)="onSearchSubmit($event)">
           <i class="bi bi-search search-icon"></i>
-          <input type="text" class="search-input" placeholder="Search">
-          <i class="bi bi-x-lg close-icon" (click)="clearSearch()"></i>
+          <input 
+            type="text" 
+            class="search-input" 
+            [(ngModel)]="searchQuery"
+            name="searchQuery"
+            (input)="onSearch($event)"
+            (blur)="hideSearchResults()"
+            placeholder="Tìm kiếm sự kiện..."
+          >
+          <i class="bi bi-x-lg close-icon" *ngIf="searchQuery" (click)="clearSearch()"></i>
+        </form>
+        
+        <!-- Kết quả tìm kiếm -->
+        <div class="search-results" *ngIf="showResults && searchResults.length > 0">
+          <div 
+            class="search-result-item" 
+            *ngFor="let event of searchResults"
+            (click)="onSearchResultClick(event)"
+          >
+            <div class="event-info">
+              <img [src]="event.event_image" alt="Event image" class="event-thumbnail">
+              <div class="event-details">
+                <div class="event-name">{{event.event_name}}</div>
+                <div class="event-date">{{event.start_date | date:'dd/MM/yyyy'}} - {{event.hour_start}}</div>
+                <div class="event-location">{{event.location.name}}, {{event.location.city}}</div>
+              </div>
+            </div>
+            <div class="event-price">
+              {{event.price === 0 ? 'Miễn phí' : (event.price | currency:'VND':'symbol-narrow':'1.0-0')}}
+            </div>
+          </div>
         </div>
       </div>
-
       <!-- Navigation -->
       <ul class="nav-menu">
         <li><a class="nav-item" href="javascript:void(0)" (click)="navigateTo('my-events')">Sự kiện của tôi</a></li>

@@ -1,83 +1,70 @@
 <div class="statistics-container">
-
-  <!-- Thống kê tổng quan -->
-  <div class="overview-stats">
-    <div class="stat-card">
-      <div class="stat-icon">
-        <i class="bi bi-calendar-event"></i>
+  <div class="header">
+    <h2>Thống kê sự kiện</h2>
+    <div class="filters">
+      <div class="search-box">
+        <input type="text" placeholder="Mã sự kiện/Tên sự kiện" [(ngModel)]="searchQuery">
       </div>
-      <div class="stat-info">
-        <h3>Tổng số sự kiện</h3>
-        <p class="stat-value">{{totalEvents}}</p>
-      </div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon">
-        <i class="bi bi-people"></i>
-      </div>
-      <div class="stat-info">
-        <h3>Tổng số người tham gia</h3>
-        <p class="stat-value">{{totalParticipants}}</p>
-      </div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-icon">
-        <i class="bi bi-cash-stack"></i>
-      </div>
-      <div class="stat-info">
-        <h3>Tổng doanh thu</h3>
-        <p class="stat-value">{{formatCurrency(totalRevenue)}}</p>
+      <div class="date-range">
+        <input type="date" [(ngModel)]="startDate">
+        <span>đến</span>
+        <input type="date" [(ngModel)]="endDate">
       </div>
     </div>
   </div>
 
-  <!-- Biểu đồ -->
+  <div class="statistics-grid">
+    <div class="stat-card">
+      <h3>Tổng số sự kiện</h3>
+      <div class="stat-value">{{totalEvents}}</div>
+    </div>
+    <div class="stat-card">
+      <h3>Tổng số người tham gia</h3>
+      <div class="stat-value">{{totalParticipants}}</div>
+    </div>
+    <div class="stat-card">
+      <h3>Tổng doanh thu</h3>
+      <div class="stat-value">{{totalRevenue | currency:'VND':'symbol':'1.0-0'}}</div>
+    </div>
+  </div>
+
   <div class="charts-container">
-    <div class="chart-section">
-      <div class="chart-card">
+    <div class="chart-card">
+      <div class="chart-header">
         <h3>Doanh thu theo ngày</h3>
-        <canvas id="revenueChart"></canvas>
+        <div class="chart-controls">
+          <select [(ngModel)]="revenueMetric">
+            <option value="daily">Ngày</option>
+            <option value="weekly">Tuần</option>
+            <option value="monthly">Tháng</option>
+          </select>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Line chart will be rendered here -->
+        <canvas #revenueChart></canvas>
       </div>
     </div>
 
-    <div class="chart-section">
-      <div class="chart-card">
+    <div class="chart-card">
+      <div class="chart-header">
         <h3>Tỉ lệ doanh thu trên sự kiện</h3>
-        <canvas id="eventDistributionChart"></canvas>
+        <div class="chart-controls">
+          <select [(ngModel)]="distributionMetric">
+            <option value="revenue">Doanh thu</option>
+            <option value="participants">Người tham gia</option>
+          </select>
+        </div>
+      </div>
+      <div class="chart">
+        <!-- Pie chart will be rendered here -->
+        <canvas #distributionChart></canvas>
       </div>
     </div>
   </div>
 
-  <!-- Pagination -->
-  <div class="pagination-container">
-    <div class="pagination">
-      <button class="page-btn" [disabled]="currentPage === 1" (click)="previousPage()">
-        <i class="bi bi-chevron-left"></i>
-      </button>
-      
-      <button class="page-btn" 
-              *ngFor="let page of pages" 
-              [class.active]="page === currentPage"
-              (click)="goToPage(page)">
-        {{page}}
-      </button>
-      
-      <button class="page-btn" [disabled]="currentPage === totalPages" (click)="nextPage()">
-        <i class="bi bi-chevron-right"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- Nút điều hướng -->
-  <div class="navigation-buttons">
-    <button class="btn btn-primary" (click)="onExportData()">
-      Đề xuất cải tiến 
-    </button>
-    <button class="btn btn-primary" routerLink="/my-account">
-      <i class="bi bi-arrow-left me-2"></i>
-      Trở về trang chủ
-    </button>
+  <div class="action-buttons">
+    <button class="btn-export" (click)="exportData()">Đề xuất cải tiến</button>
+    <button class="btn-home" (click)="backToHome()">Trở về trang chủ</button>
   </div>
 </div> 

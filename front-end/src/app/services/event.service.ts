@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, tap } from 'rxjs';
+import { Observable, catchError, tap, map, of } from 'rxjs';
 
 export interface Event {
   _id: string;
@@ -64,6 +64,26 @@ export class EventService {
       catchError(error => {
         console.error(`Lỗi khi lấy event ${id}:`, error);
         throw error;
+      })
+    );
+  }
+
+  searchEvents(query: string): Observable<Event[]> {
+    console.log(`Đang tìm kiếm events với query: ${query}`);
+    return this.getAllEvents().pipe(
+      map(response => {
+        const events = response.events;
+        // Lọc các sự kiện có title chứa query (không phân biệt hoa thường)
+        return events.filter(event => 
+          event.event_name.toLowerCase().includes(query.toLowerCase())
+        );
+      }),
+      tap(events => {
+        console.log('Kết quả tìm kiếm:', events);
+      }),
+      catchError(error => {
+        console.error('Lỗi khi tìm kiếm events:', error);
+        return of([]);
       })
     );
   }

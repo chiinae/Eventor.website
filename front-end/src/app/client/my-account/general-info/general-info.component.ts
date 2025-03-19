@@ -56,25 +56,57 @@ export class GeneralInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe({
-      next: (user) => {
-        if (user) {
-          this.user = user;
-          this.userForm.patchValue({
-            first_name: user.first_name,
-            last_name: user.last_name,
-            email: user.email,
-            phone_number: user.phone_number
+    // Sử dụng AuthService để lấy thông tin user hiện tại
+    this.authService.getCurrentUser().subscribe({
+      next: (user: User | null) => {
+        if (user && user._id) {
+          // Nếu có user từ AuthService, gọi API để lấy thông tin mới nhất
+          this.userService.getUserById(user._id).subscribe({
+            next: (response: ApiResponse<User>) => {
+              if (response.success && response.user) {
+                this.user = response.user;
+                // Cập nhật form với dữ liệu mới
+                this.userForm.patchValue({
+                  first_name: response.user.first_name,
+                  last_name: response.user.last_name,
+                  email: response.user.email,
+                  phone_number: response.user.phone_number
+                });
+                this.saveOriginalValues();
+                // Cập nhật lại localStorage và AuthService với dữ liệu mới
+                this.authService.updateCurrentUser(response.user);
+              } else {
+                this.showError('Không thể tải thông tin người dùng');
+                this.router.navigate(['/login']);
+              }
+            },
+            error: (error: HttpErrorResponse) => {
+              console.error('Lỗi khi lấy thông tin user:', error);
+              this.showError('Lỗi khi tải thông tin: ' + (error.error?.message || error.message));
+              if (error.status === 401 || error.status === 403) {
+                this.authService.logout(); // Sử dụng logout của AuthService
+              }
+            }
           });
-          this.saveOriginalValues();
         } else {
+          this.showError('Không tìm thấy thông tin người dùng');
           this.router.navigate(['/login']);
         }
       },
       error: (error: Error) => {
-        console.error('Lỗi khi lấy thông tin user:', error);
+        console.error('Lỗi khi lấy thông tin user từ AuthService:', error);
+        this.showError('Lỗi khi tải thông tin người dùng');
         this.router.navigate(['/login']);
       }
+    });
+  }
+
+  private showError(message: string): void {
+    this.snackBar.open(message, 'Đóng', {
+      duration: 5000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      panelClass: ['error-snackbar']
     });
   }
 

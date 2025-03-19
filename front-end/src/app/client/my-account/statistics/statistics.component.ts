@@ -1,136 +1,116 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Chart, registerables } from 'chart.js';
 import { FormsModule } from '@angular/forms';
-import { Chart } from 'chart.js/auto';
+import { CommonModule } from '@angular/common';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-statistics',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './statistics.component.html',
-  styleUrls: ['./statistics.component.css']
+  styleUrls: ['./statistics.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule]
 })
-export class StatisticsComponent implements OnInit {
+export class StatisticsComponent implements OnInit, AfterViewInit {
+  @ViewChild('revenueChart') revenueChartCanvas!: ElementRef;
+  @ViewChild('distributionChart') distributionChartCanvas!: ElementRef;
+
+  // Filters
+  searchQuery: string = '';
+  startDate: string = '';
+  endDate: string = '';
+
+  // Metrics
+  revenueMetric: string = 'daily';
+  distributionMetric: string = 'revenue';
+
+  // Statistics
   totalEvents: number = 2;
   totalParticipants: number = 145;
   totalRevenue: number = 15350000;
-  lineChart: any;
-  pieChart: any;
-  selectedDateRange: string = '';
-  selectedEventId: string = '';
 
-  // Pagination properties
-  currentPage: number = 1;
-  itemsPerPage: number = 5;
-  totalPages: number = 10;
-  pages: number[] = [];
+  // Charts
+  revenueChart: Chart | null = null;
+  distributionChart: Chart | null = null;
 
-  constructor() {
-    this.generatePagesArray();
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    // Initialize dates
+    const today = new Date();
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(today.getDate() - 30);
+    
+    this.startDate = thirtyDaysAgo.toISOString().split('T')[0];
+    this.endDate = today.toISOString().split('T')[0];
   }
 
-  ngOnInit() {
-    this.initializeCharts();
+  ngAfterViewInit(): void {
+    this.initializeRevenueChart();
+    this.initializeDistributionChart();
   }
 
-  generatePagesArray() {
-    this.pages = [];
-    const maxVisiblePages = 5;
-    const startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
-    const endPage = Math.min(this.totalPages, startPage + maxVisiblePages - 1);
-
-    for (let i = startPage; i <= endPage; i++) {
-      this.pages.push(i);
-    }
-  }
-
-  goToPage(page: number) {
-    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
-      this.currentPage = page;
-      this.generatePagesArray();
-      // Thực hiện load dữ liệu cho trang mới
-      this.loadPageData();
-    }
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.goToPage(this.currentPage - 1);
-    }
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.goToPage(this.currentPage + 1);
-    }
-  }
-
-  loadPageData() {
-    // TODO: Implement API call to load data for current page
-    console.log('Loading data for page:', this.currentPage);
-  }
-
-  initializeCharts() {
-    // Line Chart
-    const lineCtx = document.getElementById('revenueChart') as HTMLCanvasElement;
-    this.lineChart = new Chart(lineCtx, {
+  private initializeRevenueChart(): void {
+    const ctx = this.revenueChartCanvas.nativeElement.getContext('2d');
+    
+    this.revenueChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
-        datasets: [
-          {
-            label: 'Doanh thu',
-            data: [3000000, 4500000, 2800000, 5100000, 3800000, 4200000, 5350000],
-            borderColor: '#FF6384',
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            tension: 0.4,
-            fill: true
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          title: {
-            display: true,
-            text: 'Doanh thu theo ngày'
-          }
-        }
-      }
-    });
-
-    // Pie Chart
-    const pieCtx = document.getElementById('eventDistributionChart') as HTMLCanvasElement;
-    this.pieChart = new Chart(pieCtx, {
-      type: 'pie',
-      data: {
-        labels: ['Sự kiện A', 'Sự kiện B', 'Sự kiện C', 'Sự kiện D', 'Sự kiện E'],
+        labels: ['1/3', '2/3', '3/3', '4/3', '5/3', '6/3', '7/3'],
         datasets: [{
-          data: [50000, 25000, 15000, 7000, 3000],
-          backgroundColor: [
-            '#FF6384', // Hồng đậm
-            '#36A2EB', // Xanh dương
-            '#FFCE56', // Vàng
-            '#4BC0C0', // Xanh ngọc
-            '#9966FF', // Tím
-          ],
-          borderColor: [
-            '#FF4D6D',
-            '#2E8BC0',
-            '#FFB73A',
-            '#3DA8A8',
-            '#7F4DFF'
-          ],
-          borderWidth: 1
+          label: 'Doanh thu',
+          data: [1200000, 1900000, 1500000, 2100000, 1800000, 2400000, 2000000],
+          borderColor: '#8B4513',
+          tension: 0.4,
+          fill: false
         }]
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
-          title: {
-            display: true,
-            text: 'Tỉ lệ doanh thu trên sự kiện'
-          },
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return value.toLocaleString('vi-VN') + 'đ';
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  private initializeDistributionChart(): void {
+    const ctx = this.distributionChartCanvas.nativeElement.getContext('2d');
+    
+    this.distributionChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'],
+        datasets: [{
+          data: [50000, 25000, 15000, 7000, 3000],
+          backgroundColor: [
+            '#4B89DC',
+            '#FF7F7F',
+            '#8CC152',
+            '#F6BB42',
+            '#967ADC'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
           legend: {
             position: 'right'
           }
@@ -139,26 +119,12 @@ export class StatisticsComponent implements OnInit {
     });
   }
 
-  onExportData() {
-    // TODO: Implement export functionality
+  exportData(): void {
+    // Implement export functionality
     console.log('Exporting data...');
-    // Có thể thêm logic xuất dữ liệu ra file Excel hoặc PDF ở đây
   }
 
-  formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND'
-    }).format(amount);
-  }
-
-  onDateRangeChange() {
-    // Xử lý khi thay đổi khoảng thời gian
-    console.log('Date range changed:', this.selectedDateRange);
-  }
-
-  onEventChange() {
-    // Xử lý khi thay đổi sự kiện
-    console.log('Event changed:', this.selectedEventId);
+  backToHome(): void {
+    this.router.navigate(['/']);
   }
 } 

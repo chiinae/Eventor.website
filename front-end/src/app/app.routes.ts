@@ -24,6 +24,7 @@ import { PerformanceStatisticsComponent } from './client/homepage/performance-st
 import { ListEventsComponent } from './client/homepage/listevents/listevents.component';
 import { DetaillisteventsComponent } from './client/homepage/listevents/detaillistevents/detaillistevents.component';
 import { PrivacyComponent } from './client/homepage/privacy/privacy.component';
+import { SearchPageComponent } from './client/homepage/search-page/search-page.component';
 // Admin add component  
 import { MainhomepageComponent } from './admin/mainhomepage/mainhomepage.component';
 import { SidebarComponent } from './admin/sidebar/sidebar.component';
@@ -67,7 +68,8 @@ export const routes: Routes = [
       { path: 'performance-statistics', component: PerformanceStatisticsComponent, canActivate: [AuthGuard] },
       { path: 'listevents', component: ListEventsComponent, canActivate: [AuthGuard] },
       { path: 'detail-list-events', component: DetaillisteventsComponent, canActivate: [AuthGuard] },
-      { path: 'privacy', component: PrivacyComponent }
+      { path: 'privacy', component: PrivacyComponent },
+      { path: 'search', component: SearchPageComponent }
     ]
   },
   // *** Routes cho Admin Panel ***

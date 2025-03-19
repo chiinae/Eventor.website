@@ -1,0 +1,58 @@
+<div class="search-page">
+  <div class="search-header">
+    <h2>Kết quả tìm kiếm cho "{{searchQuery}}"</h2>
+    <ng-container *ngIf="!isLoading">
+      <p *ngIf="searchResults.length > 0">Tìm thấy {{searchResults.length}} kết quả</p>
+      <p *ngIf="noResults">Không tìm thấy kết quả nào</p>
+    </ng-container>
+  </div>
+
+  <!-- Loading spinner -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Đang tìm kiếm...</p>
+  </div>
+
+  <!-- Search results -->
+  <div class="event-container" *ngIf="!isLoading && searchResults.length > 0">
+    <div class="event-items">
+      <div *ngFor="let event of searchResults" class="event-card" [routerLink]="['/homepage/event-information']" [queryParams]="{id: event._id}">
+        <div class="event-img-container">
+          <img [src]="event.event_image" [alt]="event.event_name" class="event-img">
+        </div>
+        <div class="event-details">
+          <span class="event-location">{{ event.location.city }}</span>
+          <h3 class="event-title">{{ event.event_name }}</h3>
+          <p class="event-meta">
+            <span class="event-time">{{ event.hour_start }} • {{ formatDate(event.start_date) }}</span>
+            <span>{{ event.location.name }}</span>
+            <span>{{ event.location.address }}</span>
+          </p>
+          
+          <div class="event-participants">
+            <div class="participant-count">
+              <span class="participant-icon">👥</span>
+              <span>{{ event.current_participant }}/{{ event.max_participant }}</span>
+            </div>
+            <div class="participant-progress">
+              <div class="participant-progress-bar" 
+                   [style.width.%]="(event.current_participant / event.max_participant) * 100">
+              </div>
+            </div>
+          </div>
+          
+          <p class="event-price" [class.free]="event.price === 0">
+            {{ event.price === 0 ? 'Miễn phí' : 'Chỉ từ ' + event.price + ' VND' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No results message -->
+  <div *ngIf="!isLoading && noResults" class="no-results">
+    <i class="bi bi-search"></i>
+    <p>Không tìm thấy sự kiện nào phù hợp với từ khóa "{{searchQuery}}"</p>
+    <p>Vui lòng thử lại với từ khóa khác</p>
+  </div>
+</div> 

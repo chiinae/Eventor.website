@@ -3,26 +3,46 @@ import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { User } from '../../../interfaces/user.interface';
+import { EventService, Event } from '../../../services/event.service';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
   isMenuOpen = false;
   currentUser$!: Observable<User | null>;
+  searchQuery: string = '';
+  searchResults: Event[] = [];
+  showResults: boolean = false;
+  private searchSubject = new Subject<string>();
 
   constructor(
     private router: Router,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private eventService: EventService
   ) {
     this.currentUser$ = this.userService.getCurrentUser();
+    // Thiết lập debounce cho tìm kiếm
+    this.searchSubject.pipe(
+      debounceTime(300), // Đợi 300ms sau lần gõ cuối
+      distinctUntilChanged(), // Chỉ gọi API khi query thay đổi
+      switchMap(query => 
+        query ? this.eventService.searchEvents(query) : []
+      )
+    ).subscribe(results => {
+      this.searchResults = results;
+      this.showResults = true;
+    });
   }
 
   ngOnInit() {
@@ -152,5 +172,40 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.isMenuOpen = false;
+  }
+
+  onSearch(event: any): void {
+    const query = event.target.value;
+    this.searchQuery = query;
+    if (query.trim()) {
+      this.searchSubject.next(query);
+    } else {
+      this.searchResults = [];
+      this.showResults = false;
+    }
+  }
+
+  onSearchSubmit(event: SubmitEvent): void {
+    event.preventDefault();
+    if (this.searchQuery.trim()) {
+      this.router.navigate(['/homepage/search'], {
+        queryParams: { q: this.searchQuery }
+      });
+      this.searchResults = [];
+      this.showResults = false;
+    }
+  }
+
+  onSearchResultClick(event: Event): void {
+    this.router.navigate(['/event', event._id]);
+    this.searchQuery = '';
+    this.searchResults = [];
+    this.showResults = false;
+  }
+
+  hideSearchResults(): void {
+    setTimeout(() => {
+      this.showResults = false;
+    }, 200);
   }
 }

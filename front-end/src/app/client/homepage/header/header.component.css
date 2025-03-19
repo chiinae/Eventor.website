@@ -36,6 +36,12 @@
 .logo {
   width: 50px;
   height: 40px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.8;
 }
 
  /* Search bar styles */

@@ -1,51 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventListComponent } from "../events-list/events-list.component";
+import { RouterModule } from '@angular/router';
+import { EventsListComponent } from '../events-list/events-list.component';
 import { EventService, Event } from '../../../../services/event.service';
 // import { EventPageComponent } from '../../main/event-page/event-page.component';
-
-interface DisplayEvent {
-  name: string;
-  date: string;
-  location: string;
-  image: string;
-  isFree: boolean;
-  price: number;
-}
 
 @Component({
   selector: 'app-events-page',
   standalone: true,
-  imports: [CommonModule, EventListComponent],
+  imports: [CommonModule, RouterModule, EventsListComponent],
   templateUrl: './events-page.component.html',
-  styleUrl: './events-page.component.css'
+  styleUrls: ['./events-page.component.css']
 })
 export class EventsPageComponent implements OnInit {
-  AllEvents: DisplayEvent[] = [];
+  AllEvents: Event[] = [];
   error: string = '';
 
   constructor(private eventService: EventService) {}
 
   ngOnInit() {
-    this.loadAllEvents();
+    this.loadEvents();
   }
 
-  private loadAllEvents() {
+  loadEvents() {
     this.eventService.getAllEvents().subscribe({
       next: (response) => {
         console.log('Dữ liệu events từ backend:', response);
-        // Chuyển đổi dữ liệu từ backend sang định dạng hiển thị
-        this.AllEvents = response.events.map(event => ({
-          name: event.event_name,
-          date: `${event.hour_start} ${event.start_date}`,
-          location: event.location.city,
-          image: event.event_image,
-          isFree: event.price === 0,
-          price: event.price
-        }));
+        this.AllEvents = response.events;
       },
       error: (error) => {
-        console.error('Lỗi khi lấy dữ liệu events:', error);
+        console.error('Lỗi khi tải sự kiện:', error);
         this.error = 'Không thể tải danh sách sự kiện';
       }
     });

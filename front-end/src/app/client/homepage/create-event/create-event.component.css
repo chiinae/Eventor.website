@@ -3,22 +3,22 @@
    ===================== */
 * {
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
 }
+
 h2{
     font-size: 20px;
     text-align: center;
+    color: black;
+    font-weight: 700;
 }
 .organizer-info-title{
-    background-color: #f5f4f4;
-    margin-right: 30px;
-    margin-left: 30px;
+    background-color: var(--background-light);
     height: 100px;
 }
 .organizer-info-title h1{
     font-size: 50px;
     font-weight: 700; 
-    color: #101828; 
+    color: black; 
     text-align: center;
     padding-top: 20px;
     margin-bottom: 20px;
@@ -41,8 +41,6 @@ h2{
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-right: 30px;
-    margin-left: 30px;
 }
 
 .organizer-info, .event-details {
@@ -57,7 +55,6 @@ input, textarea, select, button {
     border-radius: 8px;
     border: 1px solid #D0D5DD;
     background: #fff;
-    font-size: 14px;
     color: #333;
 }
 
@@ -68,7 +65,6 @@ textarea {
 button {
     background: #8B4513;
     color: white;
-    font-weight: bold;
     cursor: pointer;
     border: none;
     transition: background 0.3s;

@@ -1,18 +1,53 @@
 <div class="event-list">
-<h1>{{ title }}</h1>
-<div class="event-items">
-    <div *ngFor="let event of events" class="event-card">
-        <img [src]="event.image" alt="Event Image" class="event-img" />
-        <div class="event-details">
-            <h3 class="event-title">{{ event.name }}</h3>
-            <p class="event-meta">
-            <span class="event-time">🕒 {{ event.date }}</span> 
-            <span class="event-location">📍 {{ event.location }}</span>
-            </p>
-            <p class="event-price" [class.event-free]="event.isFree" [class.event-paid]="!event.isFree">
-            {{ event.isFree ? 'Sự kiện miễn phí' : 'Từ ' + event.price + 'đ' }}
-            </p>
+  <div class="event-header">
+    <h2>{{ title || 'Sự kiện của tôi' }}</h2>
+  </div>
+
+  <!-- Loading spinner -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Đang tải sự kiện...</p>
+  </div>
+
+  <div class="event-container" *ngIf="!isLoading">
+    <div class="event-items">
+      <div *ngFor="let event of events" class="event-card" [routerLink]="['/homepage/event-information']" [queryParams]="{id: event._id}">
+        <div class="event-img-container">
+          <img [src]="event.event_image" [alt]="event.event_name" class="event-img">
         </div>
+        <div class="event-details">
+          <span class="event-location">{{ event.location.city }}</span>
+          <h3 class="event-title">{{ event.event_name }}</h3>
+          <p class="event-meta">
+            <span class="event-time">{{ event.hour_start }} • {{ formatDate(event.start_date) }}</span>
+            <span>{{ event.location.name }}</span>
+            <span>{{ event.location.address }}</span>
+          </p>
+          
+          <div class="event-participants">
+            <div class="participant-count">
+              <span class="participant-icon">👥</span>
+              <span>{{ event.current_participant }}/{{ event.max_participant }}</span>
+            </div>
+            <div class="participant-progress">
+              <div class="participant-progress-bar" 
+                   [style.width.%]="(event.current_participant / event.max_participant) * 100">
+              </div>
+            </div>
+          </div>
+          
+          <p class="event-price" [class.free]="event.price === 0">
+            {{ event.price === 0 ? 'Miễn phí' : 'Chỉ từ ' + event.price + ' VND' }}
+          </p>
+        </div>
+      </div>
     </div>
-</div>
+
+    <!-- No events message -->
+    <div *ngIf="!isLoading && events.length === 0" class="no-events">
+      <i class="bi bi-calendar-x"></i>
+      <p>Bạn chưa có sự kiện nào</p>
+      <button [routerLink]="['/homepage/create-event']" class="create-event-btn">Tạo sự kiện mới</button>
+    </div>
+  </div>
 </div>

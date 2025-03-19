@@ -1,54 +1,89 @@
 <div class="organizer-info-title">
-    <h1>Tạo sự kiện của bạn</h1>
+  <h1>Tạo sự kiện của bạn</h1>
 </div>
 <div class="create-event-container">
-    <!-- Thông tin người tổ chức -->
-    <div class="organizer-info">
-        <div><h2>Thông tin ban tổ chức</h2></div>
-        <input type="text" [(ngModel)]="eventData.firstName" placeholder="Nguyễn" />
-        <input type="text" [(ngModel)]="eventData.lastName" placeholder="Minh Anh" />
-        <input type="email" [(ngModel)]="eventData.email" placeholder="manhnguyen@gmail.com" />
-        <input type="text" [(ngModel)]="eventData.organization" placeholder="My Youth Organization" />
-        <input type="text" [(ngModel)]="eventData.eventType" placeholder="Tình Nguyện" />
-        <input type="text" [(ngModel)]="eventData.phone" placeholder="0909 510 535" />
-      <!-- Hình ảnh sự kiện -->
-        <div class="event-image">
-            <img src="assets/images/create-event/event-placeholder.png" alt="Event Image">
-        </div>
-    </div>
-  
-    
-  
-    <!-- Mô tả sự kiện -->
-    <div class="event-details">
-        <div><h2>Thông tin sự kiện</h2></div>
-      <input type="text" [(ngModel)]="eventData.eventName" placeholder='[WORKSHOP] Hành trình kết nối đến các trẻ em vùng cao' />
-      <input type="text" [(ngModel)]="eventData.eventCategory" placeholder="Tình Nguyện" />
-      <textarea [(ngModel)]="eventData.eventDescription" placeholder='Workshop "Hành trình kết nối đến các trẻ em vùng cao" giúp nâng cao nhận thức, chia sẻ kinh nghiệm tổ chức thiện nguyện và kết nối cộng đồng. Sự kiện tạo cơ hội đóng góp ý tưởng, mở rộng quan hệ và chung tay hỗ trợ trẻ em khó khăn một cách thiết thực.'></textarea>
-      <input type="date" [(ngModel)]="eventData.eventDate" />
-      <select [(ngModel)]="eventData.eventMode">
-        <option value="offline">Offline</option>
-        <option value="online">Online</option>
-      </select>
-      <input type="text" [(ngModel)]="eventData.eventLink" placeholder="Link tham gia (nếu online)" />
-      <input type="text" [(ngModel)]="eventData.eventLocation" placeholder="Địa điểm tổ chức" />
-      <input type="number" [(ngModel)]="eventData.ticketQuantity" placeholder="100" />
+  <!-- Thông tin người tổ chức -->
+  <div class="organizer-info">
+      <h2>Thông tin ban tổ chức</h2>
       
+      <label>Họ:</label>
+      <input type="text" [(ngModel)]="eventData.firstName" placeholder="Nguyễn" />
+
+      <label>Tên:</label>
+      <input type="text" [(ngModel)]="eventData.lastName" placeholder="Minh Anh" />
+
+      <label>Email:</label>
+      <input type="email" [(ngModel)]="eventData.email" placeholder="manhnguyen@gmail.com" />
+
+      <label>Tổ chức:</label>
+      <input type="text" [(ngModel)]="eventData.organization" placeholder="My Youth Organization" />
+
+      <label>Loại sự kiện:</label>
+      <input type="text" [(ngModel)]="eventData.eventType" placeholder="Tình Nguyện" />
+
+      <label>Số điện thoại:</label>
+      <input type="text" [(ngModel)]="eventData.phone" placeholder="0909 510 535" />
+
+      <!-- Hình ảnh sự kiện -->
+      <div class="event-image">
+          <img src="assets/images/create-event/event-placeholder.png" alt="Event Image">
+      </div>
+  </div>
+
+  <!-- Mô tả sự kiện -->
+  <div class="event-details">
+      <h2>Thông tin sự kiện</h2>
+
+      <label>Tên sự kiện:</label>
+      <input type="text" [(ngModel)]="eventData.eventName" placeholder='[WORKSHOP] Hành trình kết nối đến các trẻ em vùng cao' />
+
+      <label>Danh mục sự kiện:</label>
+      <input type="text" [(ngModel)]="eventData.eventCategory" placeholder="Tình Nguyện" />
+
+      <label>Mô tả sự kiện:</label>
+      <textarea [(ngModel)]="eventData.eventDescription" placeholder='Workshop "Hành trình kết nối đến các trẻ em vùng cao" giúp nâng cao nhận thức, chia sẻ kinh nghiệm tổ chức thiện nguyện và kết nối cộng đồng. Sự kiện tạo cơ hội đóng góp ý tưởng, mở rộng quan hệ và chung tay hỗ trợ trẻ em khó khăn một cách thiết thực.'></textarea>
+
+      <label>Ngày diễn ra sự kiện:</label>
+      <input type="date" [(ngModel)]="eventData.eventDate" />
+
+      <label>Hình thức sự kiện:</label>
+      <select [(ngModel)]="eventData.eventMode">
+          <option value="offline">Offline</option>
+          <option value="online">Online</option>
+      </select>
+
+      <label>Link tham gia (nếu online):</label>
+      <input type="text" [(ngModel)]="eventData.eventLink" placeholder="Link tham gia" />
+
+      <label>Địa điểm tổ chức:</label>
+      <input type="text" [(ngModel)]="eventData.eventLocation" placeholder="Địa điểm tổ chức" />
+
+      <label>Số lượng vé:</label>
+      <input type="number" [(ngModel)]="eventData.ticketQuantity" placeholder="100" />
+
       <!-- Danh sách hạng vé -->
+      <h3>Danh sách hạng vé</h3>
       <div *ngFor="let ticket of eventData.ticketTypes; let i = index">
-        <input type="text" [(ngModel)]="ticket.name" placeholder="Hạng vé" />
-        <input type="text" [(ngModel)]="ticket.price" placeholder="Giá vé" />
+          <label>Hạng vé:</label>
+          <input type="text" [(ngModel)]="ticket.name" placeholder="Hạng vé" />
+
+          <label>Giá vé:</label>
+          <input type="text" [(ngModel)]="ticket.price" placeholder="Giá vé" />
       </div>
       <button (click)="addTicketType()">Thêm hạng vé ...</button>
-  
+
       <!-- Ngày mở bán vé -->
+      <label>Ngày mở bán vé:</label>
       <input type="date" [(ngModel)]="eventData.startSale" />
+
+      <label>Ngày kết thúc bán vé:</label>
       <input type="date" [(ngModel)]="eventData.endSale" />
-  
+
       <!-- Upload ảnh -->
+      <label>Chọn ảnh sự kiện:</label>
       <input type="file" (change)="handleFileInput($event)" />
-      
+
       <!-- Nút tạo sự kiện -->
       <button class="submit-btn" (click)="submitEvent()">Tạo sự kiện</button>
-    </div>
   </div>
+</div>

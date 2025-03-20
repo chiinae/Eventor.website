@@ -23,8 +23,37 @@
           <input type="text" placeholder="799.000">
         </div>
   
-        <button type="submit" class="btn-payment">Thanh toán</button>
+        <button type="button" class="btn-payment" (click)="showPaymentPopup()">Thanh toán</button>
       </form>
     </div>
   </div>
-  
+
+<!-- Payment Popup -->
+<div class="popup-overlay" *ngIf="isShowingPopup">
+  <div class="popup-content">
+    <div class="qr-code">
+      <img src="assets/images/qrcodepayment/image.png" alt="QR Code">
+    </div>
+    
+    <div class="bank-info">
+      <p class="bank-name">Ngân hàng TMCP Tiên Phong (TP Bank)</p>
+      <p class="company-name">Công ty Cổ phần dịch vụ Eventor</p>
+      <p class="account-number">STK: 166778899</p>
+      <p class="payment-content">Nội dung thanh toán: #FE000106</p>
+    </div>
+
+    <button class="confirm-button" (click)="showSuccessPopup()" (click)="closePopup()">
+      Xác nhận thanh toán
+    </button>
+  </div>
+</div>
+
+<!-- Popup kết quả thanh toán -->
+<div class="success-overlay" *ngIf="isShowingSuccessPopup">
+  <div class="success-content">
+    <div class="bi-check-circle"></div>
+    <h2>Thanh toán thành công</h2>
+    <p><strong>Mã thanh toán:</strong> #FE000152</p>
+    <button class="btn-home" (click)="closeSuccessPopup()">Trở về trang chủ</button>
+  </div>
+</div>

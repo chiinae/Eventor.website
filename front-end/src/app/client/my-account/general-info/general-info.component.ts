@@ -198,7 +198,7 @@ export class GeneralInfoComponent implements OnInit {
   }
 
   backToHome(): void {
-    this.router.navigate(['/homepage']);
+    this.router.navigate(['/homepage'], { replaceUrl: true });
   }
 
   updateSingleField(field: string, value: any): void {

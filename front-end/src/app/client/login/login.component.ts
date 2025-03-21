@@ -35,27 +35,52 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      this.isLoading = true;
-      const { email, password } = this.loginForm.value;
-      this.authService.login(email, password).subscribe({
-        next: (response) => {
-          this.isLoading = false;
-          if (response.success) {
-            this.router.navigate(['/']);
-          } else {
-            this.errorMessage = 'Đăng nhập thất bại';
-            this.showErrorPopup = true;
-          }
-        },
-        error: (error) => {
-          this.isLoading = false;
-          console.error('Login error:', error);
-          this.errorMessage = error.error.message || 'Đã xảy ra lỗi khi đăng nhập';
+    if (!this.loginForm.valid) {
+      this.errorMessage = 'Vui lòng nhập đầy đủ email và mật khẩu';
+      return;
+    }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const { email, password } = this.loginForm.value;
+    this.authService.login(email, password).subscribe({
+      next: () => {
+        console.log('Login successful');
+        this.isLoading = false;
+        // this.snackBar.open('Đăng nhập thành công', 'Đóng', {
+        //   duration: 3000,
+        //   horizontalPosition: 'right',
+        //   verticalPosition: 'top',
+        // });
+        setTimeout(() => {
+          this.router.navigate(['/homepage']).then(() => {
+            window.location.reload();
+          });
+        }, 1000);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.error('Login error:', error);
+        
+        if (error.status === 401) {
+          this.errorMessage = 'Email hoặc mật khẩu không đúng';
+          this.showErrorPopup = true;
+        } else if (error.status === 0) {
+          this.errorMessage = 'Không thể kết nối đến server';
+          this.showErrorPopup = true;
+        } else {
+          this.errorMessage = error.message || 'Đã có lỗi xảy ra khi đăng nhập';
           this.showErrorPopup = true;
         }
-      });
-    }
+
+        // this.snackBar.open(this.errorMessage, 'Đóng', {
+        //   horizontalPosition: 'right',
+        //   verticalPosition: 'top',
+        //   panelClass: ['error-snackbar']
+        // });
+      }
+    });
   }
 
   showPassword: boolean = false;
@@ -68,6 +93,10 @@ export class LoginComponent {
     }
   }
 
+  closeErrorPopup() {
+    this.showErrorPopup = false;
+  }
+  
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
@@ -84,7 +113,4 @@ export class LoginComponent {
     this.router.navigate(['/forgot-password']); // Chuyển hướng đến trang quên mật khẩu
   }
 
-  closeErrorPopup() {
-    this.showErrorPopup = false;
-  }
 }

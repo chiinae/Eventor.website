@@ -53,7 +53,16 @@ const eventSchema = new mongoose.Schema({
             price: Number,
             quantity: Number
         }
-    ]
+    ],
+    organizer: {
+        name: String,
+        phone: String,
+        email: String
+    },
+    description:{
+        type: String,
+        required: true
+    }
 }, {
     timestamps: true,
     collection: 'event'  // Chỉ định rõ tên collection

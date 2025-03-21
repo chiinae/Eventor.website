@@ -26,16 +26,14 @@ export class ListEventsComponent implements OnInit {
   foodDrinkEvents: Event[] = [];
   charityEvents: Event[] = [];
   musicEvents: Event[] = [];
-  onlineEvents: Event[] = [];
   forYouEvents: Event[] = [];
 
   // Khai báo các ID cho từng danh mục
   private readonly eventIds = {
     thisWeekEvents: ['B002', 'B003','B003', 'B004', 'B005', 'B001', 'B002', 'B003', 'B004', 'B005'],
-    free: ['B001', 'B002', 'B003', 'B004', 'B005', 'B003', 'B004', 'B005', 'B001', 'B002', 'B003', 'B004', 'B005'],
+    free: ['B006', 'B007'],
     recommended: ['B006', 'B007'],
     forYou: ['B002', 'B003', 'B004', 'B005'],
-    online: ['B003', 'B004', 'B005', 'B001', 'B002', 'B003', 'B004', 'B005'],
     music: ['B001', 'B002', 'B003'],
     sports: ['B002', 'B003', 'B004'],
     art: ['B001', 'B002', 'B003'],
@@ -58,7 +56,6 @@ export class ListEventsComponent implements OnInit {
       thisWeekEvents: this.loadEventsByIds(this.eventIds.thisWeekEvents, 'thisWeekEvents'),
       free: this.loadEventsByIds(this.eventIds.free, 'free'),
       forYou: this.loadEventsByIds(this.eventIds.forYou, 'forYou'),
-      online: this.loadEventsByIds(this.eventIds.online, 'online'),
       music: this.loadEventsByIds(this.eventIds.music, 'music'),
       sports: this.loadEventsByIds(this.eventIds.sports, 'sports'),
       art: this.loadEventsByIds(this.eventIds.art, 'art'),
@@ -73,7 +70,6 @@ export class ListEventsComponent implements OnInit {
         this.thisWeekEvents = results.thisWeekEvents;
         this.freeEvents = results.free;
         this.forYouEvents = results.forYou;
-        this.onlineEvents = results.online;
         this.musicEvents = results.music;
         this.sportsEvents = results.sports;
         this.artEvents = results.art;

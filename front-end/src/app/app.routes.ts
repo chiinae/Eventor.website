@@ -15,7 +15,7 @@ import { DetailComponent } from './client/homepage/blog/detail/detail.component'
 import { MainComponent } from './client/homepage/main/main.component';
 import { MyEventsComponent } from './client/homepage/my-events/my-events.component';
 import { CreateEventComponent } from './client/homepage/create-event/create-event.component';
-import { EventInformationComponent} from './client/homepage/event-information/event-information.component';
+import { EventInformationComponent } from './client/homepage/event-information/event-information.component';
 import { MemberRegisterComponent } from './client/homepage/member-register/member-register.component';
 import { PaymentComponent } from './client/homepage/payment/payment.component';
 import { PaymentFeeComponent } from './client/homepage/payment-fee/payment-fee.component';
@@ -81,4 +81,8 @@ export const routes: Routes = [
       { path: 'role', component: RoleManagementComponent, canActivate: [AuthGuard] },
     ]
   },
+  {
+    path: 'event/:id',
+    component: EventInformationComponent
+  }
 ];

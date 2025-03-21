@@ -625,7 +625,7 @@ app.get('/api/event/:id', async (req, res) => {
           current_participant: event.current_participant,
           created_at: event.created_at,
           format: event.format,
-          organizer_id: event.organizer_id
+          organizer: event.organizer
       });
   } catch (error) {
       res.status(500).json({ 
@@ -665,7 +665,7 @@ app.get('/api/event', async (req, res) => {
               current_participant: event.current_participant,
               created_at: event.created_at,
               format: event.format,
-              organizer_id: event.organizer_id,
+              organizer: event.organizer,
           });
       });
 

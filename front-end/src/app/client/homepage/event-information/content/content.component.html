@@ -1,54 +1,88 @@
-<div class="event-content">
-    <!-- Thời gian & Địa điểm -->
-    <div class="info-container">
-      <div class="info-box">
-        <h3>Thời gian</h3>
-        <p>9:00 ngày 15/03/2025</p>
-      </div>
-      <div class="info-box">
-        <h3>Địa điểm</h3>
-        <p>Quảng trường Hoàng gia Châu Âu, Vinhomes Royal Island, An Phú, Quận 2, TP Hồ Chí Minh</p>
-      </div>
+<div class="event-content" *ngIf="event">
+    <div class="event-header">
+        <div class="event-title">
+            <h1><b>{{ event.event_name }}</b></h1>
+        </div>
+        <div class="action-buttons">
+            <button class="btn-save">Sao chép liên kết</button>
+            <button class="btn-save">Lưu</button>
+        </div>
     </div>
-  
-    <!-- Thông tin mô tả -->
-    <div class="description">
-      <h3>Thông tin mô tả</h3>
-      <p><strong>IMAGINE DRAGONS | SOOBIN | CHI PU | HIẾU THU HAI | HURRYKNG | MANBO | DJ MIE</strong></p>
-      <p>
-        Vượt lên mọi kỳ vọng của fan hâm mộ, 8WONDER Winter 2024 - phiên bản supershow chính thức đổ bộ "thành phố hoa lệ" Sài Thành với bước nhảy vọt về quy mô và tầm vóc, hứa hẹn trở thành bom tấn khuấy đảo toàn bộ mùa nhạc hội cuối năm tại khu vực châu Á.
-        <br>
-        Dàn line-up khủng với những cái tên làm mưa làm gió trên thị trường âm nhạc trong nước và quốc tế càng khiến cho "cuộc chiến săn vé" tới đây trở nên gay cấn hơn bao giờ hết!!!
-        <br>
-        + Màn trình diễn lên đến 75 phút với những bản nhạc hot hit nhất của ban nhạc hàng đầu thế kỉ 21 - Imagine Dragons. 
-        <br>
-        + "Chemistry bùng nổ" với dàn line up quy tụ các ca sĩ/ DJ hàng đầu Việt Nam: SOOBIN, CHI PU, HIEUTHUHAI, HURRYKNG, MANBO, DJ Mie.
-        <br>
-        Và siêu hội Giáng sinh với hàng trăm hoạt động lễ hội, giải trí, ẩm thực, mua sắm kéo dài suốt tháng 12.
-        <br>
-        Nhắc nhẹ cho các fan cứng của 8WONDER, những chiếc vé early bird đầu tiên sẽ được mở bán từ 20h00 ngày 14/10 số lượng cực giới hạn, nhớ đặt lịch để không bỏ lỡ nhaaaa!
-        <br>
-        ——————————————————
-        <br>
-        LƯU Ý:
-        <br>
-        + Người tham dự chương trình phải từ 10 tuổi trở lên và phải có người lớn đi cùng nếu dưới 14 tuổi. (một người lớn kèm một trẻ em).
-        <br>
-        + Trường hợp trẻ em cao dưới 1.35m, cần xuất trình giấy tờ chứng minh đủ tuổi tham gia sự kiện.
-        <br>
-        + Phụ nữ mang bầu và người có vấn đề sức khỏe được khuyến cáo cân nhắc khi tham gia sự kiện này. Trong trường hợp vẫn muốn tham gia, cần báo cho Ban Tổ Chức và ký giấy cam kết về quyết định của mình.
-        </p>
+
+    <div class="event-main">
+        <div class="event-info-grid">
+            <!-- Thời gian -->
+            <div class="info-section">
+                <h3><b>Thời gian</b></h3>
+                <div class="time-details">
+                    <span>{{ event.hour_start }} {{ event.start_date }}</span>
+                </div>
+            </div>
+
+            <!-- Địa điểm -->
+            <div class="info-section">
+                <h3><b>Địa điểm</b></h3>
+                <div class="location-details">
+                    <span>{{ event.location.name }}</span>
+                    <span>{{ event.location.address }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thông tin mô tả -->
+        <div class="description-section">
+            <h3>Thông tin mô tả</h3>
+            <div class="description-content" [innerHTML]="event.description"></div>
+        </div>
+
+        <!-- Hạng vé -->
+        <div class="ticket-section"> 
+            <h3>Hạng vé</h3>
+            <div class="ticket-table">
+                <div *ngFor="let ticket of event.tickets" class="ticket-row" [class.free]="ticket.price === 0">
+                    <div class="ticket-type">
+                        <span>{{ ticket.tier }}</span>
+                    </div>
+                    <div class="ticket-price">
+                        {{ ticket.price === 0 ? 'MIỄN PHÍ' : (ticket.price | number:'1.0-0') + ' VND' }}
+                    </div>
+                </div>
+            </div>
+        </div>        
+
+        <!-- Thông tin BTC -->
+        <div class="organizer-section">
+            <h3>Thông tin BTC</h3>
+            <div class="organizer-details">
+                <div class="detail-row">
+                    <span>- Đơn vị tổ chức: {{ event.organizer.name }}</span>
+                </div>
+                <div class="detail-row">
+                    <span>- Địa điểm: {{ event.location.address }}</span>
+                </div>
+                <div class="detail-row">
+                    <span>- Phone: {{ event.organizer.phone }}</span>
+                </div>
+                <div class="detail-row">
+                    <span>- Email: {{ event.organizer.email}}</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-comment" >Đăng ký tham gia</button>
     </div>
-  
-    <!-- Bảng giá vé -->
-    <div class="ticket-pricing">
-      <h3>Hạng vé</h3>
-      <table>
-        <tr><td>SVIP (seated)</td><td style="color: #62aae4;">20.000.000 VNĐ</td></tr>
-        <tr><td>VIP (seated)</td><td style="color: #62aae4;">10.000.000 VNĐ</td></tr>
-        <tr><td>FANZONE 1-2</td><td style="color: #62aae4;">6.000.000 VNĐ</td></tr>
-        <tr><td>GA 1-2</td><td style="color: #62aae4;">2.700.000 VNĐ</td></tr>
-      </table>
+</div>
+
+<div class="event-content" *ngIf="!event && !error">
+    <div class="loading-spinner">
+        <div class="spinner"></div>
     </div>
-  </div>
+</div>
+
+<div class="event-content" *ngIf="error">
+    <div class="error-state">
+        <i class="fas fa-exclamation-circle"></i>
+        <p>{{ error }}</p>
+    </div>
+</div>
   

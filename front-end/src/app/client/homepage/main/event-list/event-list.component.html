@@ -4,7 +4,10 @@
     </div>
     <div class="event-container">
         <div class="event-items">
-            <div *ngFor="let event of visibleEvents" class="event-card">
+            <div *ngFor="let event of visibleEvents" 
+                 class="event-card" 
+                 (click)="navigateToEvent(event.id)"
+                 style="cursor: pointer;">
                 <div class="event-img-container">
                     <img [src]="event.event_image" [alt]="event.event_name" class="event-img">
                 </div>

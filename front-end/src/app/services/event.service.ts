@@ -2,6 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, tap, map, of } from 'rxjs';
 
+export interface Organizer {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  website?: string;
+  social_media?: {
+    facebook?: string;
+    twitter?: string;
+    instagram?: string;
+  };
+}
+
 export interface Event {
   _id: string;
   id: string;
@@ -15,7 +28,11 @@ export interface Event {
   current_participant: number;
   created_at: string;
   format: string;
-  organizer_id: string;
+  organizer:{
+    name: string;
+    phone: string;
+    email: string;
+  }
   location: {
     name: string;
     address: string;

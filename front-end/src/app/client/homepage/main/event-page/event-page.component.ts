@@ -20,7 +20,7 @@ export class EventPageComponent implements OnInit {
   upcomingEvents: Event[] = [];
   freeEvents: Event[] = [];
 
-  private readonly freeEventIds = ['B005', 'B006', 'B005', 'B006', 'B007'];
+  private readonly freeEventIds = ['B006', 'B007'];
   private readonly upcomingEventIds = ['B005', 'B006', 'B007', 'B002'];
   private readonly recommendedEventIds = ['B003', 'B005', 'B002', 'B005', 'B006', 'B007'];
 

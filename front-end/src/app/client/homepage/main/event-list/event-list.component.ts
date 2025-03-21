@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Event } from '../../../../services/event.service';
 
 @Component({
@@ -16,6 +17,8 @@ export class EventListComponent {
   maxVisibleEvents = 8;
   showAll = false;
 
+  constructor(private router: Router) {}
+
   get visibleEvents(): Event[] {
     return this.showAll ? this.events : this.events.slice(0, this.maxVisibleEvents);
   }
@@ -26,6 +29,10 @@ export class EventListComponent {
 
   toggleShowAll() {
     this.showAll = !this.showAll;
+  }
+
+  navigateToEvent(eventId: string) {
+    this.router.navigate(['/event', eventId]);
   }
 
   isFreeEvent(price: number): boolean {

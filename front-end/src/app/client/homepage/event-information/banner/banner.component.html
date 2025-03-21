@@ -1,2 +1,14 @@
-<img src="../../../../assets/images/after-login/image1.png" alt="Banner" class="banner-img" />
+<div class="banner-container">
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+  
+  <ng-container *ngIf="event">
+    <img [src]="event.event_image" [alt]="event.event_name" class="banner-img" />
+  </ng-container>
+  
+  <div *ngIf="!event && !error" class="banner-placeholder">
+    <p>Đang tải ảnh sự kiện...</p>
+  </div>
+</div>
   

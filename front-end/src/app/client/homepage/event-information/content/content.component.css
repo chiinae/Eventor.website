@@ -1,11 +1,11 @@
 *{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Lora', sans-serif;
 }
 .event-content {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background: #fff;
+    background: #f5f5f5;
 }
 
 /* Header Section */
@@ -51,8 +51,7 @@
 
 /* Main Content */
 .event-main {
-    background: 
-    #ffffff;
+    background: #f5f5f5;
 }
 
 .event-info-grid {
@@ -77,7 +76,7 @@
 }
 
 .time-details, .location-details {
-    color: #666;
+    color: #4d4d4d;
     line-height: 1.6;
 }
 
@@ -164,7 +163,7 @@
 
 .organizer-section h3 {
     font-size: 1.1rem;
-    color: #333;
+    color: #4d4d4d;
     margin-bottom: 15px;
     font-weight: bold;
 }

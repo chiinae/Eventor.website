@@ -1,5 +1,5 @@
 .comment-section {
-background: #fdf6e4;
+background: #faf4e0;
 padding: 20px;
 border-radius: 8px;
 margin-top: 20px;
@@ -61,7 +61,7 @@ h3 {
     }
 
     .comment-content {
-        background: #fff;
+        background: #f4f4f4;
         padding: 10px;
         border-radius: 5px;
         width: 100%;

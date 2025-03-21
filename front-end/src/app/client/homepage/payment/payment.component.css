@@ -1,15 +1,13 @@
 .payment-container {
-    width: 1500px;
-    align-items: center;
+    max-width: 1200px;
+    width: 90%;
+    margin: 2rem auto;
     display: flex;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
     justify-content: space-between;
     background: var(--background-light);
-    padding: 30px;
+    padding: 20px;
     border-radius: 10px;
-    gap: 40px;
+    gap: 30px;
   
     .payment-info {
       flex: 1;
@@ -17,6 +15,8 @@
   
       .event-image {
         width: 100%;
+        max-width: 600px;
+        height: auto;
         border-radius: 10px;
         margin-bottom: 15px;
       }
@@ -29,7 +29,7 @@
       }
   
       p {
-        font-size: 18px;
+        font-size: 16px;
         color: #333;
         margin: 10px 0;
       }
@@ -39,10 +39,12 @@
         justify-content: center;
         gap: 10px;
         margin-top: 15px;
+        flex-wrap: wrap;
   
         img {
           width: 80px;
           height: 80px;
+          object-fit: cover;
         }
       }
     }
@@ -51,18 +53,20 @@
       flex: 1;
       padding: 20px;
       border-radius: 10px;
+      min-width: 300px;
   
       h2 {
         font-size: 24px;
         font-weight: bold;
         text-align: center;
         color: #444;
+        margin-bottom: 20px;
       }
   
       form {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 15px;
   
         .form-group {
           display: flex;
@@ -70,34 +74,61 @@
   
           input {
             flex: 1;
+            min-width: 0; /* Để input không bị overflow */
           }
         }
   
         input {
           width: 100%;
           padding: 10px;
-          font-size: 18px;
+          font-size: 16px;
           border: 1px solid #ccc;
           border-radius: 5px;
-          margin-bottom: 20px;
+          margin-bottom: 10px;
         }
   
         .btn-payment {
-          width: 200px;
+          width: 100%;
+          max-width: 200px;
           margin: 0 auto;
           padding: 12px;
-          font-size: 20px;
+          font-size: 18px;
           color: white;
           background: var(--primary-dark);
           border: none;
           border-radius: 5px;
           cursor: pointer;
           margin-top: 10px;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: var(--primary-darker);
+          }
         }
       }
     }
-  }
-  
+}
+
+/* Media Queries cho responsive */
+@media (max-width: 768px) {
+    .payment-container {
+        flex-direction: column;
+        width: 95%;
+        padding: 15px;
+        gap: 20px;
+    }
+
+    .payment-form {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .form-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
 /* Styles cho popup */
 .popup-overlay {
   position: fixed;

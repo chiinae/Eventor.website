@@ -7,22 +7,28 @@
       <h2>Thông tin ban tổ chức</h2>
       
       <label>Họ:</label>
-      <input type="text" [(ngModel)]="eventData.firstName" placeholder="Nguyễn" />
+      <input type="text" [(ngModel)]="eventData.firstName" placeholder="Nguyễn" 
+             [class.error]="formErrors['firstName']" />
 
       <label>Tên:</label>
-      <input type="text" [(ngModel)]="eventData.lastName" placeholder="Minh Anh" />
+      <input type="text" [(ngModel)]="eventData.lastName" placeholder="Minh Anh"
+             [class.error]="formErrors['lastName']" />
 
       <label>Email:</label>
-      <input type="email" [(ngModel)]="eventData.email" placeholder="manhnguyen@gmail.com" />
+      <input type="email" [(ngModel)]="eventData.email" placeholder="manhnguyen@gmail.com"
+             [class.error]="formErrors['email']" />
 
       <label>Tổ chức:</label>
-      <input type="text" [(ngModel)]="eventData.organization" placeholder="My Youth Organization" />
+      <input type="text" [(ngModel)]="eventData.organization" placeholder="My Youth Organization"
+             [class.error]="formErrors['organization']" />
 
       <label>Loại sự kiện:</label>
-      <input type="text" [(ngModel)]="eventData.eventType" placeholder="Tình Nguyện" />
+      <input type="text" [(ngModel)]="eventData.eventType" placeholder="Tình Nguyện"
+             [class.error]="formErrors['eventType']" />
 
       <label>Số điện thoại:</label>
-      <input type="text" [(ngModel)]="eventData.phone" placeholder="0909 510 535" />
+      <input type="text" [(ngModel)]="eventData.phone" placeholder="0909 510 535"
+             [class.error]="formErrors['phone']" />
 
       <!-- Hình ảnh sự kiện -->
       <div class="event-image">
@@ -35,16 +41,22 @@
       <h2>Thông tin sự kiện</h2>
 
       <label>Tên sự kiện:</label>
-      <input type="text" [(ngModel)]="eventData.eventName" placeholder='[WORKSHOP] Hành trình kết nối đến các trẻ em vùng cao' />
+      <input type="text" [(ngModel)]="eventData.eventName" 
+             placeholder='[WORKSHOP] Hành trình kết nối đến các trẻ em vùng cao'
+             [class.error]="formErrors['eventName']" />
 
       <label>Danh mục sự kiện:</label>
-      <input type="text" [(ngModel)]="eventData.eventCategory" placeholder="Tình Nguyện" />
+      <input type="text" [(ngModel)]="eventData.eventCategory" placeholder="Tình Nguyện"
+             [class.error]="formErrors['eventCategory']" />
 
       <label>Mô tả sự kiện:</label>
-      <textarea [(ngModel)]="eventData.eventDescription" placeholder='Workshop "Hành trình kết nối đến các trẻ em vùng cao" giúp nâng cao nhận thức, chia sẻ kinh nghiệm tổ chức thiện nguyện và kết nối cộng đồng. Sự kiện tạo cơ hội đóng góp ý tưởng, mở rộng quan hệ và chung tay hỗ trợ trẻ em khó khăn một cách thiết thực.'></textarea>
+      <textarea [(ngModel)]="eventData.eventDescription" 
+                [class.error]="formErrors['eventDescription']"
+                placeholder='Workshop "Hành trình kết nối đến các trẻ em vùng cao" giúp nâng cao nhận thức, chia sẻ kinh nghiệm tổ chức thiện nguyện và kết nối cộng đồng. Sự kiện tạo cơ hội đóng góp ý tưởng, mở rộng quan hệ và chung tay hỗ trợ trẻ em khó khăn một cách thiết thực.'></textarea>
 
       <label>Ngày diễn ra sự kiện:</label>
-      <input type="date" [(ngModel)]="eventData.eventDate" />
+      <input type="date" [(ngModel)]="eventData.eventDate"
+             [class.error]="formErrors['eventDate']" />
 
       <label>Hình thức sự kiện:</label>
       <select [(ngModel)]="eventData.eventMode">
@@ -56,28 +68,34 @@
       <input type="text" [(ngModel)]="eventData.eventLink" placeholder="Link tham gia" />
 
       <label>Địa điểm tổ chức:</label>
-      <input type="text" [(ngModel)]="eventData.eventLocation" placeholder="Địa điểm tổ chức" />
+      <input type="text" [(ngModel)]="eventData.eventLocation" placeholder="Địa điểm tổ chức"
+             [class.error]="formErrors['eventLocation']" />
 
       <label>Số lượng vé:</label>
-      <input type="number" [(ngModel)]="eventData.ticketQuantity" placeholder="100" />
+      <input type="number" [(ngModel)]="eventData.ticketQuantity" placeholder="100"
+             [class.error]="formErrors['ticketQuantity']" />
 
       <!-- Danh sách hạng vé -->
       <h3>Danh sách hạng vé</h3>
       <div *ngFor="let ticket of eventData.ticketTypes; let i = index">
           <label>Hạng vé:</label>
-          <input type="text" [(ngModel)]="ticket.name" placeholder="Hạng vé" />
+          <input type="text" [(ngModel)]="ticket.name" placeholder="Hạng vé"
+                 [class.error]="formErrors['ticketTypes']" />
 
           <label>Giá vé:</label>
-          <input type="text" [(ngModel)]="ticket.price" placeholder="Giá vé" />
+          <input type="text" [(ngModel)]="ticket.price" placeholder="Giá vé"
+                 [class.error]="formErrors['ticketTypes']" />
       </div>
       <button (click)="addTicketType()">Thêm hạng vé ...</button>
 
       <!-- Ngày mở bán vé -->
       <label>Ngày mở bán vé:</label>
-      <input type="date" [(ngModel)]="eventData.startSale" />
+      <input type="date" [(ngModel)]="eventData.startSale"
+             [class.error]="formErrors['startSale']" />
 
       <label>Ngày kết thúc bán vé:</label>
-      <input type="date" [(ngModel)]="eventData.endSale" />
+      <input type="date" [(ngModel)]="eventData.endSale"
+             [class.error]="formErrors['endSale']" />
 
       <!-- Upload ảnh -->
       <label>Chọn ảnh sự kiện:</label>
@@ -85,5 +103,14 @@
 
       <!-- Nút tạo sự kiện -->
       <button class="submit-btn" (click)="submitEvent()">Tạo sự kiện</button>
+  </div>
+</div>
+
+<!-- Popup thành công -->
+<div class="success-popup" *ngIf="isShowingSuccessPopup">
+  <div class="success-content">
+    <div class="success-icon">✓</div>
+    <h2>Thông báo!</h2>
+    <p>Sự kiện của bạn đã được tạo thành công.</p>
   </div>
 </div>

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, tap, catchError, throwError, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
 import { User } from '../interfaces/user.interface';
+import { distinctUntilChanged, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,20 @@ export class AuthService {
   private apiUrl = 'http://localhost:5000/api';
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   private currentUserSubject = new BehaviorSubject<User | null>(null);
-  isLoggedIn$ = this.isLoggedInSubject.asObservable();
-  currentUser$ = this.currentUserSubject.asObservable();
+  isLoggedIn$ = this.isLoggedInSubject.asObservable().pipe(
+    distinctUntilChanged(),
+    shareReplay(1)
+  );
+  currentUser$ = this.currentUserSubject.asObservable().pipe(
+    distinctUntilChanged((prev, curr) => 
+      JSON.stringify(prev) === JSON.stringify(curr)
+    ),
+    shareReplay(1)
+  );
   private sessionTimeKey = 'session_start_time';
   private sessionDuration = 3600000; // 1 hour in milliseconds
+  private lastTokenCheck: number = 0;
+  private checkInterval: number = 5000; // 5 seconds
 
   constructor(
     private http: HttpClient,
@@ -29,12 +40,24 @@ export class AuthService {
     const token = localStorage.getItem('auth_token');
     if (token) {
       this.isLoggedInSubject.next(true);
-      this.loadUserData();
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        try {
+          const user = JSON.parse(userData);
+          this.currentUserSubject.next(user);
+        } catch (error) {
+          this.logout();
+        }
+      }
     }
   }
 
   getCurrentUser(): Observable<User | null> {
     return this.currentUser$;
+  }
+
+  getCurrentLoginStatus(): boolean {
+    return this.isLoggedInSubject.value;
   }
 
   updateCurrentUser(user: User): void {
@@ -50,74 +73,89 @@ export class AuthService {
           localStorage.setItem('auth_token', response.token);
           localStorage.setItem(this.sessionTimeKey, Date.now().toString());
           this.isLoggedInSubject.next(true);
-          this.loadUserData();
+          if (response.user) {
+            localStorage.setItem('user', JSON.stringify(response.user));
+            this.currentUserSubject.next(response.user);
+            this.userService.loadCurrentUser().subscribe();
+          }
         }
       }),
       catchError((error) => {
-        console.error('Signup error:', error);
         return throwError(() => error);
-      })
+      }),
+      shareReplay(1)
     );
   }
 
   login(email: string, password: string): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const body = {
-      email: email,
-      password: password
-    };
-
-    console.log('Sending login request:', body);
+    const body = { email, password };
 
     return this.http.post(`${this.apiUrl}/login`, body, { headers }).pipe(
       tap((response: any) => {
-        console.log('Login response:', response);
         if (response && response.success) {
           localStorage.setItem('auth_token', response.token);
           localStorage.setItem(this.sessionTimeKey, Date.now().toString());
           this.isLoggedInSubject.next(true);
-          this.loadUserData();
+          if (response.user) {
+            localStorage.setItem('user', JSON.stringify(response.user));
+            this.currentUserSubject.next(response.user);
+            this.userService.loadCurrentUser().subscribe();
+          }
         } else {
           throw new Error('Invalid credentials');
         }
       }),
       catchError((error) => {
-        console.error('Login error:', error);
         this.isLoggedInSubject.next(false);
         localStorage.removeItem('auth_token');
         return throwError(() => error);
-      })
+      }),
+      shareReplay(1)
     );
   }
 
-  private loadUserData() {
-    const userId = this.getUserIdFromToken();
-    if (userId) {
-      this.userService.getUserById(userId).subscribe({
-        next: (response) => {
-          if (response.success && response.user) {
-            console.log('User loaded successfully:', response.user);
-            localStorage.setItem('user', JSON.stringify(response.user));
-            this.currentUserSubject.next(response.user);
-          } else {
-            console.error('Failed to load user data:', response.message);
-            this.logout();
-          }
-        },
-        error: (error) => {
-          console.error('Error loading user data:', error);
-          this.logout();
-        }
-      });
+  refreshSession(): void {
+    const now = Date.now();
+    if (now - this.lastTokenCheck < this.checkInterval) {
+      return;
+    }
+    this.lastTokenCheck = now;
+
+    const currentTime = Date.now();
+    const sessionStartTime = Number(localStorage.getItem(this.sessionTimeKey)) || 0;
+    
+    if (currentTime - sessionStartTime > this.sessionDuration) {
+      localStorage.setItem(this.sessionTimeKey, currentTime.toString());
+      this.refreshToken().subscribe();
     }
   }
 
-  logout() {
+  private refreshToken(): Observable<any> {
+    const token = localStorage.getItem('auth_token');
+    if (!token) {
+      return throwError(() => new Error('No token found'));
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post(`${this.apiUrl}/refresh-token`, {}, { headers }).pipe(
+      tap((response: any) => {
+        if (response && response.token) {
+          localStorage.setItem('auth_token', response.token);
+        }
+      }),
+      shareReplay(1)
+    );
+  }
+
+  logout(): void {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
     localStorage.removeItem(this.sessionTimeKey);
     this.isLoggedInSubject.next(false);
-    this.router.navigate(['/login']);
+    this.currentUserSubject.next(null);
+    this.userService.clearUser();
+    this.router.navigate(['/homepage']);
   }
 
   private getUserIdFromToken(): string | null {
@@ -127,35 +165,7 @@ export class AuthService {
       const payload = JSON.parse(atob(token.split('.')[1]));
       return payload.userId;
     } catch (error) {
-      console.error('Error decoding token:', error);
       return null;
     }
-  }
-
-  getCurrentLoginStatus(): boolean {
-    return this.isLoggedInSubject.value;
-  }
-
-  getLoginStatus(): Observable<boolean> {
-    return this.isLoggedIn$;
-  }
-
-  refreshSession(): void {
-    const sessionStart = localStorage.getItem(this.sessionTimeKey);
-    const token = localStorage.getItem('auth_token');
-    
-    if (!token || !sessionStart) {
-      this.logout();
-      return;
-    }
-
-    const sessionAge = Date.now() - parseInt(sessionStart);
-    if (sessionAge > this.sessionDuration) {
-      this.logout();
-      return;
-    }
-
-    // Cập nhật thời gian session
-    localStorage.setItem(this.sessionTimeKey, Date.now().toString());
   }
 }

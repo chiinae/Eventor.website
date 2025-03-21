@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
@@ -10,7 +10,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
   styleUrl: './payment-fee.component.css',
   standalone: true,
   imports: [FormsModule, CommonModule, RouterModule, MatDialogModule]
-
 })
 export class PaymentFeeComponent {
   
@@ -22,6 +21,8 @@ export class PaymentFeeComponent {
   showQRCodePopup = false; // Popup QR Code
   showResultPopup = false; // Popup kết quả thanh toán
   isPaymentSuccessful: boolean | null = null; // Trạng thái giao dịch
+
+  constructor(private router: Router) {}
 
   confirmPayment() {
     this.showQRCodePopup = true; // Hiện popup QR Code
@@ -38,6 +39,8 @@ export class PaymentFeeComponent {
   closePopup() {
     this.showQRCodePopup = false;
     this.showResultPopup = false;
+    // Điều hướng về trang chủ
+    this.router.navigate(['/homepage']);
   }
 }
 

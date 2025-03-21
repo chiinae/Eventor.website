@@ -23,10 +23,10 @@
       <!-- Navigation -->
       <nav>
         <ul class="nav-menu">
-          <li><a class="nav-item">Sự kiện của tôi</a></li>
-          <li><a class="nav-item">Tạo sự kiện</a></li>
-          <li><a class="nav-item">Sự kiện</a></li>
-          <li><a class="nav-item">Đăng ký thành viên</a></li>
+          <li><a class="nav-item" (click)="handleNavigation('homepage/my-events')">Sự kiện của tôi</a></li>
+          <li><a class="nav-item" (click)="handleNavigation('homepage/create-event')">Tạo sự kiện</a></li>
+          <li><a class="nav-item" (click)="handleNavigation('homepage/listevents')">Sự kiện</a></li>
+          <li><a class="nav-item" (click)="handleNavigation('homepage/member-registration')">Đăng ký thành viên</a></li>
         </ul>
       </nav>
 

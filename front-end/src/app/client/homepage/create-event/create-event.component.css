@@ -1,6 +1,4 @@
-/* =====================
-   Global Styles
-   ===================== */
+
 * {
     box-sizing: border-box;
 }
@@ -111,4 +109,102 @@ button:hover {
     cursor: pointer;
     text-align: center;
     font-size: 14px;
+}
+
+/* Styles cho popup thành công */
+.success-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.success-content {
+  background-color: #faf4e0;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease;
+}
+
+.success-icon {
+  color: #4CAF50;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  background-color: #E8F5E9;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 15px;
+}
+
+.success-content h2 {
+  color: #333;
+  margin: 0 0 10px 0;
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.success-content p {
+  color: #4d4d4d;
+  margin: 0;
+  font-size: 16px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Style cho input lỗi */
+input.error,
+textarea.error,
+select.error {
+    border: 1px solid #dc3545 !important;
+    background-color: #fff8f8;
+}
+
+input.error:focus,
+textarea.error:focus,
+select.error:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    outline: none;
+}
+
+/* Animation cho error state */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.error {
+    animation: shake 0.6s ease-in-out;
 }

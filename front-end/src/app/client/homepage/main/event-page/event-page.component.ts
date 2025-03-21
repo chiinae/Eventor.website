@@ -22,7 +22,7 @@ export class EventPageComponent implements OnInit {
 
   private readonly freeEventIds = ['B006', 'B007'];
   private readonly upcomingEventIds = ['B005', 'B006', 'B007', 'B002'];
-  private readonly recommendedEventIds = ['B003', 'B005', 'B002', 'B005', 'B006', 'B007'];
+  private readonly recommendedEventIds = [ 'B002', 'B005', 'B006', 'B007'];
 
   constructor(private eventService: EventService) {
     console.log('EventPageComponent được khởi tạo');

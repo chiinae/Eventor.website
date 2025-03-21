@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule, DecimalPipe, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { EventService, Event } from '../../../../services/event.service';
 
 @Component({
@@ -16,13 +17,32 @@ export class ContentComponent implements OnInit {
   event: Event | null = null;
   error: string | null = null;
 
-  constructor(private eventService: EventService) {}
+  constructor(
+    private eventService: EventService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     if (this.eventId) {
       this.loadEventData();
     } else {
       this.error = 'Không tìm thấy ID sự kiện';
+    }
+  }
+
+  navigateToPayment() {
+    if (!this.event) return;
+
+    // Kiểm tra xem có vé miễn phí không
+    const hasFreeTicket = this.event.tickets.some(ticket => ticket.price === 0);
+    const hasPaymentTicket = this.event.tickets.some(ticket => ticket.price > 0);
+
+    if (hasFreeTicket && !hasPaymentTicket) {
+      // Nếu chỉ có vé miễn phí
+      this.router.navigate(['/homepage/payment-free'], { queryParams: { eventId: this.eventId } });
+    } else {
+      // Nếu có vé phải trả phí
+      this.router.navigate(['/homepage/payment-fee'], { queryParams: { eventId: this.eventId } });
     }
   }
 

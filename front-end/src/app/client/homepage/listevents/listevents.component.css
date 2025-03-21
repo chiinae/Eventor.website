@@ -5,7 +5,7 @@
     overflow-x: auto;
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
-    background: rgb(158, 92, 0);
+    background: #8b461f;
     border-bottom: 1px solid #eee;
     position: sticky;
     top: 0;

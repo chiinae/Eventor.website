@@ -28,6 +28,21 @@ export class HeaderNologinComponent {
     this.isMenuOpen = false;
   }
 
+  handleNavigation(route: string) {
+    const authRequiredRoutes = [
+      'homepage/create-event',
+      'homepage/my-events',
+      'homepage/member-registration'
+    ];
+
+    if (authRequiredRoutes.includes(route)) {
+      this.router.navigate(['/login']);
+    } else {
+      this.router.navigate([route]);
+    }
+    this.isMenuOpen = false;
+  }
+
   login() {
     this.router.navigate(['/login']);
     this.isMenuOpen = false;

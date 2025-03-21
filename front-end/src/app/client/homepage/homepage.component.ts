@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
@@ -7,6 +7,8 @@ import { HeaderNologinComponent } from './header-nologin/header-nologin.componen
 import { AuthService } from '../../services/auth.service';
 import { HeaderService } from '../../services/header.service';
 import { UserService } from '../../services/user.service';
+import { Subject, takeUntil } from 'rxjs';
+import { User } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'app-homepage',
@@ -21,9 +23,10 @@ import { UserService } from '../../services/user.service';
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css']
 })
-export class HomepageComponent implements OnInit {
+export class HomepageComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
-  currentUser: any;
+  currentUser: User | null = null;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private authService: AuthService,
@@ -32,32 +35,30 @@ export class HomepageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Kiểm tra trạng thái đăng nhập khi component được khởi tạo
+    // Kiểm tra trạng thái đăng nhập ban đầu
     this.isLoggedIn = this.authService.getCurrentLoginStatus();
     
-    // Theo dõi thay đổi trạng thái đăng nhập
-    this.authService.getLoginStatus().subscribe(
-      (loggedIn: boolean) => {
-        console.log('Login status changed:', loggedIn);
+    // Theo dõi trạng thái đăng nhập và thông tin user
+    this.authService.isLoggedIn$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((loggedIn: boolean) => {
         this.isLoggedIn = loggedIn;
         
-        if (loggedIn) {
-          // Nếu đã đăng nhập, lấy thông tin user
-          this.userService.getCurrentUser().subscribe(
-            (user) => {
-              if (user) {
-                this.currentUser = user;
-                console.log('Current user loaded:', user);
-              }
-            },
-            (error) => {
-              console.error('Error loading user:', error);
-            }
-          );
-        } else {
+        if (!loggedIn) {
           this.currentUser = null;
         }
-      }
-    );
+      });
+
+    // Theo dõi thông tin user độc lập
+    this.userService.currentUser
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((user) => {
+        this.currentUser = user;
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

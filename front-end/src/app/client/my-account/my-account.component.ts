@@ -27,11 +27,17 @@ export class MyAccountComponent implements OnInit {
       return;
     }
 
-    this.userService.currentUser.subscribe({
+    // Lấy dữ liệu user từ localStorage trước
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      this.currentUser = JSON.parse(userData);
+    }
+
+    // Chỉ gọi API một lần để cập nhật dữ liệu mới nhất
+    this.userService.loadCurrentUser().subscribe({
       next: (user) => {
         if (user) {
           this.currentUser = user;
-          this.authService.refreshSession();
         }
       },
       error: (error) => {

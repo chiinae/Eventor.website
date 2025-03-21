@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { PaymentPopupComponent } from './payment-popup/payment-popup.component';
 
 @Component({
   selector: 'app-payment-fee',

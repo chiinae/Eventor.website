@@ -1,10 +1,14 @@
 .payment-container {
+    width: 1500px;
+    align-items: center;
     display: flex;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
     justify-content: space-between;
-    background: #fdfaf5;
+    background: var(--background-light);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     gap: 40px;
   
     .payment-info {
@@ -20,7 +24,8 @@
       h2 {
         font-size: 24px;
         font-weight: bold;
-        color: #c89b3c;
+        color:var(--primary-color);
+        font-family: var(--heading-font);
       }
   
       p {
@@ -38,18 +43,14 @@
         img {
           width: 80px;
           height: 80px;
-          border-radius: 5px;
-          border: 2px solid #c89b3c;
         }
       }
     }
   
     .payment-form {
       flex: 1;
-      background: #fff;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   
       h2 {
         font-size: 24px;
@@ -78,14 +79,16 @@
           font-size: 18px;
           border: 1px solid #ccc;
           border-radius: 5px;
+          margin-bottom: 20px;
         }
   
         .btn-payment {
-          width: 100%;
+          width: 200px;
+          margin: 0 auto;
           padding: 12px;
           font-size: 20px;
           color: white;
-          background: #8b572a;
+          background: var(--primary-dark);
           border: none;
           border-radius: 5px;
           cursor: pointer;
@@ -95,3 +98,175 @@
     }
   }
   
+/* Styles cho popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: var(--secondary-light);
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  animation: slideIn 0.3s ease;
+}
+
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.qr-code {
+  margin-bottom: 20px;
+}
+
+.qr-code img {
+  width: 200px;
+  height: 200px;
+}
+
+.bank-info {
+  margin-bottom: 25px;
+}
+
+.bank-info p {
+  margin: 8px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.confirm-button {
+  background-color: var(--primary-dark);
+  font-family: var(--heading-font) !important;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.confirm-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.success-content {
+  background-color: #fff7e6;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  border: 2px solid #e6d5b8;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: fadeInScale 0.4s ease-in-out forwards;
+}
+
+.success-icon {
+  font-size: 50px;
+  color: #4CAF50;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+}
+
+.booking-code {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.btn-home {
+  background-color: #8B5E3C;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.btn-home:hover {
+  background-color: #71482d;
+}
+
+.bi-check-circle {
+  font-size: 50px;
+  color: var(--success-color);
+}
+
+.success-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Làm mờ nền */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Đảm bảo nằm trên nội dung khác */
+}
+
+
+
+@media (max-width: 480px) {
+  .popup-content {
+    padding: 20px;
+  }
+
+  .qr-code img {
+    width: 180px;
+    height: 180px;
+  }
+
+  .bank-info p {
+    font-size: 14px;
+  }
+}
+  
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,13 @@
+<div class="account-dashboard">
+    <h2>Quản lý sự kiện</h2>
+    <div class="dashboard-cards">
+      <div class="dashboard-card" *ngFor="let event of EventCards">
+        <div class="icon">
+          <img [src]="event.icon" alt="icon">
+        </div>
+        <h3>{{ event.title }}</h3>
+        <button (click)="goToPage(event.route)">XEM CHI TIẾT</button>
+      </div>
+    </div>
+  </div>
+  

@@ -1,6 +1,7 @@
 .dashboard-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
   
@@ -10,6 +11,8 @@
     border-radius: 10px;
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Montserrat';
+
   }
   
   .dashboard-card .icon img {
@@ -19,11 +22,13 @@
   
   .dashboard-card button {
     background: none;
-    border: 1px solid #a76e2b;
+    border: 1px solid #DAA520;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 20px;
     cursor: pointer;
-    color: #a76e2b;
+    color: #DAA520;
+    font-family: 'Montserrat';
+    font-weight: bold;
   }
   
   .dashboard-card button:hover {

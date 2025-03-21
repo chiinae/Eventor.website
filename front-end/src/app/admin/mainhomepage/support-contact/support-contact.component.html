@@ -1,0 +1,57 @@
+<h2>Hỗ trợ & Liên hệ</h2>
+<div class="support-container">
+    <div class="contact-list">
+      <ul>
+        <li *ngFor="let contact of contacts" 
+            [class.active]="selectedContact === contact"
+            (click)="selectContact(contact)">
+          <img [src]="contact.avatar" alt="Avatar" />
+          <div class="contact-info">
+            <h4>{{ contact.name }}</h4>
+            <p>{{ contact.lastMessage }}</p>
+          </div>
+          <span class="time">{{ contact.time }}</span>
+          <span *ngIf="contact.unread > 0" class="badge">{{ contact.unread }}</span>
+        </li>
+      </ul>
+    </div>
+  
+    <div class="chat-window" *ngIf="selectedContact">
+      <div class="chat-header">
+        <img [src]="selectedContact.avatar" alt="Avatar" />
+        <div>
+          <h3>{{ selectedContact.name }}</h3>
+          <p>Online {{ selectedContact.lastSeen }}</p>
+        </div>
+      </div>
+  
+      <div class="chat-body">
+        <div *ngFor="let message of messages" 
+             [class.admin]="message.sender === 'admin'">
+          <p>{{ message.text }}</p>
+        </div>
+      </div>
+  
+      <div class="chat-footer">
+        <!-- Nút đính kèm file -->
+        <button class="attach-btn">
+          <img src="assets/images/icon-admin-homepage/ghim.png" alt="" style="width: 20px; height: 20px; ">
+          <input type="file" class="file-input" />
+        </button>
+      
+        <!-- Ô nhập tin nhắn -->
+        <input type="text" [(ngModel)]="newMessage" placeholder="Hiện tại, đối với sự kiện được..." />
+      
+        <!-- Nút emoji -->
+        <button class="emoji-btn"><img src="assets/images/icon-admin-homepage/emoji.png" alt="" style="width: 20px; height: 20px;"></button>
+      
+        <!-- Nút gửi tin -->
+        <button class="send-btn" (click)="sendMessage()">➤</button>
+      
+        <!-- Nút ghi âm -->
+        <button class="record-btn"><img src="assets/images/icon-admin-homepage/mic.png" alt="" style="width: 20px; height: 20px;"></button>
+      </div>
+      
+    </div>
+  </div>
+  

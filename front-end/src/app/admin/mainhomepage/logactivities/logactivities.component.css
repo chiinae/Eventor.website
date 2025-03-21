@@ -1,23 +1,32 @@
+h2{
+    color: #8B4513;
+    font-family: 'Oswald';
+  }
 .dashboard-cards {
     display: grid;
-    /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
-    grid-template-columns: repeat(4, 1fr);
+    /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+    font-family: 'Montserrat';
   }
   
-  .dashboard-card {
+.dashboard-card {
     background: white;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Montserrat';
-
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .dashboard-card:hover {
+    transform: translateY(-5px);
   }
   
   .dashboard-card .icon img {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
   }
   
   .dashboard-card button {
@@ -27,11 +36,12 @@
     border-radius: 20px;
     cursor: pointer;
     color: #DAA520;
-    font-family: 'Montserrat';
     font-weight: bold;
+    font-family: 'Montserrat';
   }
   
   .dashboard-card button:hover {
     background: #a76e2b;
     color: white;
   }
+  

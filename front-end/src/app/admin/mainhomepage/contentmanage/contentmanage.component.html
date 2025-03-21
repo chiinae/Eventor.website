@@ -1,0 +1,110 @@
+<div class="content-manage">
+  <button class="create-btn">
+    <img src="assets/images/icon-admin-homepage/add.png" alt="Add"> Tạo mới
+  </button>
+
+  <div class="content-container">
+    <div class="content-left">
+      <h2>Cẩm nang tổ chức sự kiện</h2>
+      <div class="main-content">
+        <img [src]="mainContent.mainImage" alt="Main Content Image">
+        <div class="content-info">
+          <div class="content-info-left">
+            <h3>{{ mainContent.title }}</h3>
+            <p>Tác giả: {{ mainContent.author }}</p>
+          </div>
+          <div class="actions">
+            <button (click)="editContent(mainContent)">
+              <img src="assets/images/icon-admin-homepage/edit.png" alt="Edit">
+            </button>
+            <button (click)="deleteContent(mainContent)">
+              <img src="assets/images/icon-admin-homepage/delete.png" alt="Delete">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-list">
+        <div class="content-item" *ngFor="let item of mainContent.items">
+          <img [src]="item.image" alt="Content Image">
+          <div class="content-info">
+            <div>
+              <h4>{{ item.title }}</h4>
+              <p>Tác giả: {{ item.author }}</p>
+            </div>
+            <div class="actions">
+              <button (click)="editContent(item)">
+                <img src="assets/images/icon-admin-homepage/edit.png" alt="Edit">
+              </button>
+              <button (click)="deleteContent(item)">
+                <img src="assets/images/icon-admin-homepage/delete.png" alt="Delete">
+              </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="content-right">
+      <h2>Mới nhất</h2>
+      <div class="latest-list">
+        <div class="latest-item" *ngFor="let latest of latestContents">
+          <h4>{{ latest.title }}</h4>
+          <p>Tác giả: {{ latest.author }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="content-manage">
+  <div class="content-container">
+    <div class="content-left">
+      <h2>Cẩm nang tổ chức sự kiện</h2>
+      <div class="main-content">
+        <img [src]="mainContent.mainImage" alt="Main Content Image">
+        <div class="content-info">
+          <div class="content-info-left">
+            <h3>{{ mainContent.title }}</h3>
+            <p>Tác giả: {{ mainContent.author }}</p>
+          </div>
+          <div class="actions">
+            <button (click)="editContent(mainContent)">
+              <img src="assets/images/icon-admin-homepage/edit.png" alt="Edit">
+            </button>
+            <button (click)="deleteContent(mainContent)">
+              <img src="assets/images/icon-admin-homepage/delete.png" alt="Delete">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-list">
+        <div class="content-item" *ngFor="let item of mainContent.items">
+          <img [src]="item.image" alt="Content Image">
+          <div class="content-info">
+            <div>
+              <h4>{{ item.title }}</h4>
+              <p>Tác giả: {{ item.author }}</p>
+            </div>
+            <div class="actions">
+              <button (click)="editContent(item)">
+                <img src="assets/images/icon-admin-homepage/edit.png" alt="Edit">
+              </button>
+              <button (click)="deleteContent(item)">
+                <img src="assets/images/icon-admin-homepage/delete.png" alt="Delete">
+              </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="content-right">
+      <h2>Mới nhất</h2>
+      <div class="latest-list">
+        <div class="latest-item" *ngFor="let latest of latestContents">
+          <h4>{{ latest.title }}</h4>
+          <p>Tác giả: {{ latest.author }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

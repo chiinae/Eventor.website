@@ -47,19 +47,20 @@ export class LoginComponent {
 
     const { email, password } = this.loginForm.value;
     this.authService.login(email, password).subscribe({
-      next: (response) => {
+      next: () => {
         console.log('Login successful');
         this.isLoading = false;
-        this.snackBar.open('Đăng nhập thành công', 'Đóng', {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-        });
-        setTimeout(() => {
-          this.router.navigate(['/homepage']).then(() => {
-            window.location.reload();
-          });
-        }, 1000);
+        localStorage.setItem('isLoggedIn', 'true');
+        // this.snackBar.open('Đăng nhập thành công', 'Đóng', {
+        //   duration: 3000,
+        //   horizontalPosition: 'right',
+        //   verticalPosition: 'top',
+        // });
+        // setTimeout(() => {
+        //   this.router.navigate(['/homepage']).then(() => {
+        //     window.location.reload();
+        //   });
+        // }, 1000);
       },
       error: (error) => {
         this.isLoading = false;
@@ -67,18 +68,15 @@ export class LoginComponent {
         
         if (error.status === 401) {
           this.errorMessage = 'Email hoặc mật khẩu không đúng';
+          this.showErrorPopup = true;
         } else if (error.status === 0) {
           this.errorMessage = 'Không thể kết nối đến server';
+          this.showErrorPopup = true;
         } else {
           this.errorMessage = error.message || 'Đã có lỗi xảy ra khi đăng nhập';
+          this.showErrorPopup = true;
         }
 
-        this.snackBar.open(this.errorMessage, 'Đóng', {
-          duration: 5000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
       }
     });
   }
@@ -93,6 +91,10 @@ export class LoginComponent {
     }
   }
 
+  closeErrorPopup() {
+    this.showErrorPopup = false;
+  }
+  
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
@@ -109,7 +111,4 @@ export class LoginComponent {
     this.router.navigate(['/forgot-password']);
   }
 
-  closeErrorPopup() {
-    this.showErrorPopup = false;
-  }
 }

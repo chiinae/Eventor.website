@@ -20,10 +20,6 @@ import { MemberRegisterComponent } from './client/homepage/member-register/membe
 import { PaymentComponent } from './client/homepage/payment/payment.component';
 import { PaymentFeeComponent } from './client/homepage/payment-fee/payment-fee.component';
 import { PaymentFreeComponent } from './client/homepage/payment-free/payment-free.component';
-import { ListEventsComponent } from './client/homepage/listevents/listevents.component';
-import { DetaillisteventsComponent } from './client/homepage/listevents/detaillistevents/detaillistevents.component';
-import { PrivacyComponent } from './client/homepage/privacy/privacy.component';
-import { SearchPageComponent } from './client/homepage/search-page/search-page.component';
 // Admin add component  
 import { MainhomepageComponent } from './admin/mainhomepage/mainhomepage.component';
 import { SidebarComponent } from './admin/sidebar/sidebar.component';
@@ -69,10 +65,6 @@ export const routes: Routes = [
       { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
       { path: 'payment-fee', component: PaymentFeeComponent, canActivate: [AuthGuard] },
       { path: 'payment-free', component: PaymentFreeComponent, canActivate: [AuthGuard] },
-      { path: 'listevents', component: ListEventsComponent, canActivate: [AuthGuard] },
-      { path: 'detail-list-events', component: DetaillisteventsComponent, canActivate: [AuthGuard] },
-      { path: 'privacy', component: PrivacyComponent },
-      { path: 'search', component: SearchPageComponent }
     ]
   },
   // *** Routes cho Admin Panel ***

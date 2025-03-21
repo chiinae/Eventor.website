@@ -10,7 +10,6 @@ import { MemberRegisterComponent } from './member-register/member-register.compo
 import { PaymentComponent } from './payment/payment.component';
 import { PaymentFeeComponent } from './payment-fee/payment-fee.component';
 import { PaymentFreeComponent } from './payment-free/payment-free.component';
-import { PerformanceStatisticsComponent } from './performance-statistics/performance-statistics.component';
 import { CommonModule } from '@angular/common';
 import { HeaderNologinComponent } from './header-nologin/header-nologin.component';
 import { AuthService } from '../../services/auth.service';
@@ -34,7 +33,6 @@ import { UserService } from '../../services/user.service';
     PaymentComponent,
     PaymentFeeComponent,
     PaymentFreeComponent,
-    PerformanceStatisticsComponent
   ],
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css']

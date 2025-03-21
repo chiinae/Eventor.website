@@ -48,16 +48,17 @@ export class LoginComponent {
       next: () => {
         console.log('Login successful');
         this.isLoading = false;
+        localStorage.setItem('isLoggedIn', 'true');
         // this.snackBar.open('Đăng nhập thành công', 'Đóng', {
         //   duration: 3000,
         //   horizontalPosition: 'right',
         //   verticalPosition: 'top',
         // });
-        setTimeout(() => {
-          this.router.navigate(['/homepage']).then(() => {
-            window.location.reload();
-          });
-        }, 1000);
+        // setTimeout(() => {
+        //   this.router.navigate(['/homepage']).then(() => {
+        //     window.location.reload();
+        //   });
+        // }, 1000);
       },
       error: (error) => {
         this.isLoading = false;
@@ -74,11 +75,6 @@ export class LoginComponent {
           this.showErrorPopup = true;
         }
 
-        // this.snackBar.open(this.errorMessage, 'Đóng', {
-        //   horizontalPosition: 'right',
-        //   verticalPosition: 'top',
-        //   panelClass: ['error-snackbar']
-        // });
       }
     });
   }

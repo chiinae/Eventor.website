@@ -30,9 +30,14 @@ import { SidebarComponent } from './admin/sidebar/sidebar.component';
 import { MainheaderComponent } from './admin/mainheader/mainheader.component';
 import { ManageoverallComponent } from './admin/mainhomepage/manageoverall/manageoverall.component';
 import { AccountmanageComponent } from './admin/mainhomepage/accountmanage/accountmanage.component';
-import { RoleManagementComponent } from './admin/mainhomepage/accountmanage/role-management/role-management.component';
+import { EventmanageComponent } from './admin/mainhomepage/eventmanage/eventmanage.component';
+import { ContentmanageComponent } from './admin/mainhomepage/contentmanage/contentmanage.component';
+import { PaymentmanageComponent } from './admin/mainhomepage/paymentmanage/paymentmanage.component';
+import { SupportContactComponent } from './admin/mainhomepage/support-contact/support-contact.component';
+import { SettingComponent } from './admin/mainhomepage/setting/setting.component';
+import { LogactivitiesComponent } from './admin/mainhomepage/logactivities/logactivities.component';
 import { AuthGuard } from './guards/auth.guard';
-import { MatOptgroup } from '@angular/material/core';
+// import { MatOptgroup } from '@angular/material/core';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/homepage', pathMatch: 'full' },
@@ -78,7 +83,12 @@ export const routes: Routes = [
       { path: 'sidebar', component: SidebarComponent, canActivate: [AuthGuard] },
       { path: 'manageoverall', component: ManageoverallComponent, canActivate: [AuthGuard] },
       { path: 'accountmanage', component: AccountmanageComponent, canActivate: [AuthGuard] },
-      { path: 'role', component: RoleManagementComponent, canActivate: [AuthGuard] },
+      { path: 'eventmanage', component: EventmanageComponent, canActivate: [AuthGuard] },
+      { path: 'contentmanage', component: ContentmanageComponent, canActivate: [AuthGuard]},
+      { path: 'paymentmanage', component: PaymentmanageComponent, canActivate: [AuthGuard]},
+      { path: 'support-contact', component: SupportContactComponent, canActivate: [AuthGuard]},
+      { path: 'setting', component: SettingComponent, canActivate: [AuthGuard]},
+      { path: 'logactivities', component: LogactivitiesComponent, canActivate: [AuthGuard]},
     ]
   },
   {

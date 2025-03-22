@@ -6,6 +6,7 @@ import { User } from '../../interfaces/user.interface';
 import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HeaderComponent } from '../homepage/header/header.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @Component({
   selector: 'app-my-account',
@@ -14,7 +15,8 @@ import { HeaderComponent } from '../homepage/header/header.component';
     CommonModule, 
     RouterModule,
     MatSnackBarModule,
-    HeaderComponent
+    HeaderComponent,
+    NotificationComponent
   ],
   templateUrl: './my-account.component.html',
   styleUrls: ['./my-account.component.css']
@@ -66,6 +68,9 @@ export class MyAccountComponent implements OnInit {
         break;
       case 'saved-events':
         this.router.navigate(['/my-account/saved-events']);
+        break;
+      case 'notification':
+        this.router.navigate(['/my-account/notification']);
         break;
       default:
         this.router.navigate(['/my-account']);

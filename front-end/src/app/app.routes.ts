@@ -34,6 +34,7 @@ import { SupportContactComponent } from './admin/mainhomepage/support-contact/su
 import { SettingComponent } from './admin/mainhomepage/setting/setting.component';
 import { LogactivitiesComponent } from './admin/mainhomepage/logactivities/logactivities.component';
 import { AuthGuard } from './guards/auth.guard';
+import { NotificationComponent } from './client/my-account/notification/notification.component';
 // import { MatOptgroup } from '@angular/material/core';
 
 export const routes: Routes = [
@@ -47,7 +48,8 @@ export const routes: Routes = [
       { path: 'general-info', component: GeneralInfoComponent },
       { path: 'invoices', component: InvoicesComponent },
       { path: 'saved-events', component: SavedEventsComponent },
-      { path: 'statistics', component: StatisticsComponent }
+      { path: 'statistics', component: StatisticsComponent },
+      { path: 'notification', component: NotificationComponent }
     ]
   },
   { 

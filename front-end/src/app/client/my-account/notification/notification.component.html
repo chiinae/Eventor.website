@@ -1,0 +1,34 @@
+<div class="notification-container">
+  <h2 class="notification-header">Điểm thưởng của tôi</h2>
+
+  <div class="points-summary">
+    <div class="total-points">
+      <i class="bi bi-star-fill"></i>
+      <span>{{ totalPoints }} điểm</span>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <div *ngIf="!isLoading && pointHistory.length === 0" class="no-points">
+    <i class="bi bi-star"></i>
+    <p>Bạn chưa có điểm thưởng nào</p>
+  </div>
+
+  <div *ngIf="!isLoading && pointHistory.length > 0" class="points-history">
+    <div *ngFor="let item of pointHistory" class="point-item" [ngClass]="{'point-earn': item.type === 'earn', 'point-use': item.type === 'use'}">
+      <div class="point-icon">
+        <i class="bi" [ngClass]="{'bi-plus-circle-fill': item.type === 'earn', 'bi-dash-circle-fill': item.type === 'use'}"></i>
+      </div>
+      <div class="point-content">
+        <div class="point-description">{{ item.description }}</div>
+        <div class="point-date">{{ item.date | date:'dd/MM/yyyy HH:mm' }}</div>
+      </div>
+      <div class="point-amount" [ngClass]="{'positive': item.type === 'earn', 'negative': item.type === 'use'}">
+        {{ item.type === 'earn' ? '+' : '-' }}{{ item.points }}
+      </div>
+    </div>
+  </div>
+</div> 

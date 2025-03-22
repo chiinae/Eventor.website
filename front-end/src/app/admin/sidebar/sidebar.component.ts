@@ -14,9 +14,9 @@ export class SidebarComponent {
 
   // Danh sách menu sidebar
   menuItems = [
+    { path: '/admin-homepage/manageoverall', label: 'Trang chủ', icon: 'assets/images/icon-admin-homepage/event-category.png' },
     { path: '/admin-homepage/accountmanage', label: 'Quản lý tài khoản', icon: 'assets/images/icon-admin-homepage/account.png' },
     { path: '/admin-homepage/eventmanage', label: 'Quản lý sự kiện', icon: 'assets/images/icon-admin-homepage/event.png' },
-    { path: '/admin-homepage/manageoverall', label: 'Danh mục sự kiện', icon: 'assets/images/icon-admin-homepage/event-category.png' },
     { path: '/admin-homepage/contentmanage', label: 'Quản lý nội dung', icon: 'assets/images/icon-admin-homepage/content.png' },
     { path: '/admin-homepage/paymentmanage', label: 'Quản lý thanh toán', icon: 'assets/images/icon-admin-homepage/payment.png' },
     { path: '/admin-homepage/support-contact', label: 'Hỗ trợ & Liên hệ', icon: 'assets/images/icon-admin-homepage/support.png' },

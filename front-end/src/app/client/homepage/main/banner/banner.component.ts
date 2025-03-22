@@ -29,11 +29,12 @@ export class BannerComponent implements OnInit {
     this.bannerService.getBannerById('B001').subscribe({
       next: (banner) => {
         console.log('Banner đã được tải:', banner);
-        if (banner && banner.imageUrl) {
+        if (banner) {
           this.currentBanner = banner;
+          console.log('Banner ID:', banner.id);
         } else {
-          console.error('Banner không có URL hình ảnh');
-          this.error = 'Banner không có URL hình ảnh';
+          console.error('Không tìm thấy banner');
+          this.error = 'Không tìm thấy banner';
         }
       },
       error: (error) => {
@@ -44,8 +45,12 @@ export class BannerComponent implements OnInit {
   }
 
   navigateToEvent() {
-    if (this.currentBanner?._id) {
-      this.router.navigate(['/event', this.currentBanner._id]);
+    console.log('Current banner:', this.currentBanner);
+    if (this.currentBanner?.id) {
+      console.log('Navigating to event with ID:', this.currentBanner.id);
+      this.router.navigate(['/event', this.currentBanner.id]);
+    } else {
+      console.error('Không tìm thấy ID của banner');
     }
   }
 }

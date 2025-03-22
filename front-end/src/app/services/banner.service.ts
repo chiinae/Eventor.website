@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Banner {
-  _id: string;
+  id: string;
   title: string;
   link: string;
   start_date: string;

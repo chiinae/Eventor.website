@@ -13,6 +13,7 @@ import { BlogComponent } from './client/homepage/blog/blog.component';
 import { HiringComponent } from './client/homepage/hiring/hiring.component';
 import { DetailComponent } from './client/homepage/blog/detail/detail.component';
 import { MainComponent } from './client/homepage/main/main.component';
+import { ListEventsComponent } from './client/homepage/listevents/listevents.component';
 import { MyEventsComponent } from './client/homepage/my-events/my-events.component';
 import { CreateEventComponent } from './client/homepage/create-event/create-event.component';
 import { EventInformationComponent } from './client/homepage/event-information/event-information.component';
@@ -40,7 +41,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'my-account', component: MyAccountComponent,canActivate: [AuthGuard],
+  { path: 'my-account', component: MyAccountComponent, canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'general-info', pathMatch: 'full' },
       { path: 'general-info', component: GeneralInfoComponent },
@@ -65,6 +66,7 @@ export const routes: Routes = [
       { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
       { path: 'payment-fee', component: PaymentFeeComponent, canActivate: [AuthGuard] },
       { path: 'payment-free', component: PaymentFreeComponent, canActivate: [AuthGuard] },
+      { path: 'listevents', component: ListEventsComponent, canActivate: [AuthGuard] }
     ]
   },
   // *** Routes cho Admin Panel ***

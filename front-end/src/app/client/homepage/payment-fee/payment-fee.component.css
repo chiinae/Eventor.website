@@ -2,17 +2,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
-    max-width: 1200px;
+    width: 100%;
     margin: auto;
-    background: white; /* Đảm bảo nền trắng */
+    background: #f5f5f5;
     padding: 20px;
     border-radius: 10px;
+    margin-bottom: 20px;
 }
 
 .payment-left {
     width: 45%;
-    background: #F8F3E9;
+    background: #f5f5f5;
     text-align: center;
     padding: 20px;
     border-radius: 10px;
@@ -26,7 +26,7 @@
 .payment-right {
     width: 50%;
     padding: 30px;
-    background: white;
+    background: #f5f5f5;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
@@ -51,7 +51,7 @@ h2 {
 .form-group input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #f5f5f5;
     border-radius: 5px;
 }
 
@@ -74,4 +74,108 @@ button:hover {
     height: 300px;
     display: block;
     margin: 0 auto;
+}
+
+/* Styles for popup overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background: #faf4e0;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+}
+
+.qr-code {
+    margin-bottom: 20px;
+}
+
+.qr-code img {
+    width: 200px;
+    height: 200px;
+}
+
+.bank-info {
+    margin-bottom: 25px;
+}
+
+.bank-info p {
+    margin: 8px 0;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.confirm-button {
+    background-color: #7A4D24;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-button:hover {
+    background-color: #5A3820;
+}
+
+/* Styles for success overlay */
+.success-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dim background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; 
+}
+
+.success-content {
+    background-color: #fff7e6;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 90%;
+}
+
+.bi-check-circle {
+    font-size: 50px;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.btn-home {
+    background-color: #8B5E3C;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+.btn-home:hover {
+    background-color: #71482d;
 }

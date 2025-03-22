@@ -66,8 +66,8 @@
   border: none;
   outline: none;
   padding: 8px 8px 8px 30px;
-  font-size: 14px;
-  width: 200px;
+  font-size: 15px;
+  width: 250px;
   background: transparent;
 }
 
@@ -113,7 +113,7 @@
 .nav-menu a {
   text-decoration: none;
   color: #333;
-  font-size: 14px;
+  font-size: 15px;
   padding: 5px 5px;
   transition: all 0.3s ease;
   position: relative;
@@ -565,4 +565,14 @@
 .event-price {
   font-weight: 500;
   color: #2c5282;
+}
+
+.auth-buttons button {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }

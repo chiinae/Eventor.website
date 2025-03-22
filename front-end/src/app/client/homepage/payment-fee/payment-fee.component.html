@@ -25,38 +25,32 @@
         </div>
 
         <!-- Nút xác nhận thanh toán -->
-<button (click)="confirmPayment()">Xác nhận thanh toán</button>
+        <button (click)="showPaymentPopup()">Xác nhận thanh toán</button>
 
-<!-- Popup QR Code -->
-<div class="popup-overlay" *ngIf="showQRCodePopup">
-    <div class="popup">
-      <img src="assets/images/qrcodepayment/image.png" alt="QR Code" />
-  
-      <p>Ngân hàng TMCP Tiên Phong (TP Bank)</p>
-      <p>Công ty Cổ phần dịch vụ Eventor</p>
-      <p>STK: 166778899</p>
-      <p>Nội dung thanh toán: #FE000106</p>
-  
-      <button class="close-btn" (click)="processPayment()">Xác nhận thanh toán</button>
-    </div>
-  </div>
-  
-  <!-- Popup Kết Quả Thanh Toán -->
-  <div class="popup-overlay" *ngIf="showResultPopup">
-    <div class="popup">
-      <img class="popup-image" *ngIf="isPaymentSuccessful" src="\assets\images\paymentpopup\sucess.png" alt="Success">
-      <img class="popup-image" *ngIf="!isPaymentSuccessful" src="assets\images\paymentpopup\fail.png" alt="Fail">
-  
-      <h2 *ngIf="isPaymentSuccessful">Đăng ký thành công</h2>
-      <h2 *ngIf="!isPaymentSuccessful">Thanh toán thất bại</h2>
-  
-      <p *ngIf="isPaymentSuccessful">Mã đặt chỗ: #FE000152</p>
-      <p *ngIf="!isPaymentSuccessful">Vui lòng thử lại sau.</p>
-  
-      <button class="close-btn" (click)="closePopup()">Trở về</button>
-    </div>
-  </div>
-  
+        <!-- Payment Popup -->
+        <div class="popup-overlay" *ngIf="isShowingPopup">
+            <div class="popup-content">
+                <div class="qr-code">
+                    <img src="assets/images/qrcodepayment/image.png" alt="QR Code">
+                </div>
+                <div class="bank-info">
+                    <p class="bank-name">Ngân hàng TMCP Tiên Phong (TP Bank)</p>
+                    <p class="company-name">Công ty Cổ phần dịch vụ Eventor</p>
+                    <p class="account-number">STK: 166778899</p>
+                    <p class="payment-content">Nội dung thanh toán: #FE000106</p>
+                </div>
+                <button class="confirm-button" (click)="showSuccessPopup()" (click)="closePopup()">Xác nhận thanh toán</button>
+            </div>
+        </div>
 
+        <!-- Popup kết quả thanh toán -->
+        <div class="success-overlay" *ngIf="isShowingSuccessPopup">
+            <div class="success-content">
+            <div class="bi-check-circle"></div>
+            <h2>Thanh toán thành công</h2>
+            <p><strong>Mã thanh toán:</strong> #FE000152</p>
+            <button class="btn-home" (click)="closeSuccessPopup()">Trở về trang chủ</button>
+            </div>
+        </div>
     </div>
 </div>

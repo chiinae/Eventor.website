@@ -1,6 +1,7 @@
 import { Component, Input, ElementRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { EventService, Event } from '../../../../services/event.service';
 
 @Component({
@@ -13,18 +14,23 @@ import { EventService, Event } from '../../../../services/event.service';
 })
 export class BannerComponent implements OnInit {
   @Input() eventId: string | null = null;
-  @Input() imageUrl: string = '';
   event: Event | null = null;
   error: string | null = null;
-  hasError: boolean = false;
 
-  constructor(private eventService: EventService, private el: ElementRef) {}
+  constructor(
+    private eventService: EventService, 
+    private el: ElementRef,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     if (this.eventId) {
       this.eventService.getEventById(this.eventId).subscribe({
         next: (event: Event) => {
           this.event = event;
+          if (event.event_image) {
+            this.setBackground(event.event_image);
+          }
         },
         error: (error: any) => {
           console.error('Error loading event:', error);
@@ -32,18 +38,18 @@ export class BannerComponent implements OnInit {
         }
       });
     }
+  }
 
-    if (this.imageUrl) {
-      // Set the background image for blur effect
-      this.el.nativeElement.style.setProperty('--banner-image', `url(${this.imageUrl})`);
+  navigateToEvent() {
+    if (this.eventId) {
+      this.router.navigate(['/event', this.eventId]);
     }
   }
 
-  onImageError() {
-    this.hasError = true;
-  }
-
-  onImageLoad() {
-    this.hasError = false;
+  setBackground(imageUrl: string) {
+    const container = this.el.nativeElement.querySelector('.banner-container') as HTMLElement;
+    if (container) {
+      container.style.setProperty('--banner-bg', `url(${imageUrl})`);
+    }
   }
 }

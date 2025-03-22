@@ -34,6 +34,11 @@ export class LoginComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+
+    // Kiểm tra nếu đã đăng nhập thì chuyển về homepage
+    if (this.authService.getCurrentLoginStatus()) {
+      this.router.navigate(['/homepage']);
+    }
   }
 
   onSubmit() {
@@ -47,20 +52,14 @@ export class LoginComponent {
 
     const { email, password } = this.loginForm.value;
     this.authService.login(email, password).subscribe({
-      next: () => {
-        console.log('Login successful');
+      next: (response) => {
         this.isLoading = false;
-        localStorage.setItem('isLoggedIn', 'true');
-        // this.snackBar.open('Đăng nhập thành công', 'Đóng', {
-        //   duration: 3000,
-        //   horizontalPosition: 'right',
-        //   verticalPosition: 'top',
-        // });
-        // setTimeout(() => {
-        //   this.router.navigate(['/homepage']).then(() => {
-        //     window.location.reload();
-        //   });
-        // }, 1000);
+        if (response && response.success) {
+          // Chỉ chuyển hướng về homepage sau khi đăng nhập thành công
+          this.router.navigate(['/homepage']).then(() => {
+            window.location.reload();
+          });
+        }
       },
       error: (error) => {
         this.isLoading = false;
@@ -76,7 +75,6 @@ export class LoginComponent {
           this.errorMessage = error.message || 'Đã có lỗi xảy ra khi đăng nhập';
           this.showErrorPopup = true;
         }
-
       }
     });
   }

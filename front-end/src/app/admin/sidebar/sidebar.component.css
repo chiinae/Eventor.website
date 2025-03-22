@@ -1,3 +1,6 @@
+*{
+  font-family: 'Oswald', sans-serif;
+}
 .admin-sidebar {
   width: 250px;
   background: #f9f3e5;
@@ -37,16 +40,25 @@
 .admin-sidebar ul li a img {
   width: 30px;
   margin-right: 10px;
+  transition: filter 0.3s ease;
 }
 
 .admin-sidebar ul li a:hover {
-  background: #cc5704;
+  background: #daa520;
   color: white;
 }
 
+.admin-sidebar ul li a:hover img {
+  filter: brightness(0) invert(1);
+}
+
 .admin-sidebar ul li a.active {
-  background: #5c3a17;
+  background: #8B4513;
   color: white;
+}
+
+.admin-sidebar ul li a.active img {
+  filter: brightness(0) invert(1);
 }
 
 .logout-button {
@@ -64,8 +76,9 @@
 .logout-button img {
   width: 20px;
   margin-right: 10px;
+  filter: brightness(0) invert(1);
 }
 
 .logout-button:hover {
-  background: #5c3a17;
+  background: #daa520;
 }

@@ -1,9 +1,16 @@
 .content-manage {
-  padding: 20px;
-  font-family: 'Oswald', sans-serif;
+  padding: 0px;
 }
-h3,h4 {
+
+/* Font cho tiêu đề */
+h2, h3, h4 {
+  font-family: 'Oswald', sans-serif;
   font-weight: bolder;
+}
+
+/* Font cho nội dung */
+p, span, button {
+  font-family: 'Lora', serif;
 }
 
 .create-btn {
@@ -16,6 +23,7 @@ h3,h4 {
   align-items: center;
   cursor: pointer;
   float: right;
+  font-family: 'Oswald', sans-serif;
 }
 
 .create-btn img {
@@ -26,18 +34,30 @@ h3,h4 {
 .content-container {
   display: flex;
   gap: 30px;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .content-left {
-  flex: 2;
+  flex: 3;
 }
 
 .content-left h2,
 .content-right h2 {
   color: #8B4513;
-  font-size: 22px;
+  font-size: 28px;
   font-weight: bold;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.content-left h2::after {
+  content: '';
+  height: 1px;
+  background-color: #8B4513;
+  flex-grow: 0.97;
+  margin-left: 15px;
 }
 
 hr {
@@ -47,23 +67,27 @@ hr {
 
 .main-content {
   position: relative;
+  margin-bottom: 20px;
+  padding: 5px;
 }
 
 .main-content img {
-  width: 110%;
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
   border-radius: 5px;
-}
-.content-info-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; 
 }
 
 .content-info {
   margin-top: 10px;
   display: flex;
-  align-items: center;  
   justify-content: space-between;
+  align-items: center;
+}
+
+.content-info-left h3 {
+  font-size: 20px;
+  margin-bottom: 5px;
 }
 
 .actions {
@@ -88,23 +112,33 @@ hr {
   width: 16px;
   height: 16px;
 }
+
 .content-list {
-  display: flex;
-  gap: 15px;
-  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 0px;
 }
 
-
 .content-item {
-  position: relative;
-  width: 200px;
+  width: 100%;
+  margin-bottom: 15px;
 }
 
 .content-item img {
   width: 100%;
-  height: 150px;
-  border-radius: 5px;
+  height: 180px;
   object-fit: cover;
+  border-radius: 5px;
+}
+
+.content-item .content-info {
+  margin-top: 8px;
+}
+
+.content-item h4 {
+  font-size: 16px;
+  margin-bottom: 4px;
 }
 
 .content-right {
@@ -116,6 +150,33 @@ hr {
 }
 
 .latest-item {
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.latest-item p {
+  font-family: 'Lora', serif; /* Nội dung mới nhất sử dụng font Lora */
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .content-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .content-container {
+    flex-direction: column;
+  }
+  
+  .content-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .content-list {
+    grid-template-columns: 1fr;
+  }
 }

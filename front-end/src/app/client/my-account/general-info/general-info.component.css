@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Lora', serif;
 }
 
 .container {
@@ -28,8 +28,8 @@
 
 .title {
     font-size: 32px;
-    color: #4A4A4A;
-    font-weight: 600;
+    color: #4d4d4d;
+    font-weight: bold;
 }
 
 .divider {
@@ -53,8 +53,9 @@
 .form-group label {
     display: block;
     font-size: 16px;
-    color: #666;
+    color: #4d4d4d;
     margin-bottom: 8px;
+    font-weight: bold;
 }
 
 .form-input-container {
@@ -104,11 +105,11 @@
 }
 
 .activity-label {
-    color: #666;
+    color: #4d4d4d;
 }
 
 .activity-value {
-    color: #4A4A4A;
+    color: #4d4d4d;
     font-weight: 500;
 }
 

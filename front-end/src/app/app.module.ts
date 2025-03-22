@@ -8,10 +8,9 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { ApiService } from './services/api.service';
 import { routes } from './app.routes';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -19,9 +18,10 @@ import { routes } from './app.routes';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    MatSnackBarModule,
+    AppComponent
   ],
-  providers: [ApiService],
-  bootstrap: [AppComponent]
+  providers: [ApiService]
 })
 export class AppModule { }

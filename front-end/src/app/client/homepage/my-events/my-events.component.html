@@ -1,2 +1,121 @@
+<div class="my-events-container">
+  <div class="tabs">
+    <button [class.active]="activeTab === 'all'" (click)="switchTab('all')">Tất cả</button>
+    <button [class.active]="activeTab === 'tickets'" (click)="switchTab('tickets')">Vé của tôi</button>
+    <button [class.active]="activeTab === 'saved'" (click)="switchTab('saved')">Đã lưu</button>
+    <button [class.active]="activeTab === 'created'" (click)="switchTab('created')">Đã tạo</button>
+  </div>
 
-<app-events-page></app-events-page>
+  <div class="event-list">
+    <!-- Vé của tôi section -->
+    <div class="event-section" *ngIf="shouldShowSection('tickets')">
+      <h2 class="event-header">Vé của tôi</h2>
+      <div class="event-container">
+        <div class="event-items">
+          <div *ngFor="let event of ticketEvents" class="event-card" (click)="navigateToEventDetail(event.id)">
+            <div class="event-img-container">
+              <img [src]="event.event_image" [alt]="event.event_name" class="event-img">
+            </div>
+            <div class="event-details">
+              <span class="event-location">{{ event.location.city }}</span>
+              <h3 class="event-title">{{ event.event_name }}</h3>
+              <div class="event-meta">
+                <span class="event-time">{{ event.hour_start }} • {{ event.start_date | date:'dd/MM/yyyy' }}</span>
+                <span>{{ event.location.name }}</span>
+                <span>{{ event.location.address }}</span>
+              </div>
+              <div class="event-participants">
+                <div class="participant-count">
+                  <span class="participant-icon">👥</span>
+                  <span>{{ event.current_participant }}/{{ event.max_participant }}</span>
+                </div>
+                <div class="participant-progress">
+                  <div class="participant-progress-bar" 
+                       [style.width.%]="(event.current_participant / event.max_participant) * 100">
+                  </div>
+                </div>
+              </div>
+              <div class="actions">
+                <button (click)="viewTicket(event, $event)">Xem vé</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Đã lưu section -->
+    <div class="event-section" *ngIf="shouldShowSection('saved')">
+      <h2 class="event-header">Đã lưu</h2>
+      <div class="event-container">
+        <div class="event-items">
+          <div *ngFor="let event of savedEvents" class="event-card" (click)="navigateToEventDetail(event.id)">
+            <div class="event-img-container">
+              <img [src]="event.event_image" [alt]="event.event_name" class="event-img">
+            </div>
+            <div class="event-details">
+              <span class="event-location">{{ event.location.city }}</span>
+              <h3 class="event-title">{{ event.event_name }}</h3>
+              <div class="event-meta">
+                <span class="event-time">{{ event.hour_start }} • {{ event.start_date | date:'dd/MM/yyyy' }}</span>
+                <span>{{ event.location.name }}</span>
+                <span>{{ event.location.address }}</span>
+              </div>
+              <div class="event-participants">
+                <div class="participant-count">
+                  <span class="participant-icon">👥</span>
+                  <span>{{ event.current_participant }}/{{ event.max_participant }}</span>
+                </div>
+                <div class="participant-progress">
+                  <div class="participant-progress-bar" 
+                       [style.width.%]="(event.current_participant / event.max_participant) * 100">
+                  </div>
+                </div>
+              </div>
+              <div class="actions">
+                <button (click)="unsaveEvent(event, $event)">Bỏ lưu</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Đã tạo section -->
+    <div class="event-section" *ngIf="shouldShowSection('created')">
+      <h2 class="event-header">Đã tạo</h2>
+      <div class="event-container">
+        <div class="event-items">
+          <div *ngFor="let event of createdEvents" class="event-card" (click)="navigateToEventDetail(event.id)">
+            <div class="event-img-container">
+              <img [src]="event.event_image" [alt]="event.event_name" class="event-img">
+            </div>
+            <div class="event-details">
+              <span class="event-location">{{ event.location.city }}</span>
+              <h3 class="event-title">{{ event.event_name }}</h3>
+              <div class="event-meta">
+                <span class="event-time">{{ event.hour_start }} • {{ event.start_date | date:'dd/MM/yyyy' }}</span>
+                <span>{{ event.location.name }}</span>
+                <span>{{ event.location.address }}</span>
+              </div>
+              <div class="event-participants">
+                <div class="participant-count">
+                  <span class="participant-icon">👥</span>
+                  <span>{{ event.current_participant }}/{{ event.max_participant }}</span>
+                </div>
+                <div class="participant-progress">
+                  <div class="participant-progress-bar" 
+                       [style.width.%]="(event.current_participant / event.max_participant) * 100">
+                  </div>
+                </div>
+              </div>
+              <div class="actions">
+                <button (click)="editEvent(event, $event)">Chỉnh sửa</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,11 +4,18 @@ import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../interfaces/user.interface';
 import { CommonModule } from '@angular/common';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HeaderComponent } from '../homepage/header/header.component';
 
 @Component({
   selector: 'app-my-account',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [
+    CommonModule, 
+    RouterModule,
+    MatSnackBarModule,
+    HeaderComponent
+  ],
   templateUrl: './my-account.component.html',
   styleUrls: ['./my-account.component.css']
 })
@@ -27,25 +34,16 @@ export class MyAccountComponent implements OnInit {
       return;
     }
 
-    // Lấy dữ liệu user từ localStorage trước
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      this.currentUser = JSON.parse(userData);
-    }
-
-    // Chỉ gọi API một lần để cập nhật dữ liệu mới nhất
-    this.userService.loadCurrentUser().subscribe({
-      next: (user) => {
-        if (user) {
-          this.currentUser = user;
-        }
-      },
-      error: (error) => {
-        console.error('Lỗi khi lấy thông tin user:', error);
-        if (error.status === 401) {
-          this.router.navigate(['/login']);
-        }
+    // Theo dõi trạng thái đăng nhập và thông tin user
+    this.authService.isLoggedIn$.subscribe((loggedIn: boolean) => {
+      if (!loggedIn) {
+        this.currentUser = null;
       }
+    });
+
+    // Theo dõi thông tin user độc lập
+    this.userService.currentUser.subscribe((user) => {
+      this.currentUser = user;
     });
   }
 

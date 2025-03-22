@@ -1,6 +1,6 @@
 footer {
   background-color: #faf4e0;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Lora', serif;
   color: #5a4635;
 }
 
@@ -23,7 +23,7 @@ h3 {
 
 .footer-container td {
   display: table-cell;
-  width: 25%; /* Assuming there are four columns */
+  width: 25%; 
   vertical-align: top;
   padding: 10px;
 }
@@ -103,7 +103,7 @@ button:hover {
 /* Social media icons */
 .social-icons {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   margin: 15px 0;
 }
 

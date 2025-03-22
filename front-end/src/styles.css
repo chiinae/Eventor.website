@@ -11,7 +11,7 @@
 }
 
 .mat-mdc-snack-bar-container.success-snackbar {
-  --mdc-snackbar-container-color: #4caf50;
+  --mdc-snackbar-container-color: #f44336;
 }
 
 .mat-mdc-snack-bar-container.error-snackbar {
@@ -346,4 +346,18 @@ button, .cta {
 
 
 /* Search bar */
+
+/* Styles cho Snackbar */
+.success-snackbar {
+  background: #4CAF50;
+  color: white;
+}
+
+.success-snackbar .mat-simple-snackbar-action {
+  color: white;
+}
+
+.mat-snack-bar-container {
+  margin-top: 70px !important;
+}
 

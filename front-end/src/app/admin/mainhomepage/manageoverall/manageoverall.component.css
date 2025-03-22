@@ -12,7 +12,11 @@
     text-align: center;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     font-family: 'Montserrat';
-
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .dashboard-card:hover {
+    transform: translateY(-5px);
   }
   
   .dashboard-card .icon img {
@@ -29,9 +33,11 @@
     color: #DAA520;
     font-family: 'Montserrat';
     font-weight: bold;
+    transition: all 0.3s ease;
   }
   
   .dashboard-card button:hover {
-    background: #a76e2b;
+    background: #8B4513;
     color: white;
+    transform: translateY(-2px);
   }

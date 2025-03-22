@@ -4,11 +4,11 @@
   </div>
   <div class="highlight-scroll">
     <div class="highlight-wrapper">
-      <div *ngFor="let banner of highlightImages" class="highlight-item">
-        <a [href]="banner.link" target="_blank" *ngIf="banner.link">
-          <img [src]="banner.imageUrl" [alt]="banner.title" />
-        </a>
-        <img *ngIf="!banner.link" [src]="banner.imageUrl" [alt]="banner.title" />
+      <div *ngFor="let banner of highlightImages; let i = index" 
+           class="highlight-item" 
+           (click)="navigateToEvent(bannerIds[i])"
+           [style.cursor]="'pointer'">
+        <img [src]="banner.imageUrl" [alt]="banner.title" />
       </div>
     </div>
   </div>

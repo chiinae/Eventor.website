@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from './user.service';
 import { User } from '../interfaces/user.interface';
 import { distinctUntilChanged, shareReplay } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: MatSnackBar
   ) {
     this.checkInitialAuthStatus();
   }
@@ -155,6 +157,15 @@ export class AuthService {
     this.isLoggedInSubject.next(false);
     this.currentUserSubject.next(null);
     this.userService.clearUser();
+
+    // Hiển thị thông báo đăng xuất thành công
+    this.snackBar.open('Đăng xuất thành công', 'Đóng', {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      panelClass: ['success-snackbar']
+    });
+
     this.router.navigate(['/homepage']);
   }
 

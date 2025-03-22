@@ -32,7 +32,8 @@ export class HeaderNologinComponent {
     const authRequiredRoutes = [
       'homepage/create-event',
       'homepage/my-events',
-      'homepage/member-registration'
+      'homepage/member-registration',
+      'homepage/listevents',
     ];
 
     if (authRequiredRoutes.includes(route)) {

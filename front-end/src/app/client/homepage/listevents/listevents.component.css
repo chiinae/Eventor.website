@@ -17,11 +17,11 @@
 }
 
 .filter-btn {
-    padding: 0.5rem 1rem;
+    padding: 10px 20px;
     border: none;
     background: transparent;
     color: #ebebeb;
-    font-size: 0.9rem;
+    font-size: 16px;
     cursor: pointer;
     white-space: nowrap;
     position: relative;

@@ -3,6 +3,7 @@ import { CommonModule, DecimalPipe, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { EventService, Event } from '../../../../services/event.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-content',
@@ -16,10 +17,13 @@ export class ContentComponent implements OnInit {
   @Input() eventId: string | null = null;
   event: Event | null = null;
   error: string | null = null;
+  showMap: boolean = false;
+  mapUrl: SafeResourceUrl = '';
 
   constructor(
     private eventService: EventService,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -60,5 +64,25 @@ export class ContentComponent implements OnInit {
         this.error = 'Có lỗi xảy ra khi tải thông tin sự kiện. Vui lòng thử lại sau.';
       }
     });
+  }
+
+  openMap() {
+    if (this.event) {
+      const address = encodeURIComponent(
+        `${this.event.location.name}, ${this.event.location.address}`
+      );
+      // Sử dụng Google Maps URL trực tiếp thay vì Embed API
+      const url = `https://www.google.com/maps/search/?api=1&query=${address}`;
+      window.open(url, '_blank');
+      
+      // Hoặc nếu bạn muốn vẫn giữ popup, sử dụng URL embed này:
+      // const url = `https://www.google.com/maps/embed/v1/search?q=${address}&zoom=15&key=YOUR_API_KEY`;
+      // this.mapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      // this.showMap = true;
+    }
+  }
+
+  closeMap() {
+    this.showMap = false;
   }
 }

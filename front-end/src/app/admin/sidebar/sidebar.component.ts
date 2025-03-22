@@ -30,7 +30,14 @@ export class SidebarComponent {
   }
 
   logout() {
-    console.log('Đăng xuất');
-    this.router.navigate(['/login']);
+    // Xóa token và thông tin đăng nhập
+    localStorage.removeItem('token');
+    localStorage.removeItem('user'); // nếu có lưu thông tin user
+    localStorage.clear();
+    
+    // Chuyển về trang homepage và reload để reset state
+    this.router.navigate(['/homepage']).then(() => {
+      window.location.reload(); // Reload trang để reset toàn bộ state
+    });
   }
 }

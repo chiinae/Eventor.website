@@ -113,6 +113,7 @@ h1 {
   font-size: 0.8rem;
   font-weight: 500;
   margin-bottom: 0.6rem;
+  font-family: 'Lora', sans-serif;
 }
 
 .event-title {
@@ -124,6 +125,7 @@ h1 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  font-family: 'Oswald', sans-serif;
 }
 
 .event-meta {

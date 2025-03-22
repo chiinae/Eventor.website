@@ -1,8 +1,11 @@
+* {
+    font-family: 'Lora', serif;
+}
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8;
+    background-color: #f4f4f4;
 }
 
 .blog-container {
@@ -15,7 +18,7 @@ body {
 
 .blog-highlight {
     flex: 2;
-    background: white;
+    background: #f4f4f4;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -44,18 +47,19 @@ body {
 }
 
 .highlight-author {
-    color: gray;
+    color: white;
     font-size: 14px;
 }
 
 .highlight-list {
     display: flex;
     gap: 10px;
+    color: #333;
 }
 
 .highlight-item {
     flex: 1;
-    background: #fff;
+    background: #f4f4f4;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -73,16 +77,17 @@ body {
 }
 
 .author {
-    color: gray;
+    color: #333;
     font-size: 12px;
 }
 
 .blog-latest {
     flex: 1;
-    background: white;
+    background: #f9f4e0;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #333;
 }
 
 .blog-latest h2 {
@@ -92,6 +97,17 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.blog-latest h2 a {
+    font-size: 14px;
+    color: #007BFF;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.blog-latest h2 a:hover {
+    color: #0056b3;
 }
 
 .blog-latest ul {
@@ -110,4 +126,8 @@ body {
     height: 60px;
     border-radius: 5px;
     margin-right: 10px;
+}
+
+.blog-latest ul li p {
+    color: #333;
 }

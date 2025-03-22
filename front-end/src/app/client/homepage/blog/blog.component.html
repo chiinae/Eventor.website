@@ -1,5 +1,4 @@
-
- <section class="blog-container">
+<section class="blog-container">
     <!-- Nổi bật -->
     <div class="blog-highlight">
         <h2>Nổi bật</h2>
@@ -120,5 +119,71 @@
     </div>
     <router-outlet></router-outlet>
 </section>
+
+<style>
+.blog-highlight {
+    flex: 2;
+    background: url('../../../../assets/images/blog/image_2.jpg') no-repeat center center;
+    background-size: cover; /* Đảm bảo ảnh phủ đầy phần tử */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: white; /* Để chữ nổi bật trên nền ảnh */
+}
+
+.highlight-main {
+    position: relative;
+    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.5); /* Thêm nền mờ để chữ dễ đọc hơn */
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.blog-latest {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.blog-latest h2 {
+    border-bottom: 3px solid #222;
+    padding-bottom: 10px;
+    font-size: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.blog-latest ul {
+    list-style: none;
+    padding: 0;
+}
+
+.blog-latest li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    transition: background-color 0.3s;
+}
+
+.blog-latest li:hover {
+    background-color: #f0f0f0; /* Thêm hiệu ứng hover */
+}
+
+.blog-latest li img {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.blog-latest li p {
+    margin: 0; /* Đảm bảo không có margin */
+    font-size: 16px; /* Tăng kích thước chữ */
+    color: #333; /* Màu chữ tối hơn */
+}
+</style>
 
 

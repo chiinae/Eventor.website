@@ -1,14 +1,16 @@
-<div class="banner-container">
+<div class="banner-container" (click)="navigateToEvent()" [style.cursor]="'pointer'">
   <div *ngIf="error" class="error-message">
     {{ error }}
   </div>
   
   <ng-container *ngIf="event">
-    <img [src]="event.event_image" [alt]="event.event_name" class="banner-img" />
+    <img [src]="event.event_image" 
+         [alt]="event.event_name" 
+         class="banner-img" />
   </ng-container>
   
   <div *ngIf="!event && !error" class="banner-placeholder">
-    <p>Đang tải ảnh sự kiện...</p>
+    <p>Đang tải banner...</p>
   </div>
 </div>
   

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { BannerService, Banner } from '../../../../services/banner.service';
 
 @Component({
@@ -14,7 +15,10 @@ export class BannerComponent implements OnInit {
   currentBanner?: Banner;
   error: string = '';
 
-  constructor(private bannerService: BannerService) {}
+  constructor(
+    private bannerService: BannerService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadBanner();
@@ -37,5 +41,11 @@ export class BannerComponent implements OnInit {
         this.error = 'Không thể tải banner';
       }
     });
+  }
+
+  navigateToEvent() {
+    if (this.currentBanner?._id) {
+      this.router.navigate(['/event', this.currentBanner._id]);
+    }
   }
 }

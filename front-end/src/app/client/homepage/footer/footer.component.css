@@ -151,3 +151,32 @@ button:hover {
     margin-bottom: 30px;
   }
 }
+
+.feedback-section {
+  margin-top: 10px;
+}
+
+.feedback-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #E5D5B7;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #5a4635;
+  font-size: 14px;
+  font-family: 'Lora', serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.feedback-input::placeholder {
+  color: #8B7355;
+  opacity: 0.7;
+}
+
+.feedback-input:focus {
+  outline: none;
+  border-color: #DAA520;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(218, 165, 32, 0.15);
+}

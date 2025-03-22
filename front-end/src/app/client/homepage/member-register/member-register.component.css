@@ -1,116 +1,161 @@
 .member-register {
-padding: 20px;
-background: var(--background-light);
-border-radius: 8px;
-
+  padding: 20px;
+  background: var(--background-light);
+  border-radius: 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
 .membership-type {
-    font-size: 28px;
-    font-weight: bold;
-    margin-top: 30px
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #4d4d4d;
+  text-align: center;
 }
 
 .member-info {
-    display: flex;
-    justify-content: space-between;
-    background: var(--background-light);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
 }
+
 .info-box {
-    background-color: var(--secondary-light);
-    padding: 20px;
-    margin-bottom: 10px;
-    font-size: 18px;
+  background-color: #fffbeb;
+  padding: 15px 25px;
+  border-radius: 8px;
+  flex: 1;
+  margin: 0 5px;
 }
 
 .info-details p {
-    margin: 5px 0;
-    font-size: 18px;
-    background-color: var(--secondary-light);
-    padding: 20px;
+  margin: 8px 0;
+  font-size: 16px;
+  color: #4d4d4d;
 }
 
-
 .title {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #4d4d4d;
+  margin: 30px 0 10px;
 }
 
 hr {
-    margin: 10px 0;
+  border: none;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 10px 0 30px;
 }
 
 h3 {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
+  text-align: center;
+  font-size: 18px;
+  color: #5a4635;
+  margin: 15px 0 25px;
+  font-weight: normal;
+  position: relative;
+}
+
+h3:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 1px;
+  background-color: #e0e0e0;
 }
 
 .package-list {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-top: 10px;
-    font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
 
 .package {
-    background: #fffae5;
-    border-radius: 8px;
-    padding: 15px;
-    width: 30%;
-    text-align: center;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
-
-    h4 {
-    font-size: 18px;
-    color: #8b572a;
-    margin-bottom: 10px;
-    }
-
-    ul {
-    list-style: none;
-    padding: 0;
-    font-size: 14px;
-
-    li {
-        text-align: left;
-        margin-bottom: 5px;
-        padding-left: 20px;
-        position: relative;
-    }
-
-    li::before {
-        content: "✔";
-        color: green;
-        position: absolute;
-        left: 0;
-    }
-    }
-
-    .price {
-    font-weight: bold;
-    font-size: 18px;
-    color: #4f8fd9;
-    margin: 10px 0;
-    }
-
-    button {
-    background: #8b572a;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    }
-
-    button:hover {
-    background: #7a4c26;
-    }
+  background: #fffbeb;
+  border-radius: 8px;
+  padding: 20px;
+  width: 31%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
+
+.package h4 {
+  font-size: 18px;
+  color: #5a4635;
+  text-align: center;
+  margin-bottom:
+  15px;
+}
+
+.package ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.package ul li {
+  text-align: left;
+  margin-bottom: 10px;
+  padding-left: 25px;
+  position: relative;
+  color: #5a4635;
+  font-size: 15px;
+}
+
+.package ul li::before {
+  content: "✓";
+  color: green;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.package .price {
+  font-weight: bold;
+  font-size: 18px;
+  color: #4f8fd9;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.package button {
+  background: #8b4513;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.package button:hover {
+  background: #daa520;
+}
+
+@media (max-width: 768px) {
+  .member-info {
+    flex-direction: column;
+  }
+  
+  .info-box {
+    margin: 5px 0;
+  }
+  
+  .package-list {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .package {
+    width: 90%;
+    margin-bottom: 20px;
+  }
 }

@@ -6,7 +6,6 @@ import { User } from '../../interfaces/user.interface';
 import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HeaderComponent } from '../homepage/header/header.component';
-import { NotificationComponent } from './notification/notification.component';
 
 @Component({
   selector: 'app-my-account',
@@ -15,8 +14,7 @@ import { NotificationComponent } from './notification/notification.component';
     CommonModule, 
     RouterModule,
     MatSnackBarModule,
-    HeaderComponent,
-    NotificationComponent
+    HeaderComponent
   ],
   templateUrl: './my-account.component.html',
   styleUrls: ['./my-account.component.css']

@@ -378,6 +378,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+.angular/cache/19.2.4/frontend
+
 # VS Code files for those working on multiple tools
 .vscode/*
 !.vscode/settings.json

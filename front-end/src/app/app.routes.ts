@@ -35,6 +35,7 @@ import { SettingComponent } from './admin/mainhomepage/setting/setting.component
 import { LogactivitiesComponent } from './admin/mainhomepage/logactivities/logactivities.component';
 import { AuthGuard } from './guards/auth.guard';
 import { NotificationComponent } from './client/my-account/notification/notification.component';
+import { SearchPageComponent } from './client/homepage/search-page/search-page.component';
 // import { MatOptgroup } from '@angular/material/core';
 
 export const routes: Routes = [
@@ -57,6 +58,7 @@ export const routes: Routes = [
     component: HomepageComponent,
     children: [
       { path: '', component: MainComponent },
+      {path: 'search', component: SearchPageComponent},
       { path: 'brand-story', component: BrandStoryComponent },
       { path: 'blog', component: BlogComponent },
       { path: 'blog/detail', component: DetailComponent },
